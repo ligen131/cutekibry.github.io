@@ -1,0 +1,452 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「JXOI2017」数列 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #2273. 「JXOI2017」数列</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：512 MiB</span>
+          <span class="ui label">时间限制：3000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/2273">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 2273 「JXOI2017」数列.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 2273 「JXOI2017」数列.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 2273 「JXOI2017」数列.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>九条可怜手上有一个长度为 <latex>$n$</latex> 的整数数列 <latex>$r_i$</latex> ，她现在想要构造一个长度为 <latex>$n$</latex> 的，满足如下条件的整数数列 <latex>$A$</latex>：</p>
+<ul>
+<li><latex>$1\leq  A_i \leq r_i$</latex>。</li>
+<li>对于任意 <latex>$3 \leq i \leq n$</latex>，令 <latex>$R$</latex> 为 <latex>$A_1$</latex> 至 <latex>$A_{i-2}$</latex> 中大于等于 <latex>$A_{i-1}$</latex> 的最小值，<latex>$L$</latex> 为 <latex>$A_1$</latex> 至 <latex>$A_{i-2}$</latex> 中小于等于 <latex>$A_{i-1}$</latex> 的最大值。<latex>$A_i$</latex> 必须满足 <latex>$L \leq A_i \leq R$</latex>。如果不存在大于等于 <latex>$A_{i-1}$</latex> 的，那 么 <latex>$R = +\infty$</latex>；如果不存在小于等于 <latex>$A_{i-1}$</latex> 的，那么 <latex>$L = −\infty$</latex>。</li>
+</ul>
+<p>现在可怜想要知道共有多少不同的数列满足这个条件。两个数列 <latex>$A$</latex> 和 <latex>$B$</latex> 是不同的当且仅当至少存在一个位置 <latex>$i$</latex> 满足 <latex>$A_i \neq B_i$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行输入一个整数 <latex>$n$</latex>，第二行输入 <latex>$n$</latex> 个整数 <latex>$r_i$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>输出一个整数表示方案数，答案可能很大，对 <latex>$998244353$</latex> 取模后输出。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">3
+2 2 2
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">6
+</code></pre></div>
+<h4>样例解释</h4>
+<p>满足条件的序列有 <latex>$[1, 1, 1], [1, 2, 1], [1, 2, 2], [2, 1, 1], [2, 1, 2], [2, 2, 2]$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <table class="ui celled table">
+<thead><tr>
+<th style="text-align:center">测试点编号</th>
+<th style="text-align:center"><latex>$n$</latex></th>
+<th style="text-align:center"><latex>$r_i$</latex></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><latex>$1$</latex></td>
+<td style="text-align:center"><latex>$\leq 7$</latex></td>
+<td style="text-align:center"><latex>$\leq 7$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$2$</latex></td>
+<td style="text-align:center"><latex>$\leq 7$</latex></td>
+<td style="text-align:center"><latex>$\leq 7$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$3$</latex></td>
+<td style="text-align:center"><latex>$\leq 50$</latex></td>
+<td style="text-align:center"><latex>$\leq 10$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$4$</latex></td>
+<td style="text-align:center"><latex>$\leq 50$</latex></td>
+<td style="text-align:center"><latex>$\leq 10$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$5$</latex></td>
+<td style="text-align:center"><latex>$\leq 50$</latex></td>
+<td style="text-align:center"><latex>$\leq 16$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$6$</latex></td>
+<td style="text-align:center"><latex>$\leq 50$</latex></td>
+<td style="text-align:center"><latex>$\leq 16$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$7$</latex></td>
+<td style="text-align:center"><latex>$\leq 50$</latex></td>
+<td style="text-align:center"><latex>$\leq 50$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$8$</latex></td>
+<td style="text-align:center"><latex>$\leq 50$</latex></td>
+<td style="text-align:center"><latex>$\leq 50$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$9$</latex></td>
+<td style="text-align:center"><latex>$\leq 50$</latex></td>
+<td style="text-align:center"><latex>$\leq 150$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$10$</latex></td>
+<td style="text-align:center"><latex>$\leq 50$</latex></td>
+<td style="text-align:center"><latex>$\leq 150$</latex></td>
+</tr>
+</tbody>
+</table>
+<p>对于全部数据，保证 <latex>$n\ge 1,r_i\ge 1$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>设 <latex>$f[i][j][k][l]$</latex> 表示选完前 <latex>$i$</latex> 个数之后，<latex>$L=j, R=k, a_i = l$</latex> 的方案数。考虑怎么转移。</p>
+<p>假设我们要从 <latex>$f[i - 1][L][R][a_{i - 1}]$</latex> 转移到下一个状态 <latex>$f[i][x][y][z]$</latex>。</p>
+<ul>
+<li>当 <latex>$L = a_i$</latex> 时，转移到 <latex>$f[i][L][L][L]$</latex>。</li>
+<li>当 <latex>$L &lt; a_i &lt; a_{i - 1}$</latex> 时，转移到 <latex>$f[i][L][a_{i - 1}][a_i]$</latex>。</li>
+<li>当 <latex>$a_i = a_{i - 1}$</latex> 时，转移到 <latex>$f[i][a_{i - 1}][a_{i - 1}][a_{i - 1}]$</latex>。</li>
+<li>当 <latex>$R > a_i > a_{i - 1}$</latex> 时，转移到 <latex>$f[i][a_{i - 1}][R][a_i]$</latex>。</li>
+<li>当 <latex>$R = a_i$</latex> 时，转移到 <latex>$f[i][R][R][R]$</latex>。 </li>
+</ul>
+<p>朴素枚举 <latex>$a_i$</latex> 后 <latex>$O(r_i)$</latex> 修改是 <latex>$O(nr_i^4)$</latex> 的。使用差分 <latex>$O(1)$</latex> 修改，可以在 <latex>$O(nr_i^3)$</latex> 内完成。</p>
+<p>注意使用滚动数组优化，以及特判 <latex>$L = R$</latex> 的情况。</p>
+<p>时间复杂度：<latex>$O(n r_i^3)$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+
+const int MOD = 998244353;
+
+#ifdef ONLINE_JUDGE
+const int MAXN = 50 + 5;
+const int MAXM = 150 + 5;
+#else
+const int MAXN = 7;
+const int MAXM = 7;
+#endif
+
+int n, m;
+int a[MAXN];
+int f[2][MAXM][MAXM][MAXM];
+
+inline int qmod(int x) { return (x &gt;= MOD) ? (x - MOD) : x; }
+inline void qadd(int f[], int l, int r, int x) {
+    if (l &gt; r)
+        return;
+    f[l] = qmod(f[l] + x);
+    f[r + 1] = qmod(f[r + 1] + MOD - x);
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;2273.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;2273.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int i, l, r, x, v, ans = 0;
+    bool d;
+
+    scanf(&quot;%d&quot;, &amp;n);
+    for (i = 1; i &lt;= n; i++) {
+        scanf(&quot;%d&quot;, &amp;a[i]);
+        m = std::max(m, a[i] + 1);
+    }
+
+    for (i = 1; i &lt;= a[1]; i++)
+        f[0][0][m][i] = 1;
+    d = false;
+    for (i = 2; i &lt;= n; i++) {
+        d = !d;
+        memset(f[d], 0, sizeof(f[d]));
+        for (l = 0; l &lt;= m; l++) {
+            for (r = l; r &lt;= m; r++) {
+                for (x = 1; x &lt;= a[i - 1]; x++) {
+                    if (f[!d][l][r][x]) {
+                        v = f[!d][l][r][x];
+                        if (l == r)
+                            qadd(f[d][l][l], l, l, v);
+                        else {
+                            qadd(f[d][l][l], l, l, v);
+                            qadd(f[d][l][x], l + 1, x - 1, v);
+                            if (x ^ l and x ^ r)
+                                qadd(f[d][x][x], x, x, v);
+                            qadd(f[d][x][r], x + 1, r - 1, v);
+                            qadd(f[d][r][r], r, r, v);
+                        }
+                    }
+                }
+            }
+        }
+        for (l = 0; l &lt;= m; l++) {
+            for (r = l; r &lt;= m; r++) {
+                for (x = 1; x &lt;= a[i]; x++)
+                    f[d][l][r][x] = qmod(f[d][l][r][x] + f[d][l][r][x - 1]);
+                for (x = a[i] + 1; x &lt;= m; x++)
+                    f[d][l][r][x] = 0;
+            }
+        }
+    }
+    for (l = 0; l &lt;= m; l++)
+        for (r = l; r &lt;= m; r++)
+            for (x = 1; x &lt;= a[n]; x++)
+                ans = qmod(ans + f[d][l][r][x]);
+    printf(&quot;%d\n&quot;, ans);
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,513 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>树链剖分 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #139. 树链剖分</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/139">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 139 树链剖分.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 139 树链剖分.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 139 树链剖分.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>这是一道模板题。</p>
+<p>给定一棵 <latex>$n$</latex> 个节点的树，初始时该树的根为 <latex>$1$</latex> 号节点，每个节点有一个给定的权值。下面依次进行 <latex>$m$</latex> 个操作，操作分为如下五种类型：</p>
+<ul>
+<li>换根：将一个指定的节点设置为树的新根。</li>
+<li>修改路径权值：给定两个节点，将这两个节点间路径上的所有节点权值（含这两个节点）增加一个给定的值。</li>
+<li>修改子树权值：给定一个节点，将以该节点为根的子树内的所有节点权值增加一个给定的值。</li>
+<li>询问路径：询问某条路径上节点的权值和。</li>
+<li>询问子树：询问某个子树内节点的权值和。</li>
+</ul>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行一个整数 <latex>$n$</latex> ，表示节点的个数。</p>
+<p>第二行 <latex>$n$</latex> 个整数表示第 <latex>$i$</latex> 个节点的初始权值 <latex>$a_i$</latex> 。</p>
+<p>第三行 <latex>$n-1$</latex> 个整数，表示 <latex>$i+1$</latex> 号节点的父节点编号 <latex>$f_{i+1}\ (1 \leq f_{i+1} \leq n)$</latex> 。</p>
+<p>第四行一个整数 <latex>$m$</latex> ，表示操作个数。</p>
+<p>接下来 <latex>$m$</latex> 行，每行第一个整数表示操作类型编号： <latex>$(1 \leq u, v \leq n)$</latex></p>
+<ul>
+<li>若类型为 <latex>$1$</latex> ，则接下来一个整数 <latex>$u$</latex> ，表示新根的编号。</li>
+<li>若类型为 <latex>$2$</latex> ，则接下来三个整数 <latex>$u, v, k$</latex> ，分别表示路径两端的节点编号以及增加的权值。</li>
+<li>若类型为 <latex>$3$</latex> ，则接下来两个整数 <latex>$u, k$</latex> ，分别表示子树根节点编号以及增加的权值。</li>
+<li>若类型为 <latex>$4$</latex> ，则接下来两个整数 <latex>$u, v$</latex> ，表示路径两端的节点编号。</li>
+<li>若类型为 <latex>$5$</latex> ，则接下来一个整数 <latex>$u$</latex> ，表示子树根节点编号。</li>
+</ul>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于每一个类型为 <latex>$4$</latex> 或 <latex>$5$</latex> 的操作，输出一行一个整数表示答案。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">6
+1 2 3 4 5 6
+1 2 1 4 4
+6
+4 5 6
+2 2 4 1
+5 1
+1 4
+3 1 2
+4 2 5
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">15
+24
+19
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于 <latex>$100\%$</latex> 的数据， <latex>$1 \leq n, m, k, a_i \leq 10^5$</latex> 。数据有一定梯度。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>如果没有换根操作的话，这道题就是树链剖分的模板题了。</p>
+<p>有换根的话，我们不能真的去换根，因为那样会改变整棵树的结构。因此，我们不真的换根，只修改目前的根节点 <latex>$rt$</latex> ，再在操作时特殊处理即可。</p>
+<p>根对路径是没有任何影响的，只对子树有影响。因此，只需考虑怎么处理子树问题。</p>
+<p>对于 <latex>$rt$</latex> 是 <latex>$u$</latex> 的祖先（即 <latex>$lca(u, rt)=rt$</latex> ）的情况，等价于 <latex>$u$</latex> 的子树加 <latex>$k$</latex> 。</p>
+<div class="ui existing segment"><pre><code class="lang-plain">      1
+     / \
+    rt  2
+   / \
+  u   3
+ /
+4
+</code></pre></div>
+<p>对于 <latex>$u$</latex> 是 <latex>$rt$</latex> 的祖先（即 <latex>$lca(u, rt)=u$</latex> ）的情况，等价于整棵树加 <latex>$k$</latex> ， <latex>$u$</latex> 在 <latex>$u \rightarrow rt$</latex> 路径上的儿子 <latex>$p$</latex> 的子树减 <latex>$k$</latex> 。</p>
+<div class="ui existing segment"><pre><code class="lang-plain">        u
+       / \
+      p   1
+     / \   \
+    2   3   4
+   / \
+  rt  5
+ /
+6
+</code></pre></div>
+<p>对于 <latex>$lca(u, rt) \neq u$</latex> 且 <latex>$lca(u, rt) \neq rt$</latex> 的祖先的情况，等价于 <latex>$u$</latex> 的子树加 <latex>$k$</latex> 。</p>
+<div class="ui existing segment"><pre><code class="lang-plain">      1
+     / \
+    2   u
+   / \   \
+  rt  3   5
+ /
+4
+</code></pre></div>
+<p>因此，我们得出算法：</p>
+<ul>
+<li>若 <latex>$lca(u, rt)=u$</latex> ，那么整棵树加 <latex>$k$</latex> ， <latex>$u$</latex> 在 <latex>$u \rightarrow rt$</latex> 路径上的儿子 <latex>$p$</latex> 的子树减 <latex>$k$</latex> ；</li>
+<li>否则 <latex>$u$</latex> 的子树加 <latex>$k$</latex> 。</li>
+</ul>
+<p><latex>$p$</latex> 可以使用倍增法求出。</p>
+<p>查询同理。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;cstdio&gt;
+#include &lt;algorithm&gt;
+#define ri register int
+using namespace std;
+typedef long long int64;
+#ifdef ONLINE_JUDGE
+const int SCP=682*999/6, LOG=17;
+#else
+const int SCP=1000, LOG=10;
+#endif
+
+
+// Global
+int64 seg[SCP&lt;&lt;2], mark[SCP&lt;&lt;2];
+int far[SCP][LOG+3], dep[SCP], son[SCP], top[SCP], size[SCP], id[SCP], rid[SCP], idcnt;
+int pre[SCP&lt;&lt;1], to[SCP&lt;&lt;1], head[SCP], wcnt;
+int a[SCP];
+int rt;
+int n, m;
+
+
+
+// Segtree
+#define mid ((l+r)&gt;&gt;1)
+#define lson p&lt;&lt;1, l, mid
+#define rson p&lt;&lt;1|1, mid+1, r
+void build(int p, int l, int r){
+    if(l^r) build(lson), build(rson), seg[p]=seg[p&lt;&lt;1]+seg[p&lt;&lt;1|1];
+    else seg[p]=a[rid[l]];
+}
+void update(int p, int l, int r, int a, int b, int c){
+    seg[p]+=(int64)(min(r, b)-max(l, a)+1)*c;
+    if(a&lt;=l and r&lt;=b) mark[p]+=c;
+    else{
+        if(a&lt;=mid) update(lson, a, b, c);
+        if(b&gt;mid) update(rson, a, b, c);
+    }
+}
+int64 query(int p, int l, int r, int a, int b){
+    int64 res=(min(r, b)-max(l, a)+1)*mark[p];
+    if(a&lt;=l and r&lt;=b) return seg[p];
+    else{
+        if(a&lt;=mid) res+=query(lson, a, b);
+        if(b&gt;mid) res+=query(rson, a, b);
+        return res;
+    }
+}
+#undef mid
+#undef lson
+#undef rson
+
+
+
+// Tree
+inline void addedge(int u, int v){ pre[++wcnt]=head[u]; head[u]=wcnt; to[wcnt]=v; }
+inline void add2edge(int u, int v){ addedge(u, v); addedge(v, u); }
+void dfs1(int u){
+    int i, v;
+    size[u]=1;
+    for(i=1; far[far[u][i-1]][i-1]; i++) far[u][i]=far[far[u][i-1]][i-1];
+    for(i=head[u]; i; i=pre[i]) if(!size[v=to[i]]){
+        far[v][0]=u;
+        dep[v]=dep[u]+1;
+        dfs1(v);
+        size[u]+=size[v];
+        if(size[son[u]]&lt;size[v]) son[u]=v;
+    }
+}
+void dfs2(int u, int topf){
+    int i;
+    top[u]=topf;
+    rid[id[u]=++idcnt]=u;
+    if(son[u]){
+        dfs2(son[u], topf);
+        for(i=head[u]; i; i=pre[i]) if(!id[to[i]]) dfs2(to[i], to[i]);
+    }
+}
+inline int findp(int x, int y){
+    ri i;
+    if(dep[x]&lt;dep[y]) swap(x, y);
+    for(i=LOG; ~i; i--) if(dep[far[x][i]]&gt;dep[y]) x=far[x][i];
+    if(far[x][0]==y) return x;
+    if(dep[far[x][0]]&gt;=dep[y]) x=far[x][0];
+    for(i=LOG; ~i; i--) if(far[x][i]^far[y][i]) x=far[x][i], y=far[y][i];
+    return x;
+}
+inline void addpath(int u, int v, int k){
+    while(top[u]^top[v]){
+        if(dep[top[u]]&lt;dep[top[v]]) swap(u, v);
+        update(1, 1, n, id[top[u]], id[u], k);
+        u=far[top[u]][0];
+    }
+    if(dep[u]&gt;dep[v]) swap(u, v);
+    update(1, 1, n, id[u], id[v], k);
+}
+inline int64 querypath(int u, int v){
+    int64 res=0;
+    while(top[u]^top[v]){
+        if(dep[top[u]]&lt;dep[top[v]]) swap(u, v);
+        res+=query(1, 1, n, id[top[u]], id[u]);
+        u=far[top[u]][0];
+    }
+    if(dep[u]&gt;dep[v]) swap(u, v);
+    res+=query(1, 1, n, id[u], id[v]);
+    return res;
+}
+inline void addsub(int u, int k){
+    if(u==rt){ update(1, 1, n, 1, n, k); return; }
+    ri p=findp(u, rt);
+    if(far[p][0]==u){
+        update(1, 1, n, 1, n, k);
+        update(1, 1, n, id[p], id[p]+size[p]-1, -k);
+    }
+    else update(1, 1, n, id[u], id[u]+size[u]-1, k);
+}
+inline int64 querysub(int u){
+    if(u==rt) return query(1, 1, n, 1, n);
+    ri p=findp(u, rt);
+    if(far[p][0]==u) return query(1, 1, n, 1, n)-query(1, 1, n, id[p], id[p]+size[p]-1);
+    else return query(1, 1, n, id[u], id[u]+size[u]-1);
+}
+
+
+
+// Main
+int main(){
+    #ifndef ONLINE_JUDGE
+    freopen(&quot;139.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;139.out&quot;, &quot;w&quot;, stdout);
+    #endif
+
+    ri i, opt, u, v, k;
+
+    scanf(&quot;%d&quot;, &amp;n);
+    for(i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, &amp;a[i]);
+    for(i=2; i&lt;=n; i++){
+        scanf(&quot;%d&quot;, &amp;u);
+        add2edge(u, i);
+    }
+    rt=1;
+    dfs1(1);
+    dfs2(1, 1);
+    build(1, 1, n);
+    scanf(&quot;%d&quot;, &amp;m);
+    for(i=1; i&lt;=m; i++){
+        scanf(&quot;%d %d&quot;, &amp;opt, &amp;u);
+        if(opt==1) rt=u;
+        else if(opt==2) scanf(&quot;%d %d&quot;, &amp;v, &amp;k), addpath(u, v, k);
+        else if(opt==3) scanf(&quot;%d&quot;, &amp;k), addsub(u, k);
+        else if(opt==4) scanf(&quot;%d&quot;, &amp;v), printf(&quot;%lld\n&quot;, querypath(u, v));
+        else printf(&quot;%lld\n&quot;, querysub(u));
+    }
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

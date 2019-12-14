@@ -1,0 +1,573 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「JLOI / SHOI2016」成绩比较 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #2026. 「JLOI / SHOI2016」成绩比较</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/2026">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 2026 「JLOI / SHOI2016」成绩比较.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 2026 「JLOI / SHOI2016」成绩比较.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 2026 「JLOI / SHOI2016」成绩比较.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>THU 的 G 系中有许许多多的大牛，比如小 R 的室友 B 神。B 神已经厌倦了与其他的同学比较 GPA（Grade Point Average，平均学分绩），他只在意 G 系中共有多少同学被他“碾压”。</p>
+<p>B 神声称，在 G 系共有 <latex>$k$</latex> 位同学被他碾压。同是 G 系大牛的 D 神则认为 B 神在吹牛，他查到了 B 神每门必修课在 G 系的排名。他用了 173 毫秒的时间就计算出了有多少种情况使得 B 神所说的话成立。现在他想考考聪明的你，看你是否也能求出这个情况数。</p>
+<p>G 系共有 <latex>$n$</latex> 位同学，<latex>$m$</latex> 门必修课。这 <latex>$n$</latex> 位同学的编号为 <latex>$0$</latex> 到 <latex>$n - 1$</latex> 的整数，其中 B 神的编号为 <latex>$0$</latex> 号。这 <latex>$m$</latex> 门必修课编号为 <latex>$0$</latex> 到 <latex>$m - 1$</latex> 的整数。如果在每门课上 A 获得的成绩均<strong>小于等于</strong> B 获得的成绩，则称 A 被 B 碾压。在 B 神的说法中，G 系共有 <latex>$k$</latex> 位同学被碾压（不包括他自己），而其他 <latex>$n - k - 1$</latex> 名同学则没有被他碾压。</p>
+<p>D 神查到了 B 神每门必修课的排名。这里的排名是指，如果 B 神某门课的排名为 <latex>$r$</latex>，则表示有且仅有 <latex>$r - 1$</latex> 位同学这门课的分数<strong>大于</strong> B 神的分数，有且仅有 <latex>$n - r$</latex> 位同学这门课的分数<strong>小于等于</strong> B 神（不包括他自己）。</p>
+<p>我们需要求出全系所有同学每门必修课得分的情况数，使其既能满足 B 神的说法，也能符合 D 神查到的排名。这里两种情况不同当且仅当有任意一位同学在任意一门课上获得的分数不同。你不需要像 D 神那么厉害，你只需要计算出情况数模 <latex>$10^9 + 7$</latex> 的余数就可以了。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行包含三个正整数 <latex>$n, m, k$</latex>，分别表示 G 系的同学数量（包括 B 神）、必修课的数量和被 B 神碾压的同学数量。</p>
+<p>第二行包含 <latex>$m$</latex> 个正整数，依次表示每门课的最高分 <latex>$u_i$</latex>。</p>
+<p>第三行包含 <latex>$m$</latex> 个正整数，依次表示 B 神在每门课上的排名 <latex>$r_i$</latex>。保证 <latex>$1 \leq r_i \leq n$</latex>。</p>
+<p>数据保证至少有 <latex>$1$</latex> 种情况使得 B 神的描述成立。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>输出一行一个正整数，表示满足条件的情况数模 <latex>$10^9 + 7$</latex> 的余数。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入 1</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">3 2 1
+2 2
+1 2
+</code></pre></div>
+<h4>样例输出 1</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">10
+</code></pre></div>
+<h4>样例说明 1</h4>
+<p>有且仅有以下 <latex>$10$</latex> 种符合条件的情况：</p>
+<table class="ui celled table">
+<thead><tr>
+<th style="text-align:center">#</th>
+<th style="text-align:center">　B 神・课程 0</th>
+<th style="text-align:center">　B 神・课程 1</th>
+<th style="text-align:center">同学 A・课程 0</th>
+<th style="text-align:center">同学 A・课程 1</th>
+<th style="text-align:center">同学 B・课程 0</th>
+<th style="text-align:center">同学 B・课程 1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+</tr>
+</tbody>
+</table>
+<h4>样例输入 2</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">5 3 2
+4 3 2
+2 1 2
+</code></pre></div>
+<h4>样例输出 2</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">54096
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <table class="ui celled table">
+<thead><tr>
+<th style="text-align:center">Case #</th>
+<th style="text-align:center"><latex>$n$</latex></th>
+<th style="text-align:center"><latex>$m$</latex></th>
+<th style="text-align:center"><latex>$u_i$</latex></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><latex>$\leq 3$</latex></td>
+<td style="text-align:center"><latex>$\leq 3$</latex></td>
+<td style="text-align:center"><latex>$\leq 4$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center"><latex>$\leq 3$</latex></td>
+<td style="text-align:center"><latex>$\leq 10$</latex></td>
+<td style="text-align:center"><latex>$\leq 100$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center"><latex>$\leq 3$</latex></td>
+<td style="text-align:center"><latex>$\leq 100$</latex></td>
+<td style="text-align:center"><latex>$\leq 10^9$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center">4, 5</td>
+<td style="text-align:center"><latex>$\leq 5$</latex></td>
+<td style="text-align:center"><latex>$\leq 100$</latex></td>
+<td style="text-align:center"><latex>$\leq 10^9$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center">6, 7</td>
+<td style="text-align:center"><latex>$\leq 50$</latex></td>
+<td style="text-align:center"><latex>$\leq 50$</latex></td>
+<td style="text-align:center"><latex>$\leq 50$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center">8 ~ 10</td>
+<td style="text-align:center"><latex>$\leq 100$</latex></td>
+<td style="text-align:center"><latex>$\leq 100$</latex></td>
+<td style="text-align:center"><latex>$\leq 10^9$</latex></td>
+</tr>
+</tbody>
+</table>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p><em>以下假定 <latex>$n, m$</latex> 同阶。</em></p>
+<p>显然，我们可以设 <latex>$F[i][j]$</latex> 表示在前 <latex>$i$</latex> 门课中，分数满足要求的同时，被 B 神碾压的同学数量为 <latex>$j$</latex> 的方案数。</p>
+<p>那么，考虑怎么从 <latex>$F[i - 1][k]$</latex> 转移到 <latex>$F[i][j]$</latex>（<latex>$k \geq j$</latex>）。</p>
+<p>出现这种情况，说明：</p>
+<p>考虑枚举 B 神的分数。</p>
+<latex>$$\mathrm{C}^j_k \mathrm{C}^{n - r_i - j}_{n - k - 1} \sum_{sc = 1}^{u_i} sc^{n - r_i} (u_i - sc)^{r_i - 1}$$</latex><p>第一个组合数表示从 <latex>$k$</latex> 个同学中钦定 <latex>$j$</latex> 个同学得分数小于等于 B 神的分数，第二个组合数同理；</p>
+<p>后面是枚举 B 神的分数 <latex>$x$</latex>。</p>
+<p>考虑如何计算：</p>
+<latex>$$f_i(n) = \sum_{sc = 1}^n sc^{n - r_i} (u_i - sc)^{r_i - 1}$$</latex><p>注意到这是一个类似于自然数幂求和的东西。后面的式子次数为 <latex>$n - r_i + r_i - 1 = n - 1$</latex> 次，因而对其连续求和的式子为 <latex>$n$</latex> 次。</p>
+<p>对每一个 <latex>$i$</latex>，用拉格朗日插值 <latex>$O(n^3)$</latex> 预处理出 <latex>$a_i = f_i(w_i)$</latex>；<latex>$O(n^2)$</latex> 预处理出 <latex>$\mathrm{C}^i_j$</latex>。这样，就可以得到</p>
+<latex>$$F[i][j] = \sum_k F[i - 1][k] \times \mathrm{C}^j_k \times \mathrm{C}^{n - r_i - j}_{n - k - 1} \times a_i$$</latex><p>直接 <latex>$O(n^3)$</latex> DP 即可。</p>
+<p>时间复杂度：<latex>$O(n^3)$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+
+typedef long long int64;
+
+const int MOD = 1000000007;
+const int MAXN = 100 + 10;
+
+int n, m, q;
+int tot;
+int u[MAXN], r[MAXN];
+int a[MAXN];
+int c[MAXN][MAXN];
+int dp[MAXN][MAXN];
+
+int x[MAXN], y[MAXN];
+
+inline int qmod(int x) { return (x &gt;= MOD) ? (x - MOD) : x; }
+inline int qpow(int64 b, int p, int mod = MOD) {
+    int res = 1;
+    while (p) {
+        if (p &amp; 1)
+            res = res * b % mod;
+        b = b * b % mod;
+        p &gt;&gt;= 1;
+    }
+    return res;
+}
+#define inv(x) qpow(x, MOD - 2)
+
+inline int f(int x0) {
+    int i, j, res = 0;
+    int64 p1, p2;
+
+    for (i = 1; i &lt;= tot; i++)
+        if (x0 == x[i])
+            return y[i];
+    for (i = 1; i &lt;= tot; i++) {
+        p1 = y[i];
+        p2 = 1;
+        for (j = 1; j &lt;= tot; j++) {
+            if (i ^ j) {
+                p1 = p1 * (MOD + x0 - x[j]) % MOD;
+                p2 = p2 * (MOD + x[i] - x[j]) % MOD;
+            }
+        }
+        res = (res + p1 * inv(p2)) % MOD;
+    }
+    return res;
+}
+inline void inita() {
+    int i, j;
+
+    for (i = 1; i &lt;= m; i++) {
+        for (j = 1; j &lt;= tot; j++) {
+            x[j] = j;
+            y[j] = (y[j - 1] + 1ll * qpow(j, n - r[i]) * qpow(MOD + u[i] - j, r[i] - 1)) % MOD;
+        }
+        a[i] = f(u[i]);
+    }
+}
+inline void initc() {
+    int i, j;
+
+    c[0][0] = 1;
+    for (i = 1; i &lt; MAXN; i++) {
+        c[i][0] = 1;
+        for (j = 1; j &lt;= i; j++)
+            c[i][j] = qmod(c[i - 1][j] + c[i - 1][j - 1]);
+    }
+}
+inline int C(int n, int m) { return (n &lt; 0 or m &lt; 0) ? 0 : c[m][n]; }
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;2026.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;2026.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int i, j, k;
+
+    scanf(&quot;%d %d %d&quot;, &amp;n, &amp;m, &amp;q);
+    for (i = 1; i &lt;= m; i++)
+        scanf(&quot;%d&quot;, &amp;u[i]);
+    for (i = 1; i &lt;= m; i++)
+        scanf(&quot;%d&quot;, &amp;r[i]);
+
+    tot = n + 1;
+    inita();
+    initc();
+
+    dp[0][n - 1] = 1;
+    for (i = 1; i &lt;= m; i++) {
+        for (j = q; j &lt; n; j++) {
+            for (k = j; k &lt; n; k++)
+                dp[i][j] = (dp[i][j] + 1ll * dp[i - 1][k] * C(j, k) % MOD * C(n - r[i] - j, n - k - 1)) % MOD;
+            dp[i][j] = 1ll * dp[i][j] * a[i] % MOD;
+        }
+    }
+    printf(&quot;%d\n&quot;, dp[m][q]);
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

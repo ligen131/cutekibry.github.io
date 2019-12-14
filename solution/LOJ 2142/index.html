@@ -1,0 +1,574 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「SHOI2017」相逢是问候 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #2142. 「SHOI2017」相逢是问候</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：512 MiB</span>
+          <span class="ui label">时间限制：2000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/2142">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 2142 「SHOI2017」相逢是问候.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 2142 「SHOI2017」相逢是问候.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 2142 「SHOI2017」相逢是问候.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui message"><p>Informatik verbindet dich und mich.</p>
+<p>信息将你我连结。</p>
+</div>
+<p>B 君希望以维护一个长度为 <latex>$n$</latex> 的数组，这个数组的下标为从 <latex>$1$</latex> 到 <latex>$n$</latex> 的正整数。</p>
+<p>一共有 <latex>$m$</latex> 个操作，可以分为两种：</p>
+<ul>
+<li><latex>$0 \ l \ r$</latex>：表示将第 <latex>$l$</latex> 个到第 <latex>$r$</latex> 个数 <latex>$(a_l, a_{l+1}, \dots, a_r)$</latex> 中的每一个数 <latex>$a_i$</latex> 替换为 <latex>$c^{a_i}$</latex>，即 <latex>$c$</latex> 的 <latex>$a_i$</latex> 次方，其中 <latex>$c$</latex> 是输入的一个常数，也就是执行赋值
+  <latex>$$a_i \leftarrow c^{a_i}$$</latex></li>
+<li><latex>$1 \ l \ r$</latex>：求第 <latex>$l$</latex> 个到第 <latex>$r$</latex> 个数的和，也就是输出：
+  <latex>$$\sum_{i = l}^r a_i$$</latex></li>
+</ul>
+<p>因为这个结果可能会很大，所以你只需要输出结果 <latex>$\mathrel{\mathrm{mod}} p$</latex> 的值即可。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行有四个整数 <latex>$n, m, p, c$</latex>，所有整数含义见问题描述。</p>
+<p>接下来一行 <latex>$n$</latex> 个整数，表示 <latex>$a$</latex> 数组的初始值。</p>
+<p>接下来 <latex>$m$</latex> 行，每行三个整数，其中第一个整数表示了操作的类型。</p>
+<ul>
+<li>如果是 <latex>$0$</latex> 的话，表示这是一个修改操作，操作的参数为 <latex>$l, r$</latex>。</li>
+<li>如果是 <latex>$1$</latex> 的话，表示这是一个询问操作，操作的参数为 <latex>$l, r$</latex>。</li>
+</ul>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于每个询问操作，输出一行，包括一个整数表示答案 <latex>$\mathrel{\mathrm{mod}} p$</latex> 的值。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入 1</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">4 4 7 2
+1 2 3 4
+0 1 4
+1 2 4
+0 1 4
+1 1 3
+</code></pre></div>
+<h4>样例输出 1</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">0
+3
+</code></pre></div>
+<h4>样例输入 2</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">1 40 19910626 2
+0
+0 1 1
+1 1 1
+0 1 1
+1 1 1
+0 1 1
+1 1 1
+0 1 1
+1 1 1
+0 1 1
+1 1 1
+0 1 1
+1 1 1
+0 1 1
+1 1 1
+0 1 1
+1 1 1
+0 1 1
+1 1 1
+0 1 1
+1 1 1
+0 1 1
+1 1 1
+0 1 1
+1 1 1
+0 1 1
+1 1 1
+0 1 1
+1 1 1
+0 1 1
+1 1 1
+0 1 1
+1 1 1
+0 1 1
+1 1 1
+0 1 1
+1 1 1
+0 1 1
+1 1 1
+0 1 1
+1 1 1
+</code></pre></div>
+<h4>样例输出 2</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">1
+2
+4
+16
+65536
+11418102
+18325590
+13700558
+13700558
+13700558
+13700558
+13700558
+13700558
+13700558
+13700558
+13700558
+13700558
+13700558
+13700558
+13700558
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于 <latex>$0\%$</latex> 的测试点，和样例一模一样；</p>
+<p>对于另外 <latex>$10\%$</latex> 的测试点，没有修改；</p>
+<p>对于另外 <latex>$20\%$</latex> 的测试点，每次修改操作只会修改一个位置（也就是 <latex>$l = r$</latex>），并且每个位置至多被修改一次；</p>
+<p>对于另外 <latex>$10\%$</latex> 的测试点，<latex>$p = 2$</latex>；</p>
+<p>对于另外 <latex>$10\%$</latex> 的测试点，<latex>$p = 3$</latex>；</p>
+<p>对于另外 <latex>$10\%$</latex> 的测试点，<latex>$p = 4$</latex>；</p>
+<p>对于另外 <latex>$20\%$</latex> 的测试点，<latex>$n \leq 100, m \leq 100$</latex>；</p>
+<p>对于 <latex>$100\%$</latex> 的测试点，<latex>$1 \leq n \leq 50000, 1 \leq m \leq 50000, 1 \leq p \leq 100000000, 0 &lt; c &lt; p, 0 \leq a_i &lt; p$</latex>。</p>
+<p><strong><del> 数据貌似出锅了呢 (#9, #11)…… 有了重制数据之后会第一时间传上来的ﾍ(´ ー｀ﾍ)</del></strong></p>
+<p><strong><del>2017.6.27 更新数据至清华算协 Git 中的版本 </del></strong></p>
+<p><strong>2017.7.14 修复数据，若仍有疑问请联系管理员 QuQ</strong></p>
+<p><strong>2017.10 受 LOJ 删站事件影响，数据回复至错误版本</strong></p>
+<p><strong>2017.11.29 再次修复数据并重测所有提交，若仍有疑问请联系管理员 QaQ</strong></p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>扩展欧拉定理的运用。</p>
+<p>根据扩展欧拉定理，这个数修改次数不会超过 <latex>$2 \log p$</latex> 次。</p>
+<p>使用类似维护区间开方的方法，暴力修改。</p>
+<p>这里使用了一个快速幂的技巧：假设我们要求 <latex>$a^p \bmod P$</latex>。</p>
+<p>令 <latex>$m = \lceil \sqrt P \rceil$</latex>，把 <latex>$a^p$</latex> 拆分为 <latex>$a^{im+j}$</latex>，那么 <latex>$O(\sqrt P)$</latex> 预处理出所有 <latex>$a^{im} \: (0 \leq i \leq m)$</latex> 和 <latex>$a^j \: (0 \leq j &lt; m)$</latex> 就可以 <latex>$O(1)$</latex> 求出快速幂了。</p>
+<p>这个思想和 bsgs 是差不多的。</p>
+<p>注意处理 <latex>$c = 1$</latex> 的特殊情况。</p>
+<p>至于如何知道指数是否超过 <latex>$\varphi(p)$</latex>，可以考虑预处理出 <latex>$lima[i][j]$</latex> 表示令 <latex>$c^{c^{\ldots^{a}}} \geq \varphi(\varphi(\ldots\varphi(p)))$</latex> 成立的最小非负整数 <latex>$a$</latex> 的值，在这里有 <latex>$(i-j)$</latex> 个 <latex>$c$</latex> 和 <latex>$j$</latex> 个 <latex>$\varphi$</latex>。</p>
+<latex>$lima$</latex> 可以这样计算：
+
+<latex>$$
+\begin{aligned}
+c^{c^{c^a}} &\geq n \\
+c^{c^a} &\geq \lceil \log_c n \rceil \\
+c^a &\geq \lceil \log_c \lceil \log_c n \rceil \rceil\\
+a &\geq \lceil \log_c \lceil \log_c \lceil \log_c n \rceil \rceil \rceil\\
+\end{aligned}
+$$</latex><p>具体可以参照代码。</p>
+<p>时间复杂度：<latex>$O(n \log n \log^2 p)$</latex>。</p>
+<p>当然，在 <latex>$m \leq 50000$</latex> 的限制内远远达不到这个时间复杂度。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cmath&gt;
+#include &lt;cstdio&gt;
+
+#define lp (p &lt;&lt; 1)
+#define rp (p &lt;&lt; 1 | 1)
+#define mid ((l + r) &gt;&gt; 1)
+#define lson lp, l, mid
+#define rson rp, mid + 1, r
+
+typedef long long int64;
+
+const int MAXN = 50000 + 10;
+const int MAXT = 40;
+const int MAXB = 1 &lt;&lt; 15;
+
+int n, m, c, MOD;
+int sum[MAXN &lt;&lt; 2], mark[MAXN &lt;&lt; 2];
+int a[MAXN];
+
+int phif[MAXT + 2];
+int lima[MAXT + 2][MAXT + 2];
+int cpow1[MAXT + 2][MAXB];
+int cpow2[MAXT + 2][MAXB];
+
+// Math
+int log(int n, int base) { // ceil log
+    int prod = 1, ans = 0;
+
+    if (n == 1)
+        return 0;
+    while ((int64)prod * base &lt;= n) {
+        ans++;
+        prod *= base;
+    }
+    return ans + (prod &lt; n);
+}
+int phi(int n) {
+    int res = n, i;
+
+    for (i = 2; i * i &lt;= n; i++) {
+        if (!(n % i)) {
+            res = res / i * (i - 1);
+            while (!(n % i))
+                n /= i;
+        }
+    }
+    if (n - 1)
+        res = res / n * (n - 1);
+    return res;
+}
+void init() {
+    int i, j, k, cp;
+
+    phif[0] = MOD;
+    for (i = 1; i &lt;= MAXT; i++)
+        phif[i] = phi(phif[i - 1]);
+
+    for (i = 0; i &lt;= MAXT; i++) {
+        cpow1[i][0] = 1;
+        for (j = 1; j &lt; MAXB; j++)
+            cpow1[i][j] = (int64)cpow1[i][j - 1] * c % phif[i];
+
+        cp = (int64)cpow1[i][MAXB - 1] * c % phif[i];
+        cpow2[i][0] = 1;
+        for (j = 1; j &lt; MAXB; j++)
+            cpow2[i][j] = (int64)cpow2[i][j - 1] * cp % phif[i];
+    }
+
+    for (i = 1; i &lt;= MAXT; i++) {
+        for (j = i - 1; ~j; j--) {
+            lima[i][j] = phif[j];
+            for (k = 1; k &lt;= i - j and lima[i][j]; k++)
+                lima[i][j] = log(lima[i][j], c);
+        }
+    }
+}
+inline int qpow(int p, int i) { return (int64)cpow1[i][p % MAXB] * cpow2[i][p / MAXB] % phif[i]; }
+
+// Segtree
+inline void updatenode(int p, int no) {
+    int i, x, y;
+
+    if (c == 1) {
+        sum[p] = bool(MOD);
+        mark[p] = MAXT;
+    }
+    else {
+        mark[p]++;
+        sum[p] = a[no] % phif[mark[p]];
+        for (i = mark[p] - 1; ~i; i--) {
+            if (a[no] &gt;= lima[mark[p]][i])
+                sum[p] = qpow(sum[p] + phif[i + 1], i);
+            else
+                sum[p] = qpow(sum[p], i);
+        }
+    }
+}
+inline void up(int p) {
+    sum[p] = (sum[lp] + sum[rp]) % MOD;
+    mark[p] = std::min(mark[lp], mark[rp]);
+}
+void build(int p, int l, int r) {
+    if (l ^ r) {
+        build(lson);
+        build(rson);
+        up(p);
+    }
+    else {
+        sum[p] = a[l] % MOD;
+        mark[p] = 0;
+    }
+}
+void update(int p, int l, int r, int a, int b) {
+    if (mark[p] &gt;= MAXT)
+        return;
+    if (l == r) {
+        updatenode(p, l);
+        return;
+    }
+    if (a &lt;= mid)
+        update(lson, a, b);
+    if (b&gt; mid)
+        update(rson, a, b);
+    up(p);
+}
+int query(int p, int l, int r, int a, int b) {
+    int res = 0;
+    if (a &lt;= l and r &lt;= b)
+        return sum[p];
+    if (a &lt;= mid)
+        res = query(lson, a, b);
+    if (b&gt; mid)
+        res += query(rson, a, b);
+    return res % MOD;
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;2142.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;2142.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int i, opt, l, r;
+
+    scanf(&quot;%d %d %d %d&quot;, &amp;n, &amp;m, &amp;MOD, &amp;c);
+
+    if (c&gt; 1)
+        init();
+
+    for (i = 1; i &lt;= n; i++)
+        scanf(&quot;%d&quot;, &amp;a[i]);
+    build(1, 1, n);
+
+    for (i = 1; i &lt;= m; i++) {
+        scanf(&quot;%d %d %d&quot;, &amp;opt, &amp;l, &amp;r);
+        if (opt == 0)
+            update(1, 1, n, l, r);
+        else
+            printf(&quot;%d\n&quot;, query(1, 1, n, l, r));
+    }
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

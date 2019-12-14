@@ -1,0 +1,533 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「THUPC2018」弗雷兹的玩具商店 / Toyshop - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #6396. 「THUPC2018」弗雷兹的玩具商店 / Toyshop</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/6396">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 6396 「THUPC2018」弗雷兹的玩具商店 / Toyshop.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 6396 「THUPC2018」弗雷兹的玩具商店 / Toyshop.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 6396 「THUPC2018」弗雷兹的玩具商店 / Toyshop.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui message"><p>物是人非事事休，欲语泪先流。</p>
+</div>
+<p>弗雷兹在 C 市有一个玩具店，店里有 <latex>$n$</latex> 种玩具，编号依次为 <latex>$1,2,\dots, n$</latex>，编号为 <latex>$i$</latex> 的玩具的单价为 <latex>$c_i$</latex> 元，一个该玩具提供的愉悦度为 <latex>$v_i$</latex> 。</p>
+<p>突然有一天，C 市来了 <latex>$m$</latex> 个小朋友。据可靠消息，这些小朋友会在一些时刻一起来店里买东西，其中第 <latex>$i$</latex> 个小朋友每次都会带 <latex>$i$</latex> 元（ <latex>$1\leq i\leq m$</latex> ）。</p>
+<p>由于某些玩具特别优秀，所以每次小朋友们都会在特定的编号范围内挑选玩具。</p>
+<p>除此之外，由于小朋友们在一年前的清华校赛中就愉悦得无法自拔，所以弗雷兹放弃了对他们的治疗，于是小朋友们就可以无限制地购买玩具了。也就是说，对于任意玩具，每个小朋友在每次的购买件数都可以是任意的非负整数。</p>
+<p>时代飞速发展，玩具的受欢迎程度和价格也会随着时代的发展而改变。</p>
+<p>为了方便你处理这些信息，Yazid 进行了整理，发现这些日子里，弗雷兹的玩具商店里共发生了 <latex>$Q$</latex> 个事件。</p>
+<p>对于每个事件，都有 <latex>$3$</latex> 个基本参数 <latex>$op,l,r$</latex> 。其中 <latex>$op$</latex> 为 <latex>$1$</latex> 至 <latex>$3$</latex> 之间的整数，代表了事件的类别：</p>
+<ol>
+<li><p>对于 <latex>$op=1$</latex> 的事件，Yazid 还会给你一个额外参数 <latex>$d$</latex> ，表示这是一个<strong>价格调整</strong>事件：将编号在区间 <latex>$[l,r]$</latex> 内的玩具的单价 <latex>$c$</latex> 全部增加 <latex>$d$</latex> 元。为了防止单价超过 <latex>$m$</latex> 元导致玩具永远无法被小朋友们购买，弗雷兹会将所有超过 <latex>$m$</latex> 的单价减去 <latex>$m$</latex>。（保证 <latex>$d$</latex> 为不超过 <latex>$m$</latex> 的正数）</p>
+</li>
+<li><p>对于 <latex>$op=2$</latex> 的事件，Yazid 还会给你一个额外参数 <latex>$b$</latex> ，表示这是一个<strong>愉悦修正</strong>事件：将编号在区间 <latex>$[l,r]$</latex> 内的玩具的愉悦度 <latex>$v$</latex> 全部增加 <latex>$b$</latex> 。（需要注意这里的 <latex>$b$</latex> 可能是负数）</p>
+</li>
+<li><p>对于 <latex>$op=3​$</latex> 的事件，表示<strong>购买</strong>事件：所有的 <latex>$m​$</latex> 个小朋友来到弗雷兹的玩具商店，在编号范围在 <latex>$[l,r]​$</latex> 内的玩具中进行随意地购买。</p>
+</li>
+</ol>
+<p>现在，对于每一次的购买事件，你想知道：</p>
+<ol>
+<li><p>所有小朋友所能获得的最大愉悦度之和。</p>
+</li>
+<li><p>所有小朋友所能获得的最大愉悦度的异或和（异或运算是 <latex>$\mathrm{xor}$</latex> 运算，即 C++/Java/Python 中的 <code>^</code> 运算）。</p>
+</li>
+</ol>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <ul>
+<li><p>第 <latex>$1$</latex> 行 <latex>$2$</latex> 个正整数 <latex>$n,m$</latex>，分别表示玩具数量、以及小朋友的数量。</p>
+</li>
+<li><p>第 <latex>$2$</latex> 行 <latex>$n$</latex> 个正整数 <latex>$c_1,\dots,c_n$</latex>，依次描述各玩具的单价。</p>
+</li>
+<li><p>第 <latex>$3$</latex> 行 <latex>$n$</latex> 个正整数 <latex>$v_1,\dots,v_n$</latex>，依次描述各玩具的愉悦度。</p>
+</li>
+<li><p>第 <latex>$4$</latex> 行 <latex>$1$</latex> 个非负整数 <latex>$Q$</latex>，表示事件的数量。</p>
+</li>
+<li><p>接下来 <latex>$Q$</latex> 行依次描述所有事件，每行描述一个事件。每行的开头是 <latex>$3$</latex> 个整数 <latex>$op,l,r$</latex>，意义见题目描述。</p>
+<ul>
+<li><p>如果 <latex>$op=1$</latex>，接下来跟随 <latex>$1$</latex> 个该事件的额外参数（整数） <latex>$d$</latex>，意义见题目描述。</p>
+</li>
+<li><p>如果 <latex>$op=2$</latex>，接下来跟随 <latex>$1$</latex> 个该事件的额外参数（整数） <latex>$b$</latex>，意义见题目描述。</p>
+</li>
+<li><p>如果 <latex>$op=3$</latex>，接下来无任何额外参数。</p>
+</li>
+<li><p>保证 <latex>$1\leq l\leq r\leq n$</latex>。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>对于每一行，如果包含多个数，则用单个空格将它们隔开。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <ul>
+<li>对于每个购买事件，输出一行 <latex>$2$</latex> 个用空格隔开的整数，依次表示所有小朋友所能获得的最大愉悦度之和、以及所有小朋友所能获得的最大愉悦度的异或和。</li>
+</ul>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h3>样例输入 1</h3>
+<div class="ui existing segment"><pre><code class="lang-plain">4 10
+1 6 10 2
+100 2333 666 300
+7
+3 1 4
+3 1 3
+1 2 4 1
+3 1 4
+2 2 3 -1000
+2 2 3 -600
+3 2 4
+</code></pre></div>
+<h3>样例输出 1</h3>
+<div class="ui existing segment"><pre><code class="lang-plain">15165 2865
+14165 2169
+36630 798
+4899 1273
+</code></pre></div>
+<h3>样例解释 1</h3>
+<p>对于第 <latex>$1$</latex> 个购买事件，各位小朋友（编号从小到大，即从 <latex>$1$</latex> 至 <latex>$10$</latex>）能够获得的最大愉悦度依次为：<latex>$100,300,400,600,700,2333,2433,2633,2733,2933$</latex>。</p>
+<p>对于第 <latex>$2$</latex> 个购买事件，各位小朋友（编号从小到大，即从 <latex>$1$</latex> 至 <latex>$10$</latex>）能够获得的最大愉悦度依次为：<latex>$100,200,300,400,500,2333,2433,2533,2633,2733$</latex>。</p>
+<p>对于第 <latex>$3$</latex> 个购买事件，各位小朋友（编号从小到大，即从 <latex>$1$</latex> 至 <latex>$10$</latex>）能够获得的最大愉悦度依次为：<latex>$666,1332,1998,2664,3330,3996,4662,5328,5994,6660$</latex>。</p>
+<p>对于第 <latex>$4$</latex> 个购买事件，各位小朋友（编号从小到大，即从 <latex>$1$</latex> 至 <latex>$10$</latex>）能够获得的最大愉悦度依次为：<latex>$0,0,300,300,300,600,733,733,900,1033$</latex>。</p>
+<p>根据这些信息，你将很容易计算出答案。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>保证 <latex>$1\le n\leq 200,000$</latex>，<latex>$1\le m\leq 60$</latex>，<latex>$0\le Q\leq 30,000$</latex>。</p>
+<p>保证 <latex>$1\leq c_i,d\leq m$</latex>。</p>
+<p>保证 <latex>$0\leq v_i\leq 10^7$</latex>，<latex>$\left| b\right|\leq 10^3$</latex>。</p>
+<h3>提示</h3>
+<p>这个提示本不该有，但善良的出题人还是想提醒你：所有小朋友所能获得的最大愉悦度之和有可能超过 <latex>$32$</latex> 位有符号整数的范围。</p>
+<p>来自 2018 清华大学学生程序设计竞赛暨高校邀请赛（THUPC2018），感谢 Pony.ai 对此次比赛的支持。</p>
+<p>题解等资源可在 <a href="https://github.com/wangyurzee7/THUPC2018">https://github.com/wangyurzee7/THUPC2018</a> 查看。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>注意到 <latex>$m$</latex> 很小，这也许是我们解题的关键。</p>
+<p>注意到重要的一点：这是一个完全背包，每一件物品都有无限件可用。</p>
+<p>这意味着什么呢？意味着如果有重量相同的物品，我们只需要处理价值较大的那个即可。</p>
+<p>线段树维护区间最值、区间加减和区间转移。</p>
+<p>时间复杂度：<latex>$O(qm \log n+qm^2)$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+
+#define lp (p &lt;&lt; 1)
+#define rp (p &lt;&lt; 1 | 1)
+#define mid ((l + r) &gt;&gt; 1)
+#define lson lp, l, mid
+#define rson rp, mid + 1, r
+
+typedef long long int64;
+
+const int INF = 0x7f7f7f7f;
+const int MAXN = 200000 + 10;
+const int MAXM = 60 + 10;
+
+int n, m, q;
+int maxv[MAXN &lt;&lt; 2][MAXM], pmark[MAXN &lt;&lt; 2], vmark[MAXN &lt;&lt; 2];
+int c[MAXN], v[MAXN];
+int vi[MAXM];
+
+inline void addpnode(int p, int x) {
+    static int tmaxv[MAXM];
+    int i;
+
+    pmark[p] += x;
+    if (pmark[p] &gt;= m)
+        pmark[p] -= m;
+    for (i = 1; i &lt;= m; i++)
+        tmaxv[i] = maxv[p][i];
+    for (i = 1; i &lt;= m; i++)
+        maxv[p][(i + x &lt;= m) ? (i + x) : (i + x - m)] = tmaxv[i];
+}
+inline void addvnode(int p, int x) {
+    int i;
+
+    vmark[p] += x;
+    for (i = 1; i &lt;= m; i++)
+        maxv[p][i] += x;
+}
+inline void down(int p) {
+    if (pmark[p]) {
+        addpnode(lp, pmark[p]);
+        addpnode(rp, pmark[p]);
+        pmark[p] = 0;
+    }
+    if (vmark[p]) {
+        addvnode(lp, vmark[p]);
+        addvnode(rp, vmark[p]);
+        vmark[p] = 0;
+    }
+}
+inline void up(int p) {
+    int i;
+
+    for (i = 1; i &lt;= m; i++)
+        maxv[p][i] = std::max(maxv[lp][i], maxv[rp][i]);
+}
+
+void build(int p, int l, int r) {
+    if (l ^ r) {
+        build(lson);
+        build(rson);
+        up(p);
+    }
+    else
+        maxv[p][c[l]] = v[l];
+}
+void addp(int p, int l, int r, int a, int b, int x) {
+    if (a &lt;= l and r &lt;= b) {
+        addpnode(p, x);
+        return;
+    }
+    down(p);
+    if (a &lt;= mid)
+        addp(lson, a, b, x);
+    if (b &gt; mid)
+        addp(rson, a, b, x);
+    up(p);
+}
+void addv(int p, int l, int r, int a, int b, int x) {
+    if (a &lt;= l and r &lt;= b) {
+        addvnode(p, x);
+        return;
+    }
+    down(p);
+    if (a &lt;= mid)
+        addv(lson, a, b, x);
+    if (b &gt; mid)
+        addv(rson, a, b, x);
+    up(p);
+}
+void query(int p, int l, int r, int a, int b) {
+    int i;
+    if (a &lt;= l and r &lt;= b) {
+        for (i = 1; i &lt;= m; i++)
+            vi[i] = std::max(vi[i], maxv[p][i]);
+        return;
+    }
+    down(p);
+    if (a &lt;= mid)
+        query(lson, a, b);
+    if (b &gt; mid)
+        query(rson, a, b);
+}
+
+inline void addprice(int l, int r, int x) { addp(1, 1, n, l, r, x); }
+inline void addvalue(int l, int r, int x) { addv(1, 1, n, l, r, x); }
+inline void solve(int l, int r) {
+    static int64 f[MAXM];
+    int64 res;
+    int i, j;
+
+    memset(vi, 0x80, sizeof(vi));
+    memset(f, 0, sizeof(f));
+
+    query(1, 1, n, l, r);
+
+    for (i = 1; i &lt;= m; i++)
+        if (vi[i] ^ -INF)
+            for (j = i; j &lt;= m; j++)
+                f[j] = std::max(f[j], f[j - i] + vi[i]);
+
+    res = 0;
+    for (i = 1; i &lt;= m; i++)
+        res += f[i];
+    printf(&quot;%lld &quot;, res);
+    res = 0;
+    for (i = 1; i &lt;= m; i++)
+        res ^= f[i];
+    printf(&quot;%lld\n&quot;, res);
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;6396.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;6396.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int i, opt, l, r, x;
+
+    memset(maxv, 0x80, sizeof(maxv));
+
+    scanf(&quot;%d %d&quot;, &amp;n, &amp;m);
+    for (i = 1; i &lt;= n; i++)
+        scanf(&quot;%d&quot;, &amp;c[i]);
+    for (i = 1; i &lt;= n; i++)
+        scanf(&quot;%d&quot;, &amp;v[i]);
+
+    build(1, 1, n);
+    scanf(&quot;%d&quot;, &amp;q);
+    for (i = 1; i &lt;= q; i++) {
+        scanf(&quot;%d %d %d&quot;, &amp;opt, &amp;l, &amp;r);
+        if (opt == 1) {
+            scanf(&quot;%d&quot;, &amp;x);
+            addprice(l, r, x);
+        }
+        else if (opt == 2) {
+            scanf(&quot;%d&quot;, &amp;x);
+            addvalue(l, r, x);
+        }
+        else
+            solve(l, r);
+    }
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,411 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「SHOI2015」超能粒子炮・改 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #2038. 「SHOI2015」超能粒子炮・改</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/2038">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 2038 「SHOI2015」超能粒子炮・改.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 2038 「SHOI2015」超能粒子炮・改.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 2038 「SHOI2015」超能粒子炮・改.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>曾经发明了脑洞治疗仪与超能粒子炮的发明家 SHTSC 又公开了他的新发明：超能粒子炮・改——一种可以发射威力更加强大的粒子流的神秘装置。</p>
+<p>超能粒子炮・改相比超能粒子炮，在威力上有了本质的提升。它有两个参数 <latex>$n$</latex>、<latex>$k$</latex>，它会向每个编号为 <latex>$0$</latex> 到 <latex>$k$</latex>（包含两端）的位置 <latex>$i$</latex> 发射威力为 <latex>$\mathrm{C}_n^i \mathbin{\mathrm{mod}} 2333$</latex> 的粒子流。</p>
+<p>现在 SHTSC 给出了他的超能粒子炮・改的参数，让你求出其发射的粒子流的威力之和除以 <latex>$2333$</latex> 所得的余数。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行一个整数 <latex>$t$</latex> 表示数据组数。</p>
+<p>之后 <latex>$t$</latex> 行，每行两个整数 <latex>$n$</latex>、<latex>$k$</latex>，含义如题面描述。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p><latex>$t$</latex> 行，每行一个整数，表示其粒子流的威力之和模 <latex>$2333$</latex> 的值。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">3
+5 5
+10 7
+1145 14
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">32
+968
+763
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于 <latex>$10\%$</latex> 的数据，<latex>$t = 1$</latex>，<latex>$n, k \leq 1000$</latex>；</p>
+<p>对于 <latex>$30\%$</latex> 的数据，<latex>$t = 1$</latex>，<latex>$n, k \leq 1000000$</latex>；</p>
+<p>对于 <latex>$50\%$</latex> 的数据，<latex>$t = 1$</latex>，<latex>$n \leq 10^{18}, k \leq 1000$</latex>；</p>
+<p>对于 <latex>$70\%$</latex> 的数据，<latex>$t = 100$</latex>，<latex>$n, k \leq 10^{18}$</latex>；</p>
+<p>对于 <latex>$100\%$</latex> 的数据，<latex>$t = 100000$</latex>，<latex>$n, k \leq 10^{18}$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>首先，我们要知道 Lucas 定理。</p>
+<p>Lucas 定理：对于任意质数 <latex>$p \in \mathbb{P}$</latex> 和非负整数 <latex>$n, m$</latex> ，有：</p>
+<latex>$$
+\mathrm{C}^n_m \equiv \mathrm{C}^{n \setminus p}_{m \setminus p} \mathrm{C}^{n \bmod p}_{m \bmod p} \pmod p
+$$</latex><p>考虑设 <latex>$f(n, k) = \sum_{i=0}^k \mathrm{C}^i_n$</latex> 。</p>
+<p><strong>为了方便，下文中均保证 <latex>$k=ap-1 | a \in \mathbb{N^*}$</latex> 。</strong></p>
+<p>由于 Lucas 定理中存在整除和取模，我们想到类似分段的求法：</p>
+<latex>$$
+f(n, k) = \sum_{i=0}^k \mathrm{C}^i_n \bmod p \\
+f(n, k) = \sum_{i=0}^k \mathrm{C}^{i \setminus p}_{n \setminus p} \mathrm{C}^{i \bmod p}_{n \bmod p} \bmod p \\
+f(n, k) = \sum_{i=0}^{k \setminus p} \sum_{j=0}^{\min\{k-ip, p-1\}} \mathrm{C}^i_{n \setminus p} \mathrm{C}^j_{n \bmod p} \bmod p \\
+$$</latex><p>直白点写，就是：</p>
+<latex>$$
+f(n, k) = (\mathrm{C}^0_{n \setminus p} \sum_{i=0}^{p-1} C^i_{n \bmod p} + \mathrm{C}^1_{n \setminus p} \sum_{i=0}^{p-1} C^i_{n \bmod p} + \ldots) \bmod p
+$$</latex><p>提取公因式 <latex>$\sum_{i=0}^{p-1} C^i_{n \bmod p}$</latex> ，得：</p>
+<latex>$$
+f(n, k) =
+    (\sum_{i=0}^{p-1} C^i_{n \bmod p})
+    (\mathrm{C}^0_{n \setminus p} + \mathrm{C}^1_{n \setminus p} + \ldots + \mathrm{C}^{k \setminus p-1}_{n \setminus p})
+    +
+    (\sum_{i=0}^{k \bmod p} C^i_{n \bmod p})
+    (\mathrm{C}^{k \setminus p}_{n \setminus p}) \bmod p\\
+f(n, k) =
+    (\sum_{i=0}^{p-1} C^i_{n \bmod p}) (\sum_{i=0}^{k \setminus p-1} \mathrm{C}^i_{n \setminus p}) +
+    (\sum_{i=0}^{k \bmod p} C^i_{n \bmod p})(\mathrm{C}^{k \setminus p}_{n \setminus p}) \bmod p \\
+f(n, k) =
+    f(n \bmod p, p-1)
+    f(n \setminus p, k \setminus p-1) +
+    f(n \bmod p, k \bmod p)
+    (\mathrm{C}^{k \setminus p}_{n \setminus p}) \bmod p
+$$</latex><p>这样的复杂度是多少呢？</p>
+<p>对于 <latex>$f(n \bmod p, p-1)$</latex> ，可以 <latex>$O(p^2)$</latex> 预处理出 <latex>$\{\mathrm{C}^n_m|n, m \in [0, p-1]\}$</latex> ， <latex>$O(1)$</latex> 求出。</p>
+<p>对于 <latex>$f(n \setminus p, k \setminus p-1)$</latex> ，每次 <latex>$k, p$</latex> 都除以 <latex>$p$</latex> ，递归次数是 <latex>$\log_p n$</latex> 的。</p>
+<p>对于 <latex>$f(n \bmod p, k \bmod p)(\mathrm{C}^{k \setminus p}_{n \setminus p})$</latex> ，左边的部分同理 <latex>$O(1)$</latex> 求出，右边的部分 <latex>$O(\log_p n)$</latex> 求出。</p>
+<p>设 <latex>$f(n, k)$</latex> 的复杂度为 <latex>$T(n, k)$</latex> ，那么：</p>
+<latex>$$
+T(n, k)=
+\begin{cases}
+1, &\max\{n, k\} &lt; p \\
+1 + T(k \setminus p, n \setminus p) + \log_p n, &\text{otherwise}
+\end{cases}
+$$</latex><p>因为递归最多计算 <latex>$\log_p n$</latex> 个 <latex>$T(n, k)$</latex> ，每个 <latex>$T(n, k)$</latex> 需要 <latex>$\log_p n+1$</latex> 的时间计算， 所以 <latex>$T(n, k) = O(\log_p n) \times O(\log_p n+1) = O(\log_p^2 n)$</latex> 。</p>
+<p>总时间复杂度为 <latex>$O(p^2+t\log_p^2 n)$</latex> 。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;cstdio&gt;
+
+const int P = 2333;
+
+typedef long long int64;
+
+int pref[P][P];
+int fact[P], inv[P];
+inline int C(int64 n, int64 m) {
+    if (n &gt; m)
+        return 0;
+    if (n &lt; P and m &lt; P)
+        return fact[m] * inv[fact[n]] % P * inv[fact[m - n]] % P;
+    else
+        return C(n % P, m % P) * C(n / P, m / P) % P;
+}
+inline int f(int64 n, int64 k) {
+    if (k &gt; n)
+        k = n;
+    if (k &lt; 0)
+        return 0;
+    else if (n &lt; P and k &lt; P)
+        return pref[n][k];
+    else
+        return (f(n % P, P - 1) * f(n / P, k / P - 1) +
+                f(n % P, k % P) * C(k / P, n / P)) % P;
+}
+inline void prepare() {
+    int i, j;
+
+    fact[0] = fact[1] = 1;
+    inv[1] = 1;
+    for (i = 2; i &lt; P; i++) {
+        inv[i] = (P - P / i) * inv[P % i] % P;
+        fact[i] = i * fact[i - 1] % P;
+    }
+
+    for (i = 0; i &lt; P; i++) {
+        pref[i][0] = C(0, i);
+        for (j = 1; j &lt; P; j++) {
+            pref[i][j] = C(j, i) + pref[i][j - 1];
+            if (pref[i][j] &gt;= P)
+                pref[i][j] -= P;
+        }
+    }
+}
+
+int main() {
+    #ifndef ONLINE_JUDGE
+    freopen(&quot;2038.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;2038.out&quot;, &quot;w&quot;, stdout);
+    #endif
+
+    int t;
+    int64 n, k;
+
+    prepare();
+
+    scanf(&quot;%d&quot;, &amp;t);
+    while (t) {
+        scanf(&quot;%lld %lld&quot;, &amp;n, &amp;k);
+        printf(&quot;%d\n&quot;, f(n, k));
+        t--;
+    }
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

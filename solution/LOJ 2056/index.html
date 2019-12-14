@@ -1,0 +1,410 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「TJOI /  HEOI2016」序列 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #2056. 「TJOI /  HEOI2016」序列</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/2056">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 2056 「TJOI /  HEOI2016」序列.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 2056 「TJOI /  HEOI2016」序列.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 2056 「TJOI /  HEOI2016」序列.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>佳媛姐姐过生日的时候，她的小伙伴从某宝上买了一个有趣的玩具送给他。</p>
+<p>玩具上有一个数列，数列中某些项的值可能会变化，但同一个时刻最多只有一个值发生变化。现在佳媛姐姐已经研究出了所有变化的可能性，她想请教你，能否选出一个子序列，使得在任意一种变化中，这个子序列都是不降的？请你告诉她这个子序列的最长长度即可。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>输入的第一行有两个正整数 <latex>$ n, m $</latex>，分别表示序列的长度和变化的个数。</p>
+<p>接下来一行有 <latex>$ n $</latex> 个数，表示这个数列原始的状态。</p>
+<p>接下来 <latex>$ m $</latex> 行，每行有两个数 <latex>$ x, y $</latex>，表示数列的第 <latex>$ x $</latex> 项可以变化成 <latex>$ y $</latex> 这个值。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>输出一个整数，表示对应的答案。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">3 4
+1 2 3
+1 2
+2 3
+2 1
+3 4
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">3
+</code></pre></div>
+<h4>样例解释</h4>
+<p><strong>注意</strong>：每种变化最多只有一个值发生变化。</p>
+<p>在样例输入中，所有的变化是：</p>
+<div class="ui existing segment"><pre><code class="lang-plain">1 2 3
+2 2 3
+1 3 3
+1 1 3
+1 2 4
+</code></pre></div>
+<p>选择子序列为原序列，即在任意一种变化中均为不降子序列。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于所有的数据，<latex>$1 \leq x \leq n$</latex>，所有数字均为正整数，且小于等于 <latex>$100000$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>设 <latex>$A_i, L_i, R_i$</latex> 分别为序列第 <latex>$i$</latex> 个数原来的数值、能变化为的最小数值、能变化为的最大数值，那么选出的序列必须满足：</p>
+<ul>
+<li><latex>$A_i \leq L_{i+1}$</latex></li>
+<li><latex>$A_i \geq R_{i-1}$</latex></li>
+</ul>
+<p>设 <latex>$f[i]$</latex> 表示以 <latex>$A_i$</latex> 结尾的子序列最长长度，那么有</p>
+<latex>$$f[i]=\max\{f[j]|1 \leq j &lt; i,A_j \leq L_i,R_{j} \leq A_i\}+1$$</latex><p>CDQ 分治一下即可。</p>
+<p>当然用主席树之类的...应该也可以？</p>
+<p>时间复杂度：<latex>$O(n \log^2 n)$</latex>。</p>
+<p><del>懒得算具体到底是多少了，所以假定 <latex>$n, A_i, x$</latex> 同阶。</del></p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+
+#ifdef ONLINE_JUDGE
+const int MAXN = 100000 + 10;
+#else
+const int MAXN = 1000;
+#endif
+
+struct Node {
+    int p, a, l, r;
+};
+Node a[MAXN];
+int f[MAXN];
+int c[MAXN];
+int n, m;
+
+inline int lowbit(int x) { return x &amp; -x; }
+inline void update(int p, int x) {
+    for (; p &lt; MAXN; p += lowbit(p))
+        c[p] = std::max(c[p], x);
+}
+inline void clear(int p) {
+    for (; p &lt; MAXN; p += lowbit(p))
+        c[p] = 0;
+}
+inline int query(int p) {
+    int res = 0;
+    for (; p; p ^= lowbit(p))
+        res = std::max(res, c[p]);
+    return res;
+}
+
+bool cmpbya(Node x, Node y) { return x.a &lt; y.a; }
+bool cmpbyl(Node x, Node y) { return x.l &lt; y.l; }
+bool cmpbyp(Node x, Node y) { return x.p &lt; y.p; }
+
+void cdq(int l, int r) {
+    int mid = (l + r) &gt;&gt; 1, i, j, k;
+
+    if (l == r) {
+        if (!f[a[l].p])
+            f[a[l].p] = 1;
+        return;
+    }
+    std::sort(a + l, a + r + 1, cmpbyp);
+    cdq(l, mid);
+    std::sort(a + l, a + mid + 1, cmpbya);
+    std::sort(a + mid + 1, a + r + 1, cmpbyl);
+
+    j = l;
+    for (i = mid + 1; i &lt;= r; i++) {
+        while (j &lt;= mid and a[j].a &lt;= a[i].l) {
+            update(a[j].r, f[a[j].p]);
+            j++;
+        }
+        f[a[i].p] = std::max(f[a[i].p], query(a[i].a) + 1);
+    }
+    for (i = l; i &lt; j; i++)
+        clear(a[i].r);
+
+    cdq(mid + 1, r);
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;2056.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;2056.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int i, x, y;
+    int ans = 0;
+
+    scanf(&quot;%d %d&quot;, &amp;n, &amp;m);
+    for (i = 1; i &lt;= n; i++) {
+        a[i].p = i;
+        scanf(&quot;%d&quot;, &amp;a[i].a);
+        a[i].l = a[i].r = a[i].a;
+    }
+    for (i = 1; i &lt;= m; i++) {
+        scanf(&quot;%d %d&quot;, &amp;x, &amp;y);
+        a[x].l = std::min(a[x].l, y);
+        a[x].r = std::max(a[x].r, y);
+    }
+
+    cdq(1, n);
+
+    for (i = 1; i &lt;= n; i++)
+        ans = std::max(ans, f[i]);
+    printf(&quot;%d\n&quot;, ans);
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

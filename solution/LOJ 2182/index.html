@@ -1,0 +1,445 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「SDOI2015」寻宝游戏 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #2182. 「SDOI2015」寻宝游戏</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：2000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/2182">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 2182 「SDOI2015」寻宝游戏.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 2182 「SDOI2015」寻宝游戏.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 2182 「SDOI2015」寻宝游戏.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>小 B 最近正在玩一个寻宝游戏，这个游戏的地图中有 <latex>$N$</latex> 个村庄和 <latex>$N-1$</latex> 条道路，并且任何两个村庄之间有且仅有一条路径可达。游戏开始时，玩家可以任意选择一个村庄，瞬间转移到这个村庄，然后可以任意在地图的道路上行走，若走到某个村庄中有宝物，则视为找到该村庄内的宝物，直到找到所有宝物并返回到最初转移到的村庄为止。</p>
+<p>小 B 希望评测一下这个游戏的难度，因此他需要知道玩家找到所有宝物需要行走的最短路程。但是这个游戏中宝物经常变化，有时某个村庄中会突然出现宝物，有时某个村庄内的宝物会突然消失，因此小 B 需要不断地更新数据，但是小 B 太懒了，不愿意自己计算，因此他向你求助。为了简化问题，我们认为最开始时所有村庄内均没有宝物。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行，两个整数 <latex>$N$</latex>、<latex>$M$</latex>，其中 <latex>$M$</latex> 为宝物的变动次数。</p>
+<p>接下来的 <latex>$N-1$</latex> 行，每行三个整数 <latex>$x$</latex>、<latex>$y$</latex>、<latex>$z$</latex>，表示村庄 <latex>$x$</latex>、<latex>$y$</latex> 之间有一条长度为 <latex>$z$</latex> 的道路。</p>
+<p>接下来的 <latex>$M$</latex> 行，每行一个整数 <latex>$t$</latex>，表示一个宝物变动的操作。若该操作前村庄 <latex>$t$</latex> 内没有宝物，则操作后村庄内有宝物；若该操作前村庄 <latex>$t$</latex> 内有宝物，则操作后村庄内没有宝物。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p><latex>$M$</latex> 行，每行一个整数，其中第 <latex>$i$</latex> 行的整数表示第 <latex>$i$</latex> 次操作之后玩家找到所有宝物需要行走的最短路程。若只有一个村庄内有宝物，或者所有村庄内都没有宝物，则输出 <code>0</code>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">4 5
+1 2 30
+2 3 50
+2 4 60
+2
+3
+4
+2
+1
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">0
+100
+220
+220
+280
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于 <latex>$10\%$</latex> 的数据，<latex>$1 \leq N \leq 100, 1 \leq M \leq 100$</latex>；</p>
+<p>对于 <latex>$20\%$</latex> 的数据，<latex>$1 \leq N \leq 1000, 1 \leq M \leq 1000$</latex>；</p>
+<p>对于另外 <latex>$15\%$</latex> 的数据，每个村庄最多成为两条道路的端点；</p>
+<p>对于 <latex>$100\%$</latex> 的数据，<latex>$1 \leq N \leq 100000,\ 1 \leq M \leq 100000,\ 1 \leq z \leq 10^9$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>容易注意到，最优方案可以从 DFS 序最小的点开始，按 DFS 序递增的顺序访问每个点，然后再回到起点。也就是说，如果按 DFS 序对每个点排序，那么答案为</p>
+<latex>$$\sum_{i = 1}^n dis(P_i, P_{i + 1})$$</latex><p>这里 <latex>$P_{n + 1} = P_1$</latex>。</p>
+<p>这个想法是由虚树建树过程启发的。虚树的建树过程，同样也是按照 DFS 序排序，这样也能保证最后建出来的树形态正确。模拟一下就清楚了。</p>
+<p>然后用 <code>std::set</code> 维护前继后继即可。</p>
+<p>时间复杂度：<latex>$O(n \log n)$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;cstdio&gt;
+#include &lt;set&gt;
+
+typedef long long int64;
+
+#ifdef ONLINE_JUDGE
+const int MAXN = 100000 + 10;
+const int MAXLOG = 19;
+#else
+const int MAXN = 100 + 10;
+const int MAXLOG = 5;
+#endif
+
+int n, m;
+
+int pre[MAXN &lt;&lt; 1], to[MAXN &lt;&lt; 1], wdis[MAXN &lt;&lt; 1], head[MAXN], wcnt;
+int fa[MAXN][MAXLOG + 1];
+int id[MAXN], dep[MAXN], idcnt;
+int64 dis[MAXN];
+bool vis[MAXN];
+
+struct Cmp {
+    bool operator()(const int x, const int y) { return id[x] &lt; id[y]; }
+};
+typedef std::set&lt;int, Cmp&gt; Nodeset;
+Nodeset set;
+
+inline void addedge(int u, int v, int w) {
+    wcnt++;
+    pre[wcnt] = head[u];
+    head[u] = wcnt;
+    to[wcnt] = v;
+    wdis[wcnt] = w;
+}
+inline void add2edge(int u, int v, int w) {
+    addedge(u, v, w);
+    addedge(v, u, w);
+}
+
+#define v to[i]
+void dfs(int u) {
+    int i;
+
+    for (i = 1; fa[u][i - 1]; i++)
+        fa[u][i] = fa[fa[u][i - 1]][i - 1];
+
+    idcnt++;
+    id[u] = idcnt;
+    for (i = head[u]; i; i = pre[i]) {
+        if (!id[v]) {
+            dis[v] = dis[u] + wdis[i];
+            dep[v] = dep[u] + 1;
+            fa[v][0] = u;
+            dfs(v);
+        }
+    }
+}
+#undef v
+
+int lca(int x, int y) {
+    int i;
+
+    if (dep[x] &lt; dep[y])
+        std::swap(x, y);
+    for (i = MAXLOG; ~i; i--)
+        if (dep[fa[x][i]] &gt;= dep[y])
+            x = fa[x][i];
+    if (x == y)
+        return x;
+    for (i = MAXLOG; ~i; i--) {
+        if (fa[x][i] ^ fa[y][i]) {
+            x = fa[x][i];
+            y = fa[y][i];
+        }
+    }
+    return fa[x][0];
+}
+inline int64 querydis(int x, int y) { return (x and y) ? (dis[x] + dis[y] - 2 * dis[lca(x, y)]) : 0; }
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;2182.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;2182.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    Nodeset::iterator it;
+    int i;
+    int64 ans = 0;
+    int x, y, z;
+
+    scanf(&quot;%d %d&quot;, &amp;n, &amp;m);
+    for (i = 1; i &lt; n; i++) {
+        scanf(&quot;%d %d %d&quot;, &amp;x, &amp;y, &amp;z);
+        add2edge(x, y, z);
+    }
+    dfs(1);
+
+    for (i = 1; i &lt;= m; i++) {
+        scanf(&quot;%d&quot;, &amp;x);
+
+        y = z = 0;
+        it = set.upper_bound(x);
+        if (it != set.end())
+            z = *it;
+        if (it != set.begin()) {
+            it--;
+            if (vis[x]) {
+                if (it != set.begin()) {
+                    it--;
+                    y = *it;
+                }
+            }
+            else
+                y = *it;
+        }
+
+        vis[x] = !vis[x];
+        if (vis[x])
+            set.insert(x);
+        else
+            set.erase(x);
+        ans += (vis[x] ? 1 : -1) * (querydis(x, y) + querydis(x, z) - querydis(y, z));
+        if (set.size() &gt;= 2) {
+            it = set.end();
+            it--;
+            printf(&quot;%lld\n&quot;, ans + querydis(*set.begin(), *it));
+        }
+        else
+            printf(&quot;0\n&quot;);
+    }
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

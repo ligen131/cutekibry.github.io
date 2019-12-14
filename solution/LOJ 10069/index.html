@@ -1,0 +1,412 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「一本通 3.1 练习 4」Tree - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #10069. 「一本通 3.1 练习 4」Tree</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：512 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/10069">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 10069 「一本通 3.1 练习 4」Tree.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 10069 「一本通 3.1 练习 4」Tree.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 10069 「一本通 3.1 练习 4」Tree.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p><strong>原题来自：2012 年国家集训队互测</strong></p>
+<p>给你一个无向带权连通图，每条边是黑色或白色。让你求一棵最小权的恰好有 <latex>$\text{need}$</latex> 条白色边的生成树。题目保证有解。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行 <latex>$V,E,\text{need}$</latex> 分别表示点数，边数和需要的白色边数。</p>
+<p>接下来 <latex>$E$</latex> 行，每行 <latex>$s,t,c,\text{col}$</latex> 表示这边的端点（点从 <latex>$0$</latex> 开始标号），边权，颜色（<latex>$0$</latex> 白色，<latex>$1$</latex> 黑色）。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>一行表示所求生成树的边权和。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">2 2 1
+0 1 1 1
+0 1 2 0
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">2
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于所有数据，<latex>$V\le 5\times 10^4,E\le 10^5$</latex>，边权为 <latex>$[1, 100]$</latex> 中的正整数。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>考虑二分把每条白边减去的权值 <latex>$cost$</latex>，然后做一次 Kruskal 求出<strong>忽略颜色</strong>的最小生成树。可见，<latex>$cost$</latex> 越大，白边的数量就会越少。通过二分，就可以控制 <latex>$cost$</latex> 的值使得白边的数量恰好为 <latex>$need$</latex> 条；同时也可以求出此时得到的最小生成树边权之和，即可得到答案。</p>
+<hr>
+<p>设 <latex>$F(x)$</latex> 表示当白边为 <latex>$x$</latex> 条时，最小生成树的权值，则在定义域内 <latex>$\Delta F(x)$</latex> 单调递增（或者说，<latex>$F(x)-F(x-1) \le F(x+1)-F(x)$</latex>），即为一个凸函数，那么所有的函数值均位于凸包上，则可二分斜率以切凸包的方法来找到 <latex>$F(need)$</latex>。（即著名的凸优化，亦有人称 wqs 二分）。</p>
+<p><img src="https://i.loli.net/2018/09/19/5ba23493a83be.png" alt="wqs.png" style="display: block; margin: 0px auto;"></p>
+<p>设二分 <latex>$cost$</latex> 时选择的白边数量为 <latex>$x_0$</latex>，边权之和为 <latex>$w$</latex>，那么有 <latex>$F(x_0) = cost \cdot x_0 + w$</latex>。此时可以把它看作是一条斜率为 <latex>$cost$</latex>，截距为 <latex>$w$</latex> 的直线 <latex>$y = cost \cdot x + w$</latex>。</p>
+<p>同时注意到：</p>
+<ul>
+<li><latex>$F(x)$</latex> 是凸函数</li>
+<li>我们能保证二分时求出的 <latex>$w$</latex> 最优</li>
+</ul>
+<p>所以这条直线和这个凸包只会有一个交点；换句话说，<strong>这条直线是这个凸包在 <latex>$x = x_0$</latex> 处的切线。</strong></p>
+<p>那么可以发现，我们二分 <latex>$cost$</latex>，实际上是在二分切线的斜率。</p>
+<p>由于 <latex>$F(x)$</latex> 是个凸函数，所以 <latex>$cost$</latex> 越大，所切的点的横坐标也就越大（即选择的白边数量 <latex>$x_0$</latex> 最大）。所以通过二分 <latex>$cost$</latex>，就相当于二分凸包上点的横坐标，即 <latex>$need$</latex>。</p>
+<p>时间复杂度：<latex>$O(m \log m + n \cdot \alpha(n) \log c)$</latex>。</p>
+<hr>
+<p>一个小细节：如果在二分后，发现有两棵生成树 <latex>$T_1, T_2$</latex> 的权值之和 <latex>$w$</latex> 都相同，但选择的白边数量 <latex>$x_0, x_1$</latex> 却不同，要怎么处理？</p>
+<p>细节留作读者思考。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+
+#ifdef ONLINE_JUDGE
+const int MAXM = 100000 + 10;
+const int MAXN = 50000 + 10;
+#else
+const int MAXM = 1000 + 10;
+const int MAXN = 1000 + 10;
+#endif
+
+int n, m, k, m0;
+int fa[MAXN], size[MAXN];
+
+struct Edge {
+    int s, t, w, col;
+    bool operator&lt;(const Edge b) const { return w + 1000 * col &lt; b.w + 1000 * b.col; }
+};
+Edge e[MAXM];
+
+int gf(int x) { return (x ^ fa[x]) ? (fa[x] = gf(fa[x])) : x; }
+inline void init() {
+    int i;
+    for (i = 1; i &lt;= n; i++) {
+        fa[i] = i;
+        size[i] = 1;
+    }
+}
+inline void merge(int x, int y) {
+    x = gf(x);
+    y = gf(y);
+    if (x ^ y) {
+        if (size[x] &lt; size[y])
+            std::swap(x, y);
+        size[x] += size[y];
+        fa[y] = x;
+    }
+}
+
+int f(int x, int &amp;totw) {
+    int i, j, k, cnt0 = 0;
+
+    for (i = 1; i &lt;= m0; i++) e[i].w -= x;
+
+    init();
+    i = 1;
+    j = m0 + 1;
+    totw = 0;
+    while (i &lt;= m0 or j &lt;= m) {
+        if ((i &lt;= m0 and e[i].w &lt;= e[j].w) or j &gt; m) {
+            k = i;
+            i++;
+        } else {
+            k = j;
+            j++;
+        }
+        if (gf(e[k].s) ^ gf(e[k].t)) {
+            totw += e[k].w;
+            if (!e[k].col)
+                cnt0++;
+            merge(e[k].s, e[k].t);
+        }
+    }
+
+    for (i = 1; i &lt;= m0; i++) e[i].w += x;
+    return cnt0;
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;10069.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;10069.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int i, l, r, mid, ans;
+
+    scanf(&quot;%d %d %d&quot;, &amp;n, &amp;m, &amp;k);
+    for (i = 1; i &lt;= m; i++) {
+        scanf(&quot;%d %d %d %d&quot;, &amp;e[i].s, &amp;e[i].t, &amp;e[i].w, &amp;e[i].col);
+        e[i].s++;
+        e[i].t++;
+        if (!e[i].col)
+            m0++;
+    }
+    std::sort(e + 1, e + 1 + m);
+
+    l = -100;
+    r = 100;
+    while (l ^ r) {
+        mid = (l + r) &gt;&gt; 1;
+
+        if (f(mid, ans) &gt;= k)
+            r = mid;
+        else
+            l = mid + 1;
+    }
+    f(l, ans);
+    printf(&quot;%d\n&quot;, ans + l * k);
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

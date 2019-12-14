@@ -1,0 +1,486 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「NOI2014」随机数生成器 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #2248. 「NOI2014」随机数生成器</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：4000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/2248">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 2248 「NOI2014」随机数生成器.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 2248 「NOI2014」随机数生成器.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 2248 「NOI2014」随机数生成器.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>小 H 最近在研究随机算法。随机算法往往需要通过调用随机数生成函数（例如 Pascal 中的 <latex>$\texttt{random}$</latex> 和 C/C++ 中的 <latex>$\texttt{rand}$</latex>）来获得随机性。事实上，随机数生成函数也不是真正的「随机」，其一般都是按某个算法计算得来的。</p>
+<p>比如，下面这个二次多项式递推算法就是一个常用算法：</p>
+<p>算法选定非负整数 <latex>$x_0,a,b,c,d$</latex>，并采用如下公式递推进行计算。</p>
+<latex>$$\forall i \geq 1,\ x_i=(ax_{i-1}^2+bx_{i-1}+c)\bmod d$$</latex><p>这样可以得到一个任意长度的非负整数<strong>数列</strong> <latex>$\{x_i\}_{i \geq 1}$</latex>。一般说来，我们认为这个<strong>数列</strong> 是随机的。</p>
+<p>利用随机序列 <latex>$\{x_i\}_{i \geq 1}$</latex>，我们还可以采用如下算法产生一个从 <latex>$1$</latex> 到 <latex>$K$</latex> 的<strong>随机排列</strong> <latex>$\{T_i\}^K_{i \geq 1}$</latex>：</p>
+<ol>
+<li>初始设 <latex>$T$</latex> 为 <latex>$1 \sim K$</latex> 的递增序列；</li>
+<li>对 <latex>$T$</latex> 进行 <latex>$K$</latex> 次交换，第 <latex>$i$</latex> 次交换，交换 <latex>$T_i$</latex> 和 <latex>$T_{(x_i \bmod i)+1}$</latex> 的值。</li>
+</ol>
+<p>此外，小 H 在这 <latex>$K$</latex> 次交换的基础上，又<strong>额外</strong>进行了 <latex>$Q$</latex> 次交换工作，对于第 <latex>$i$</latex> 次交换，小 H 会选定两个额外下标 <latex>$u_i$</latex> 和 <latex>$v_i$</latex>，并交换 <latex>$T_{u_i}$</latex> 和 <latex>$T_{v_i}$</latex> 的值。</p>
+<p>为了检验这个随机生成算法的实用性，小 H 设计了如下问题：</p>
+<p>小 H 有一个 <latex>$N$</latex> 行 <latex>$M$</latex> 列的棋盘，她首先按照上述过程，通过 <latex>$N\times M+Q$</latex> 次交换操作，生成一个 <latex>$1 \sim N \times M$</latex> 的随机排列  <latex>$\{T_i\}^{N \times M}_{i \geq 1}$</latex>，然后将这 <latex>$N \times M$</latex> 个数逐行逐列依次填入这个棋盘：也就是第 <latex>$i$</latex> 行第 <latex>$j$</latex> 列的格子上所填入的数应为 <latex>$T_{(i-1)M+j}$</latex>。</p>
+<p>接着小 H 希望从棋盘的左上角，也就是第一行第一列的格子出发，<strong>每次向右走或向下走</strong>，在不走出棋盘的前提下，走到棋盘的右下角，也就是第 <latex>$N$</latex> 行第 <latex>$M$</latex> 列的格子。</p>
+<p>小 H 把所经过格子上的数字都记录了下来，并<strong>从小到大排序</strong>，这样，对于任何一条合法的移动路径，小 H 都可以得到一个长度为 <latex>$N+M-1$</latex> 的升序序列，我们称之为<strong>路径序列</strong>。</p>
+<p>小 H 想知道，她可能得到的<strong>字典序最小</strong>的<strong>路径序列</strong>应该是怎样的呢？</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行包含五个整数，依次为 <latex>$x_0,a,b,c,d$</latex> ，描述小 H 采用的随机数生成算法所需的随机种子。</p>
+<p>第二行包含三个整数 <latex>$N,M,Q$</latex>，表示小 H 希望生成一个 <latex>$1$</latex> 到 <latex>$N \times M$</latex> 的排列来填入她 <latex>$N$</latex> 行 <latex>$M$</latex> 列的棋盘，并且小 H 在初始的 <latex>$N \times M $</latex> 次交换操作后，又进行了 <latex>$Q$</latex> 次额外的交换操作。</p>
+<p>接下来 <latex>$Q$</latex> 行，第 <latex>$i$</latex> 行包含两个整数 <latex>$u_i,v_i$</latex>，表示第 <latex>$i$</latex> 次额外交换操作将交换 <latex>$T_{u_i}$</latex> 和 <latex>$T_{v_i}$</latex> 的值。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>输出一行，包含 <latex>$N+M-1$</latex> 个由空格隔开的正整数，表示可以得到的字典序最小的路径序列。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">1 3 5 1 71
+3 4 3
+1 7
+9 9
+4 9
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">1 2 6 8 9 12
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>本题的空间限制是 <latex>$\texttt{256 MB}$</latex>，请务必保证提交的代码运行时所使用的总内存空间不超过此限制。</p>
+<p>一个 <latex>$\texttt{32}$</latex> 位整数（例如 C/C++ 中的 <latex>$\texttt{int}$</latex> 和 Pascal 中的 <latex>$\texttt{Longint}$</latex>）为 <latex>$\texttt{4}$</latex> 字节，因而如果在程序中声明一个长度为 <latex>$\texttt{1024} \times \texttt{1024}$</latex> 的 <latex>$\texttt{32}$</latex> 位整型变量的数组，将会占用 <latex>$\texttt{4 MB}$</latex> 的内存空间。</p>
+<p>对所有的数据，<latex>$2 \leq N,M \leq 5000,\ 0 \leq Q \leq 50000,\ 0 \leq a \leq 300,\ 0 \leq b,c \leq 10^8,\ 0 \leq x_0&lt;d \leq 10^8,\ 1 \leq u_i,v_i \leq N \times M$</latex>。</p>
+<p>时限已按照 LibreOJ 测评机速度调整。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>很明显有一个贪心的思想：枚举 <latex>$i = 1 \ldots n \times m$</latex>，判断 <latex>$i$</latex> 是否能在目前方案的基础上被取到。</p>
+<p>例如样例中的情况，我们已经决定了取 <latex>$1, 2, 6$</latex>，考虑能否取到 <latex>$7$</latex>。</p>
+<latex>$$
+\begin{matrix}
+12 & 9 & \color{red}1 & 7 \\
+5 & 11 & \color{red}6 & \color{red}2 \\
+4 & 10 & 3 & 8 \\
+\end{matrix}
+$$</latex><p>很明显，<latex>$7$</latex> 是取不到的，因此我们放弃取 <latex>$7$</latex>。而 <latex>$8$</latex> 可以被取到，因而我们将 <latex>$8$</latex> 加入该方案。</p>
+<p>可以证明，这种方法必能得到最优解。</p>
+<p>考虑怎么判断能否取到该数字。</p>
+<p>很明显，对于在 <latex>$(i, j)$</latex> 的某个数字，当且仅当 <latex>$i$</latex> 行上方的数字都在它的左边或下边、<latex>$i$</latex> 行下面的数字都在它的右边或下边时，该数字可以取到。</p>
+<p>用数据结构维护区间最值和单点修改。</p>
+<p>在这里，如果使用线段树是 <latex>$O(nm \log m)$</latex> 的。有没有更快地方法呢？</p>
+<p>ST 表。</p>
+<p>这道题的特殊之处在于单点修改仅有 <latex>$(n + m - 1)$</latex> 次，而询问次数高达 <latex>$nm$</latex> 次：这需要我们有高效的询问效率，而可以不用太关心修改的效率。</p>
+<p>ST 表正是满足了这一点。</p>
+<p>ST 表的区间查询是 <latex>$O(1)$</latex> 的，单点修改是 <latex>$O(m)$</latex> 的。</p>
+<p>时间复杂度降为 <latex>$O(nm + m^2)$</latex>。</p>
+<p>细节可以参考代码。</p>
+<p>注：本题在 LOJ 上可以使用线段树通过（得益于 LOJ 飞天般的评测机），但在 LGOJ 上则不仅需要 ST 表，还需要一些卡常的小技巧。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+
+typedef long long int64;
+
+const int MAXN = 5000 + 10;
+const int LOG = 15;
+const short INF = 0x3f3f;
+
+int x, a, b, c, d;
+
+int t[MAXN * MAXN];
+short rx[MAXN * MAXN], ry[MAXN * MAXN];
+int n, m, q;
+
+short stmax[LOG][MAXN], stmin[LOG][MAXN];
+short LOG2[MAXN];
+
+template &lt;class T&gt; inline T max(T x, T y) { return (x &gt; y) ? x : y; }
+template &lt;class T&gt; inline T min(T x, T y) { return (x &lt; y) ? x : y; }
+template &lt;class T&gt; inline void swap(T &amp;x, T &amp;y) {
+    static T z;
+    z = x;
+    x = y;
+    y = z;
+}
+
+inline void read(int &amp;x) {
+    char ch;
+
+    do
+        ch = getchar();
+    while (ch &lt; &#39;0&#39; or ch&gt; &#39;9&#39;);
+    x = 0;
+    while (ch&gt;= &#39;0&#39; and ch &lt;= &#39;9&#39;) {
+        x = (x &lt;&lt; 3) + (x &lt;&lt; 1) + (ch &amp; 15);
+        ch = getchar();
+    }
+}
+inline void read(int &amp;a, int &amp;b, int &amp;c, int &amp;d, int &amp;e) {
+    read(a);
+    read(b);
+    read(c);
+    read(d);
+    read(e);
+}
+inline void read(int &amp;a, int &amp;b, int &amp;c) {
+    read(a);
+    read(b);
+    read(c);
+}
+inline void read(int &amp;a, int &amp;b) {
+    read(a);
+    read(b);
+}
+
+inline void write(int x) {
+    static char buf[20];
+    int top = 0;
+
+    if (!x) {
+        putchar(&#39;0&#39;);
+        return;
+    }
+    while (x) {
+        top++;
+        buf[top] = (x % 10) | 48;
+        x /= 10;
+    }
+    while (top) {
+        putchar(buf[top]);
+        top--;
+    }
+}
+inline void write_(int x) {
+    write(x);
+    putchar(&#39; &#39;);
+}
+
+inline void init() {
+    int i;
+
+    memset(stmin, 0x3f, sizeof(stmin));
+    for (i = 2; i &lt;= n; i++)
+        LOG2[i] = LOG2[i &gt;&gt; 1] + 1;
+}
+inline void update(int p, short x) {
+    register int i, j;
+
+    for (i = 0; n&gt;&gt; i; i++) {
+        for (j = max(p - (1 &lt;&lt; i) + 1, 1); j &lt;= p; j++) {
+            stmax[i][j] = max(stmax[i][j], x);
+            stmin[i][j] = min(stmin[i][j], x);
+        }
+    }
+}
+inline short querymax(short l, short r) {
+    if (l&gt; r)
+        return 0;
+    static short j;
+    j = LOG2[r - l + 1];
+    return max(stmax[j][l], stmax[j][r - (1 &lt;&lt; j) + 1]);
+}
+inline short querymin(short l, short r) {
+    if (l&gt; r)
+        return INF;
+    static short j;
+    j = LOG2[r - l + 1];
+    return min(stmin[j][l], stmin[j][r - (1 &lt;&lt; j) + 1]);
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;2248.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;2248.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    register int i, j, k, u, v, ans;
+
+    read(x, a, b, c, d);
+    read(n, m, q);
+    for (i = 1; i &lt;= n * m; i++)
+        t[i] = i;
+    for (i = 1; i &lt;= n * m; i++)
+        swap(t[i], t[(x = ((int64)a * x * x + (int64)b * x + c) % d) % i + 1]);
+    for (i = 1; i &lt;= q; i++) {
+        read(u, v);
+        swap(t[u], t[v]);
+    }
+
+    for (i = 1, k = 1; i &lt;= n; i++) {
+        for (j = 1; j &lt;= m; j++, k++) {
+            rx[t[k]] = i;
+            ry[t[k]] = j;
+        }
+    }
+
+    init();
+
+    ans = 0;
+
+    for (i = 1; i &lt;= n * m and ans &lt;= n + m - 1; i++) {
+        if (querymax(1, rx[i] - 1) &lt;= ry[i] and ry[i] &lt;= querymin(rx[i] + 1, n)) {
+            update(rx[i], ry[i]);
+            write_(i);
+            ans++;
+        }
+    }
+    putchar(&#39;\n&#39;);
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

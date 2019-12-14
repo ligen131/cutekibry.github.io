@@ -1,0 +1,490 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「HAOI2012」高速公路 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LGOJ #P2221. 「HAOI2012」高速公路</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://www.luogu.org/problem/P2221">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LGOJ P2221 「HAOI2012」高速公路.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LGOJ P2221 「HAOI2012」高速公路.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LGOJ P2221 「HAOI2012」高速公路.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>Y901 高速公路是一条重要的交通纽带，政府部门建设初期的投入以及使用期间的养护费用都不低，因此政府在这条高速公路上设立了许多收费站。</p>
+<p>Y901 高速公路是一条由 N-1 段路以及 N 个收费站组成的东西向的链，我们按照由西向东的顺序将收费站依次编号为 1~N，从收费站 i 行驶到 i+1(或从 i+1 行驶到 i) 需要收取 Vi 的费用。高速路刚建成时所有的路段都是免费的。</p>
+<p>政府部门根据实际情况，会不定期地对连续路段的收费标准进行调整，根据政策涨价或降价。</p>
+<p>无聊的小 A 同学总喜欢研究一些稀奇古怪的问题，他开车在这条高速路上行驶时想到了这样一个问题: 对于给定的 l,r(l&lt;<span></span>r), 在第 l 个到第 r 个收费站里等概率随机取出两个不同的收费站 a 和 b，那么从 a 行驶到 b 将期望花费多少费用呢?</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行 2 个正整数 N,M，表示有 N 个收费站，M 次调整或询问</p>
+<p>接下来 M 行，每行将出现以下两种形式中的一种</p>
+<p>C l r v 表示将第 l 个收费站到第 r 个收费站之间的所有道路的通行费全部增加 v</p>
+<p>Q l r 表示对于给定的 l,r，要求回答小 A 的问题</p>
+<p>所有 C 与 Q 操作中保证 1&lt;=l&lt;<span></span>r&lt;=N</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于每次询问操作回答一行，输出一个既约分数</p>
+<p>若答案为整数 a，输出 a/1</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">4 5
+C 1 4 2
+C 1 2 -1
+Q 1 2
+Q 2 4
+Q 1 4
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">1/1
+8/3
+17/6
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>所有 C 操作中的 v 的绝对值不超过 10000</p>
+<p>在任何时刻任意道路的费用均为不超过 10000 的非负整数</p>
+<p>所有测试点的详细情况如下表所示</p>
+<table class="ui celled table">
+<thead><tr>
+<th><latex>$Test$</latex></th>
+<th><latex>$N$</latex></th>
+<th><latex>$M$</latex></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><latex>$1$</latex></td>
+<td><latex>$=10$</latex></td>
+<td><latex>$=10$</latex></td>
+</tr>
+<tr>
+<td><latex>$2$</latex></td>
+<td><latex>$=100$</latex></td>
+<td><latex>$=100$</latex></td>
+</tr>
+<tr>
+<td><latex>$3$</latex></td>
+<td><latex>$=1000$</latex></td>
+<td><latex>$=1000$</latex></td>
+</tr>
+<tr>
+<td><latex>$4$</latex></td>
+<td><latex>$=10000$</latex></td>
+<td><latex>$=10000$</latex></td>
+</tr>
+<tr>
+<td><latex>$5$</latex></td>
+<td><latex>$=50000$</latex></td>
+<td><latex>$=50000$</latex></td>
+</tr>
+<tr>
+<td><latex>$6$</latex></td>
+<td><latex>$=60000$</latex></td>
+<td><latex>$=60000$</latex></td>
+</tr>
+<tr>
+<td><latex>$7$</latex></td>
+<td><latex>$=70000$</latex></td>
+<td><latex>$=70000$</latex></td>
+</tr>
+<tr>
+<td><latex>$8$</latex></td>
+<td><latex>$=80000$</latex></td>
+<td><latex>$=80000$</latex></td>
+</tr>
+<tr>
+<td><latex>$9$</latex></td>
+<td><latex>$=90000$</latex></td>
+<td><latex>$=90000$</latex></td>
+</tr>
+<tr>
+<td><latex>$10$</latex></td>
+<td><latex>$=100000$</latex></td>
+<td><latex>$=100000$</latex></td>
+</tr>
+</tbody>
+</table>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>我们考虑用线段树维护。</p>
+<p>设节点 <latex>$p$</latex> 代表区间 <latex>$[L, R]$</latex> ， <latex>$fsum[p]$</latex> 为该区间的所有子区间的区间和。</p>
+<p>也就是说：</p>
+<latex>$$
+fsum[p]=\sum_{i=L}^R \sum_{j=i}^R \sum_{k=i}^j A_k
+$$</latex><p>考虑怎么通过代表区间 <latex>$[L, mid]$</latex> 的节点 <latex>$p1$</latex> 和代表区间 <latex>$[mid+1, R]$</latex> 的节点 <latex>$p2$</latex> 的信息获得节点 <latex>$p$</latex> 的信息。</p>
+<p>注意到所有的子区间可以分解为三种类型：</p>
+<ol>
+<li>区间在左节点内，即区间 <latex>$[l, r]$</latex> 满足 <latex>$L\leq l \leq r \leq mid$</latex> ；</li>
+<li>区间在右节点内，即区间 <latex>$[l, r]$</latex> 满足 <latex>$mid &lt; l \leq r \leq R$</latex> ；</li>
+<li>区间跨越了中间的点，即区间 <latex>$[l, r]$</latex> 满足 <latex>$L \leq l \leq mid, mid &lt; r \leq R$</latex> 。</li>
+</ol>
+<p>前两种类型就是 <latex>$fsum[p1]+fsum[p2]$</latex> 。至于第三种类型，写出来是这样的：</p>
+<latex>$$
+\sum_{i=L}^{mid} \sum_{j=mid+1}^R \sum_{k=i}^j A_k
+$$</latex><p>接下来，让我们推一下这个的公式。</p>
+<p><strong>（注：下面这个式子和上面的相同，为了直观换成了这种比较容易理解的方式。）</strong></p>
+<latex>$$
+\begin{aligned}
+ &((A_L+A_{L+1}+\ldots+A_{mid})+(A_{mid+1}))+((A_L+A_{L+1}+\ldots+A_{mid})+(A_{mid+1}+A_{mid+2}))+\ldots+(A_L+A_{L+1}+\ldots+A_R) \\
++&((A_{L+1}+A_{L+2}+\ldots+A_{mid})+(A_{mid+1}))+((A_{L+1}+A_{L+2}+\ldots+A_{mid})+(A_{mid+1}+A_{mid+2}))+\ldots+(A_{L+1}+A_{L+2}+\ldots+A_R) \\
+ &\vdots \\
++&((A_{mid})+(A_{mid+1}))+((A_{mid})+(A_{mid+1}+A_{mid+2}))+\ldots+(A_{mid}+A_{mid+1}+\ldots+A_R) \\
+\end{aligned}
+$$</latex><p>我们将左边一半和右边一半拆出来，变成：</p>
+<latex>$$
+\begin{aligned}
+ &(R-mid)(A_L+A_{L+1}+\ldots+A_{mid})+((A_{mid+1})+(A_{mid+1}+A_{mid+2})+\ldots+(A_{mid+1}+A_{mid+2}+\ldots+A_R)) \\
++&(R-mid)(A_{L+1}+A_{L+2}+\ldots+A_{mid})+((A_{mid+1})+(A_{mid+1}+A_{mid+2})+\ldots+(A_{mid+1}+A_{mid+2}+\ldots+A_R)) \\
+ &\vdots \\
++&(R-mid)(A_{mid})+((A_{mid+1})+(A_{mid+1}+A_{mid+2})+\ldots+(A_{mid+1}+A_{mid+2}+\ldots+A_R)) \\
+=&(R-mid)((A_{mid})+(A_{mid}+A_{mid-1})+(A_{mid}+A_{mid-1}+\ldots+A_L)) \\
++&(mid-L+1)((A_{mid+1})+(A_{mid+1}+A_{mid+2})+\ldots+(A_{mid+1}+A_{mid+2}+\ldots+A_R))
+\end{aligned}
+$$</latex><p>令 <latex>$lsum[p]$</latex> 为该区间所有左端点为 <latex>$L$</latex> 的子区间的区间和； <latex>$rsum[p]$</latex> 为该区间所有右端点为 <latex>$R$</latex> 的子区间的区间和，则综上，有：</p>
+<latex>$$
+fsum[p]=fsum[p1]+fsum[p2]+(R-mid)rson[p1]+(mid-L+1)lson[p2]
+$$</latex><p>维护这些信息即可，具体实现细节留给读者编写或参见代码。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;cstdio&gt;
+#define ri register int
+#define rc register char
+#define mid ((l+r)&gt;&gt;1)
+#define lson p&lt;&lt;1, l, mid
+#define rson p&lt;&lt;1|1, mid+1, r
+typedef long long int64;
+using namespace std;
+#ifndef SMALLER
+const int SCP=682*999/6;
+#else
+const int SCP=1000;
+#endif
+int v[SCP];
+int64 fsum[SCP&lt;&lt;2], lsum[SCP&lt;&lt;2], rsum[SCP&lt;&lt;2], sum[SCP&lt;&lt;2], mark[SCP&lt;&lt;2];
+int64 fp[SCP];
+inline int64 gcd(int64 x, int64 y){ return y?gcd(y, x%y):x; }
+inline void getfp(int n){
+    fp[1]=1;
+    for(ri i=2; i&lt;=n; i++) fp[i]=fp[i-1]+(int64)i*(i+1)/2;
+}
+inline void mergetree(int p, int p1, int p2, int l, int m, int r){
+    fsum[p]=fsum[p1]+fsum[p2]+(r-m)*rsum[p1]+(m-l+1)*lsum[p2];
+    lsum[p]=lsum[p1]+lsum[p2]+(r-m)*sum[p1];
+    rsum[p]=rsum[p1]+rsum[p2]+(m-l+1)*sum[p2];
+    sum[p]=sum[p1]+sum[p2];
+}
+inline void addtree(int p, int l, int r, int64 x){
+    mark[p]+=x;
+    fsum[p]+=fp[r-l+1]*x;
+    lsum[p]+=(int64)(r-l+1)*(r-l+2)/2*x;
+    rsum[p]+=(int64)(r-l+1)*(r-l+2)/2*x;
+    sum[p]+=(int64)(r-l+1)*x;
+}
+inline void up(int p, int l, int r){ mergetree(p, p&lt;&lt;1, p&lt;&lt;1|1, l, mid, r); }
+inline void down(int p, int l, int r){ if(mark[p]){ addtree(lson, mark[p]); addtree(rson, mark[p]); mark[p]=0; } }
+void update(int p, int l, int r, int a, int b, int64 x){
+    if(a&lt;=l and r&lt;=b){
+        addtree(p, l, r, x);
+        return;
+    }
+    down(p, l, r);
+    if(a&lt;=mid) update(lson, a, b, x);
+    if(b&gt;mid) update(rson, a, b, x);
+    up(p, l, r);
+}
+void query(int p, int l, int r, int a, int b){
+    if(a&lt;=l and r&lt;=b){
+        mergetree(0, 0, p, a, l-1, r);
+        return;
+    }
+    down(p, l, r);
+    if(a&lt;=mid) query(lson, a, b);
+    if(b&gt;mid) query(rson, a, b);
+}
+int main(){
+    #ifndef ONLINE_JUDGE
+    freopen(&quot;2221.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;2221.out&quot;, &quot;w&quot;, stdout);
+    #endif
+
+    ri i, n, m, l, r;
+    rc ch;
+    int64 x, y, z;
+
+    scanf(&quot;%d %d&quot;, &amp;n, &amp;m);
+    getfp(n-1);
+    for(i=1; i&lt;=m; i++){
+        do ch=getchar(); while(ch&lt;=32);
+        if(ch==&#39;C&#39;){
+            scanf(&quot;%d %d %lld&quot;, &amp;l, &amp;r, &amp;x);
+            update(1, 1, n-1, l, r-1, x);
+        }
+        else{
+            scanf(&quot;%d %d&quot;, &amp;l, &amp;r);
+            fsum[0]=lsum[0]=rsum[0]=sum[0]=0;
+            query(1, 1, n-1, l, r-1);
+            x=fsum[0];
+            y=(int64)(r-l)*(r-l+1)/2;
+            z=gcd(x, y);
+            printf(&quot;%lld/%lld\n&quot;, x/z, y/z);
+        }
+    }
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

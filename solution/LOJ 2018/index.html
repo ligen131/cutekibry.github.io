@@ -1,0 +1,526 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「AHOI / HNOI2017」单旋 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #2018. 「AHOI / HNOI2017」单旋</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/2018">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 2018 「AHOI / HNOI2017」单旋.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 2018 「AHOI / HNOI2017」单旋.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 2018 「AHOI / HNOI2017」单旋.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>H 国是一个热爱写代码的国家，那里的人们很小去学校学习写各种各样的数据结构。伸展树（splay）是一种数据结构，因为代码好写，功能多，效率高，掌握这种数据结构成为了 H 国的必修技能。有一天，邪恶的「卡」带着他的邪恶的「常数」来企图毁灭 H 国。「卡」给 H 国的人洗脑说，splay 如果写成单旋的，将会更快。「卡」称「单旋 splay」为「spaly」。虽说他说的很没道理，但还是有 H 国的人相信了，小 H 就是其中之一，spaly 马上成为他的信仰。 而 H 国的国王，自然不允许这样的风气蔓延，国王构造了一组数据，数据由 <latex>$m$</latex> 个操作构成，他知道这样的数据肯定打垮 spaly，但是国王还有很多很多其他的事情要做，所以统计每个操作所需要的实际代价的任务就交给你啦。</p>
+<p>数据中的操作分为五种：</p>
+<ol>
+<li>插入操作：向当前非空 spaly 中插入一个关键码为 <latex>$\mathrm{key}$</latex> 的新孤立节点。插入方法为，先让 <latex>$\mathrm{key}$</latex> 和根比较，如果 <latex>$\mathrm{key}$</latex> 比根小，则往左子树走，否则往右子树走，如此反复，直到某个时刻，<latex>$\mathrm{key}$</latex> 比当前子树根 <latex>$x$</latex> 小，而 <latex>$x$</latex> 的左子树为空，那就让 <latex>$\mathrm{key}$</latex> 成为 <latex>$x$</latex> 的左孩子；
+或者 <latex>$\mathrm{key}$</latex> 比当前子树根 <latex>$x$</latex> 大，而 <latex>$x$</latex> 的右子树为空，那就让 <latex>$\mathrm{key}$</latex> 成为 <latex>$x$</latex> 的右孩子。该操作的代价为：插入后，<latex>$\mathrm{key}$</latex> 的深度。特别地，若树为空，则直接让新节点成为一个单个节点的树。（各节点关键码互不相等。对于「深度」的解释见末尾对 spaly 的描述）。</li>
+<li>单旋最小值：将 spaly 中关键码最小的元素 <latex>$\mathrm{xmin}$</latex> 单旋到根。操作代价为：单旋前 <latex>$\mathrm{xmin}$</latex> 的深度。（对于单旋操作的解释见末尾对 spaly 的描述）。</li>
+<li>单旋最大值：将 spaly 中关键码最大的元素 <latex>$\mathrm{xmax}$</latex> 单旋到根。操作代价为：单旋前 <latex>$\mathrm{xmax}$</latex> 的深度。</li>
+<li>单旋删除最小值：先执行 2 号操作,然后把根删除。由于 2 号操作之后,根没有左子树,所以直接切断根和右子树的联系即可（具体见样例解释）。 操作代价同 2 号操
+作。</li>
+<li>单旋删除最大值：先执行 3 号操作,然后把根删除。 操作代价同 3 号操作。</li>
+</ol>
+<p><img src="https://ooo.0o0.ooo/2017/04/17/58f4def03adac.png" alt="" style="display: block; margin: 0px auto;"></p>
+<p>对于不是 H 国的人，你可能需要了解一些 spaly 的知识，才能完成国王的任务：</p>
+<ul>
+<li>spaly 是一棵二叉树，满足对于任意一个节点 <latex>$x$</latex>，它如果有左孩子 <latex>$\mathrm{lx}$</latex>，那么 <latex>$\mathrm{lx}$</latex> 的关键码小于 <latex>$x$</latex> 的关键码。如果有右孩子 <latex>$\mathrm{rx}$</latex>，那么 <latex>$\mathrm{rx}$</latex> 的关键码大于 <latex>$x$</latex> 的关键码。</li>
+<li>一个节点在 spaly 的深度定义为：从根节点到该节点的路径上一共有多少个节点（包括自己）。</li>
+<li>单旋操作是对于一棵树上的节点 <latex>$x$</latex> 来说的。一开始,设 <latex>$f$</latex> 为 <latex>$x$</latex> 在树上的父亲。如果 <latex>$x$</latex> 为 <latex>$f$</latex> 的左孩子，那么执行 <latex>$\mathrm{zig}(x)$</latex> 操作（如上图中，左边的树经过 <latex>$\mathrm{zig}(x)$</latex> 变为了右边的树），否则执行 <latex>$\mathrm{zag}(x)$</latex> 操作（在上图中，将右边的树经过 <latex>$\mathrm{zag}(f)$</latex> 就变成了左边的树）。每当执行一次 <latex>$\mathrm{zig}(x)$</latex> 或者 <latex>$\mathrm{zag}(x)$</latex>，<latex>$x$</latex> 的深度减小 <latex>$1$</latex>，如此反复，直到 <latex>$x$</latex> 为根。总之，单旋 <latex>$x$</latex> 就是通过反复执行 <latex>$\mathrm{zig}$</latex> 和 <latex>$\mathrm{zag}$</latex> 将 <latex>$x$</latex> 变为根。</li>
+</ul>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行单独一个正整数 <latex>$m$</latex>。</p>
+<p>接下来 <latex>$m$</latex> 行，每行描述一个操作：首先是一个操作编号 <latex>$c\in [1, 5]$</latex>，即问题描述中给出的五种操作中的编号，若 <latex>$c = 1$</latex>，则再输入一个非负整数 <latex>$\mathrm{key}$</latex>，表示新插入节点的关键码。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>输出共 <latex>$m$</latex> 行，每行一个整数，第 <latex>$i$</latex> 行对应第 <latex>$i$</latex> 个输入的操作的代价。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">5
+1 2
+1 1
+1 3
+4
+5
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">1
+2
+2
+2
+2
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于 <latex>$20\%$</latex> 的数据，<latex>$1\le m\le 1000$</latex>；</p>
+<p>另外 <latex>$30\%$</latex> 的数据满足：不存在 4、5 操作；</p>
+<p>对于 <latex>$100\%$</latex> 的数据， <latex>$1\le m\le {10}^5, 1\le\mathrm{key}\le {10}^9$</latex>。</p>
+<p>所有出现的关键码互不相同。任何一个非插入操作，一定保证树非空。在未执行任何操作之前，树为空。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>容易发现，单旋操作不会很大改变树的形态。</p>
+<p>实际上，单旋最小值节点 <latex>$p$</latex>，相当于</p>
+<ul>
+<li>把 <latex>$p \rightarrow fa_p$</latex> 的边删除；</li>
+<li>连接 <latex>$rson_p \rightarrow fa_p$</latex>；</li>
+<li>连接 <latex>$p \rightarrow rt$</latex>。</li>
+<li>更新 <latex>$rt$</latex> 为 <latex>$p$</latex>。</li>
+</ul>
+<p><latex>$fa_p, rson_p$</latex> 分别表示 <latex>$p$</latex> 的父亲和右儿子。</p>
+<p>Link-Cut Tree 维护一遍即可。</p>
+<p>时间复杂度：<latex>$O(n \log n)$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;cstdio&gt;
+#include &lt;map&gt;
+
+#define ls ch[x][0]
+#define rs ch[x][1]
+
+#define clr fa[0] = ch[0][0] = ch[0][1] = size[0] = 0;
+
+typedef long long int64;
+
+#ifdef ONLINE_JUDGE
+const int MAXN = 100000 + 10;
+#else
+const int MAXN = 1000;
+#endif
+
+int realch[MAXN][2];
+int fa[MAXN], ch[MAXN][2], size[MAXN], val[MAXN], nodecnt;
+std::map&lt;int, int&gt; valmap;
+
+inline bool isroot(int x) { return ch[fa[x]][0] ^ x and ch[fa[x]][1] ^ x; }
+inline bool identify(int x) { return ch[fa[x]][0] ^ x; }
+inline void up(int x) { size[x] = size[ls] + size[rs] + 1; }
+/*
+  y     x
+ /       \
+x         y
+ \       /
+  z     z
+*/
+void rotate(int x) {
+    bool d = identify(x);
+    int y = fa[x], z = ch[x][!d];
+
+    fa[x] = fa[y];
+    if (!isroot(y))
+        ch[fa[y]][identify(y)] = x;
+    fa[y] = x;
+    ch[x][!d] = y;
+    fa[z] = y;
+    ch[y][d] = z;
+    up(y);
+    up(x);
+    clr;
+}
+inline void splay(int x) {
+    while (x and !isroot(x)) {
+        if (!isroot(fa[x]) and identify(x) == identify(fa[x]))
+            rotate(fa[x]);
+        rotate(x);
+    }
+}
+inline void access(int x) {
+    int y;
+
+    for (y = 0; x; y = x, x = fa[x]) {
+        splay(x);
+        rs = y;
+        up(x);
+    }
+}
+inline void makert(int x) { // Just make fa[x] = 0, not really make x become the root
+    access(x);
+    splay(x);
+}
+inline int depth(int x) {
+    makert(x);
+    return size[x];
+}
+inline int minimum(int x) {
+    while (ls)
+        x = ls;
+    splay(x);
+    return x;
+}
+inline int maximum(int x) {
+    while (rs)
+        x = rs;
+    splay(x);
+    return x;
+}
+
+inline int realfa(int x) {
+    makert(x);
+    return ls ? maximum(ls) : 0;
+}
+inline void cut(int x) {
+    int y = realfa(x);
+
+    if (!y)
+        return;
+
+    makert(x);
+    access(y);
+    splay(y);
+    realch[y][val[x] &gt; val[y]] = 0;
+    fa[x] = ch[y][1] = 0;
+    up(y);
+}
+inline void link(int x, int y) {
+    if (!x or !y or x == y)
+        return;
+
+    makert(x);
+    fa[x] = y;
+    realch[y][val[x] &gt; val[y]] = x;
+}
+inline int findrt(int x) {
+    access(x);
+    splay(x);
+    return minimum(x);
+}
+
+int ins(int v) {
+    std::map&lt;int, int&gt;::iterator it;
+    int pre = 0, nxt = 0, cost;
+
+    nodecnt++;
+    size[nodecnt] = 1;
+    val[nodecnt] = v;
+
+    if (valmap.empty())
+        cost = 1;
+    else {
+        it = valmap.lower_bound(v);
+        if (it-&gt;first &gt; v)
+            nxt = it-&gt;second;
+        if (it != valmap.begin()) {
+            it--;
+            pre = it-&gt;second;
+        }
+
+        if (depth(pre) &lt; depth(nxt))
+            std::swap(pre, nxt);
+        link(nodecnt, pre);
+        cost = depth(nodecnt);
+    }
+    valmap[v] = nodecnt;
+    return cost;
+}
+
+int splay(bool d, bool erased) {
+    std::map&lt;int, int&gt;::iterator it;
+    int x, y, z, rt, cost;
+
+    if (!d)
+        it = valmap.begin();
+    else {
+        it = valmap.end();
+        it--;
+    }
+    x = it-&gt;second;
+
+    cost = depth(x);
+
+    y = realfa(x);
+    z = realch[x][!d];
+    rt = findrt(x);
+
+    if (y) {
+        cut(x);
+        cut(z);
+        link(z, y);
+        link(rt, x);
+    }
+
+    if (erased) {
+        cut(realch[x][0]);
+        cut(realch[x][1]);
+        valmap.erase(it-&gt;first);
+    }
+    return cost;
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;2018.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;2018.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int i, n, opt, x;
+
+    scanf(&quot;%d&quot;, &amp;n);
+    for (i = 1; i &lt;= n; i++) {
+        scanf(&quot;%d&quot;, &amp;opt);
+        if (opt == 1) {
+            scanf(&quot;%d&quot;, &amp;x);
+            printf(&quot;%d\n&quot;, ins(x));
+        }
+        else
+            printf(&quot;%d\n&quot;, splay(opt &amp; 1, opt &gt;&gt; 2));
+        clr;
+    }
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

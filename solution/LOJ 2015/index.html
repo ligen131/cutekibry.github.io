@@ -1,0 +1,390 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「SCOI2016」妖怪 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #2015. 「SCOI2016」妖怪</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/2015">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 2015 「SCOI2016」妖怪.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 2015 「SCOI2016」妖怪.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 2015 「SCOI2016」妖怪.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>邱老师是妖怪爱好者，他有 <latex>$n$</latex> 只妖怪，每只妖怪有攻击力 <latex>$\text{atk}$</latex> 和防御力 <latex>$\text{dnf}$</latex> 两种属性。邱老师立志成为妖怪大师，于是他从真新镇出发，踏上未知的旅途，见识不同的风景。环境对妖怪的战斗力有很大影响，在某种环境中，妖怪可以降低自己 <latex>$ka$</latex> 点攻击力，提升 <latex>$kb$</latex> 点防御力或者，提升自己 <latex>$ka$</latex> 点攻击力，降低 <latex>$kb$</latex> 点防御力。<latex>$ a, b$</latex> 属于正实数，<latex>$ k$</latex> 为任意实数，但是 <latex>$\text{atk}$</latex> 和 <latex>$\text{dnf}$</latex> 必须始终非负。</p>
+<p>妖怪在环境 <latex>$(a, b)$</latex> 中的战斗力为妖怪在该种环境中能达到的最大攻击力和最大防御力之和，<latex>$\text{strength}(a, b) = \max(\text{atk}(a, b)) + \max(\text{dnf}(a, b))$</latex>。环境由 <latex>$a, b$</latex> 两个参数定义，<latex>$a, b$</latex> 的含义见前文描述。比如当前环境 <latex>$(a = 3, b = 2)$</latex>，那么攻击力为 <latex>$6$</latex>，防御力为 <latex>$2$</latex> 的妖怪，能达到的最大攻击力为 <latex>$9$</latex>，最大防御力为 <latex>$6$</latex>。所以该妖怪在 <latex>$(a = 3, b = 2)$</latex> 的环境下战斗力为 <latex>$15$</latex>。因此，在不同的环境，战斗力最强的妖怪可能发生变化。</p>
+<p>作为一名优秀的妖怪训练师，邱老师想发掘每一只妖怪的最大潜力，他想知道在最为不利的情况下，他的 <latex>$n$</latex> 只妖怪能够达到的最强战斗力值，即存在一组正实数 <latex>$(a, b)$</latex> 使得 <latex>$n$</latex> 只妖怪在该环境下最强战斗力最低。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行一个 <latex>$n$</latex>，表示有 <latex>$n$</latex> 只妖怪。</p>
+<p>接下来 <latex>$n$</latex> 行，每行两个整数 <latex>$\text{atk}$</latex> 和 <latex>$\text{dnf}$</latex>，表示妖怪的攻击力和防御力。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>输出在最不利情况下最强妖怪的战斗力值，保留 <latex>$4$</latex> 位小数。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">3
+1 1
+1 2
+2 2
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">8.0000
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <latex>$1 \leq n \leq 10 ^ 6, 0 &lt;\text{atk}, \text{dnf} \leq 10 ^ 8$</latex>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>我们可以设 <latex>$x=\frac ab$</latex> ，那么对于第 <latex>$i$</latex> 个妖怪，它的战斗力就是</p>
+<latex>$$
+f_i(x)=a_i+b_i+a_ix+\frac {b_i}x
+$$</latex><p>这样，就变成了：令函数 <latex>$F(x)=\max\{f_1(x), f_2(x), \ldots, f_n(x)\}$</latex> ，求 <latex>$\min\{F(x)\}$</latex> 。</p>
+<p>注意到 <latex>$a_i, b_i$</latex> 都大于 <latex>$0$</latex> ，所以 <latex>$f_i(x)$</latex> 在 <latex>$(0, +\infin)$</latex> 必定是一个下凸函数。</p>
+<p>对多个下凸函数取最大值，结果 <latex>$F(x)$</latex> 必定也是一个下凸函数。</p>
+<p>二分 <latex>$F(x)$</latex> 即可。</p>
+<p>注意要求的精度是 <latex>$F(x)$</latex> 的精度而不是 <latex>$x$</latex> 的精度。</p>
+<p>时间复杂度： <latex>$O(kn)$</latex> ，其中 <latex>$k$</latex> 为二分的次数。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+#include &lt;ctime&gt;
+
+const int MAXN = 1000000 + 10;
+const double L = 1e-8;
+const double R = 1e8;
+const double EPS = 1e-13;
+const int TESTTIMES = 10;
+const int MAXCLOCK = 0.9 * CLOCKS_PER_SEC;
+
+int n;
+int a[MAXN], b[MAXN];
+
+inline void read(int &amp;x) {
+    register char ch;
+
+    do
+        ch = getchar();
+    while (ch &lt; &#39;0&#39; or ch&gt; &#39;9&#39;);
+    x = 0;
+    while (ch&gt;= &#39;0&#39; and ch &lt;= &#39;9&#39;) {
+        x = (x &lt;&lt; 3) + (x &lt;&lt; 1) + (ch &amp; 15);
+        ch = getchar();
+    }
+}
+inline void read(int &amp;a, int &amp;b) {
+    read(a);
+    read(b);
+}
+
+inline double f(double x) {
+    register double res = 0;
+    register int i;
+
+    for (i = 1; i &lt;= n; i++)
+        res = std::max(res, a[i] + b[i] + a[i] * x + b[i] / x);
+    return res;
+}
+
+int main() {
+    register int i;
+    register int at, bt, times;
+    register double f1, f2;
+    register double l, r, mid, step;
+
+    read(n);
+    for (i = 1; i &lt;= n; i++)
+        read(a[i], b[i]);
+
+    // n = 1000000;
+
+    at = clock();
+
+    l = L;
+    r = R;
+    times = TESTTIMES;
+    while (times) {
+        mid = (l + r) / 2;
+        f1 = f(mid);
+        f2 = f(mid + EPS);
+        if (f1&gt; f2)
+            l = mid;
+        else
+            r = mid;
+        times--;
+    }
+
+    bt = clock();
+    times = TESTTIMES * (MAXCLOCK - bt) / std::max(1, bt - at);
+
+    while (times) {
+        mid = (l + r) / 2;
+        f1 = f(mid);
+        f2 = f(mid + EPS);
+        if (f1&gt; f2)
+            l = mid;
+        else
+            r = mid;
+        times--;
+    }
+
+    printf(&quot;%.4lf\n&quot;, f(l));
+    // printf(&quot;%.15lf&quot;, r - l);
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

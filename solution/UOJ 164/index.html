@@ -1,0 +1,548 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「清华集训 2015」V - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">UOJ #164. 「清华集训 2015」V</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：128 MiB</span>
+          <span class="ui label">时间限制：2000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="http://uoj.ac/problem/164">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/UOJ 164 「清华集训 2015」V.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/UOJ 164 「清华集训 2015」V.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/UOJ 164 「清华集训 2015」V.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>Picks 博士观察完金星凌日后，设计了一个复杂的电阻器。为了简化题目，题目中的常数与现实世界有所不同。</p>
+<p>这个电阻器内有编号为 <latex>$1 \sim n$</latex> 的 <latex>$n$</latex> 个独立水箱，水箱呈圆柱形，底面积为 <latex>$1 ~ m^2$</latex>，每个水箱在顶部和底部各有一个阀门，可以让水以 <latex>$1 ~ m^3/s$</latex> 的流量通过，每个水箱的上阀门接水龙头，可以无限供应水，下阀门不接东西，可以让水流出。水箱顶部和底部都有一个接口，水的电阻率为 <latex>$1 ~ \Omega \cdot m$</latex>。</p>
+<p>水箱的高度足够高，有一个导电浮标浮在水面上，通过导线与水箱顶的接口相连。一开始时第 <latex>$i$</latex> 个水箱中有 <latex>$a_i ~ m^3$</latex> 的水。</p>
+<p>Picks 博士接下来就需要对这个复杂的电阻器进行调试。他会进行以下五种操作。</p>
+<p>1、打开编号在 <latex>$[l,r]$</latex> 中的所有水箱的上方阀门 <latex>$x$</latex> 秒，然后关上它们的上方阀门。</p>
+<p>2、打开编号在 <latex>$[l,r]$</latex> 中的所有水箱的下方阀门 <latex>$x$</latex> 秒，然后关上它们的下方阀门。</p>
+<p>3、将编号在 <latex>$[l,r]$</latex> 中的所有水箱的下方阀门与大海通过连通器以一定方式相连，使得这些水箱中都恰拥有 <latex>$x ~ m^3$</latex> 的水，然后关上它们的下方阀门，撤去连通器。</p>
+<p>4、在第 <latex>$y$</latex> 个水箱的上下方接口处接上一个电动势为 <latex>$1 ~ V$</latex> 的电源，电源没有内阻，Picks 博士会测量出通过电源的电流大小，之后撤去该电源。</p>
+<p>5、由于水浸泡过的地方会留下明显的水渍而没有被水浸泡过的地方不会有，Picks 博士可以据此测量出此时第 <latex>$y$</latex> 个水箱的水渍高度，以推断曾经最多有多少水，节约他的建造成本。</p>
+<p>现在，他请你来帮他做预实验，你能告诉他每次测量得到的电流大小以及测量得到的最多的水量是多少吗？</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行两个数：<latex>$n,m$</latex>。</p>
+<p>接下来一行 <latex>$n$</latex> 个数，第 <latex>$i$</latex> 个数表示初始时第 <latex>$i$</latex> 个水箱内有 <latex>$a_i ~ m^3$</latex> 的水。</p>
+<p>接下来 <latex>$m$</latex> 行中，第 <latex>$i$</latex> 行第一个数 <latex>$t_i$</latex> 表示操作类型：</p>
+<p>若 <latex>$t_i=1$</latex>，则接下来三个整数 <latex>$l_i,r_i,x_i$</latex>，表示打开编号在 <latex>$[l_i,r_i]$</latex> 中的所有水箱的上方接口 <latex>$x_i$</latex> 秒。</p>
+<p>若 <latex>$t_i=2$</latex>，则接下来三个整数 <latex>$l_i,r_i,x_i$</latex>，表示打开编号在 <latex>$[l_i,r_i]$</latex> 中的所有水箱的下方接口 <latex>$x_i$</latex> 秒。</p>
+<p>若 <latex>$t_i=3$</latex>，则接下来三个整数 <latex>$l_i,r_i,x_i$</latex>，表示将编号在 <latex>$[l_i,r_i]$</latex> 中的所有水箱与大海连接，使这些水箱中都恰有 <latex>$x_i ~ m^3$</latex> 的水。</p>
+<p>若 <latex>$t_i=4$</latex>，则接下来一个整数 <latex>$y_i$</latex>，表示测量在第 <latex>$y_i$</latex> 个水箱的上下方接口处接上一个电动势为 <latex>$1 ~ V$</latex> 的电源时通过电源的电流。</p>
+<p>若 <latex>$t_i=5$</latex>，则接下来一个整数 <latex>$y_i$</latex>，表示测量此时在第 <latex>$y_i$</latex> 个水箱中的水渍高度。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于每个 <latex>$t_i=4$</latex>，输出一个整数表示通过电源的电流大小的倒数（单位为 <latex>$A^{-1}$</latex> ），如果电流为无穷大则输出 <latex>$0$</latex>。</p>
+<p>对于每个 <latex>$t_i=5$</latex>，输出一个整数表示在第 <latex>$y_i$</latex> 个水箱中的水渍高度（单位为 <latex>$m$</latex> ）。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入 1</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">5 6
+1 2 3 4 5
+2 1 3 2
+4 1
+1 1 4 1
+5 3
+3 1 5 4
+4 2
+</code></pre></div>
+<h4>样例输出 1</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">0
+3
+4
+</code></pre></div>
+<h4>样例输入 2</h4>
+<p>见相关文件下载</p>
+<h4>样例输出 2</h4>
+<p>见相关文件下载</p>
+<h4>样例输入 3</h4>
+<p>见相关文件下载</p>
+<h4>样例输出 3</h4>
+<p>见相关文件下载</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <table class="ui celled table">
+<thead><tr>
+<th style="text-align:center">测试点编号</th>
+<th style="text-align:center"><latex>$n=$</latex></th>
+<th style="text-align:center"><latex>$m=$</latex></th>
+<th style="text-align:center">约定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><latex>$1$</latex></td>
+<td style="text-align:center"><latex>$1000$</latex></td>
+<td style="text-align:center"><latex>$1000$</latex></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$2$</latex></td>
+<td style="text-align:center"><latex>$1000$</latex></td>
+<td style="text-align:center"><latex>$1000$</latex></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$3$</latex></td>
+<td style="text-align:center"><latex>$10^5$</latex></td>
+<td style="text-align:center"><latex>$10^5$</latex></td>
+<td style="text-align:center">没有操作 <latex>$2$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$4$</latex></td>
+<td style="text-align:center"><latex>$5 \times 10^5$</latex></td>
+<td style="text-align:center"><latex>$5 \times 10^5$</latex></td>
+<td style="text-align:center">没有操作 <latex>$2$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$5$</latex></td>
+<td style="text-align:center"><latex>$10^5$</latex></td>
+<td style="text-align:center"><latex>$10^5$</latex></td>
+<td style="text-align:center">没有操作 <latex>$1$</latex> 与操作 <latex>$5$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$6$</latex></td>
+<td style="text-align:center"><latex>$10^5$</latex></td>
+<td style="text-align:center"><latex>$10^5$</latex></td>
+<td style="text-align:center">没有操作 <latex>$1$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$7$</latex></td>
+<td style="text-align:center"><latex>$5 \times 10^5$</latex></td>
+<td style="text-align:center"><latex>$5 \times 10^5$</latex></td>
+<td style="text-align:center">没有操作 <latex>$1$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$8$</latex></td>
+<td style="text-align:center"><latex>$5 \times 10^5$</latex></td>
+<td style="text-align:center"><latex>$5 \times 10^5$</latex></td>
+<td style="text-align:center">没有操作 <latex>$5$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$9$</latex></td>
+<td style="text-align:center"><latex>$10^5$</latex></td>
+<td style="text-align:center"><latex>$10^5$</latex></td>
+<td style="text-align:center"><!----></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$10$</latex></td>
+<td style="text-align:center"><latex>$5 \times 10^5$</latex></td>
+<td style="text-align:center"><latex>$5 \times 10^5$</latex></td>
+<td style="text-align:center"><!----></td>
+</tr>
+</tbody>
+</table>
+<p>对于所有的数据：<latex>$1 \leq n, m \leq 5 \times 10^5, ~ 0 \leq a_i, x_i \leq 10^9, 1 \leq l_i \leq r_i \leq n, ~ 1 \leq y_i \leq n$</latex>.</p>
+<p>可能用到的物理公式：</p>
+<ol>
+<li>欧姆定律：<latex>$I=UR$</latex>，其中 <latex>$I,U,R$</latex> 分别代表电流、电压和电阻。</li>
+<li>电阻率公式：<latex>$R=ρLS$</latex>，其中 <latex>$R,ρ,L,S$</latex> 分别代表电阻、电阻率、电阻长度、横截面积。</li>
+</ol>
+<p><a href="uoj.ac/download.php?type=problem&amp;id=164">相关文件下载</a></p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>题意：维护序列 <latex>$A$</latex>，支持区间加、区间减、区间覆盖、单点求值、单点询问历史最大值。每次操作后会令 <latex>$A_i = \max\{A_i, 0\}$</latex>。</p>
+<p>吉司机线段树课件的例题。我们可以令标记 <latex>$(x, y)$</latex> 表示令该区间的数 <latex>$A_i = \max\{A_i + x, y\}$</latex>。</p>
+<p>那么，三种操作分别变为 <latex>$(x_i, 0), (-x, 0), (-\infty, x)$</latex>。</p>
+<p>考虑合并标记。原有标记为 <latex>$(a, b)$</latex>，目前新增标记 <latex>$(c, d)$</latex>，那么合并后变为</p>
+<latex>$$
+\begin{aligned}
+A_i'&=\max\{\max\{A_i+a, b\}+c, d\} \\
+   &=\max\{\max\{A_i+a+c, b+c\} \\
+   &=\max\{A_i+a+c, b+c, d\} \\
+   &=\max\{A_i+(a+c), \max\{b+c, d\}\}
+\end{aligned}
+$$</latex><p>也就是标记 <latex>$(a+c, \max\{b+c, d\})$</latex>。</p>
+<p>但是，怎么维护历史最大值？</p>
+<p>我们可以把标记看成是一个一次函数 <latex>$f(v)=\max\{v + x, y\}$</latex>，那么历史最大值即是 <latex>$F(v)=\max\{f(v)\}$</latex>。容易发现，<latex>$F(v)$</latex> 同样也是一个可以表示为 <latex>$F(v)=\max\{v + x, y\}$</latex> 的一次函数。</p>
+<p><img src="/static/img/UOJ 164.png" alt="" style="display: block; margin: 0px auto;"></p>
+<p>那么我们可以推一下式子：</p>
+<latex>$$
+\begin{aligned}
+F(v)&=\max\{\max\{v+a, b\}, \max\{v+c, d\}\} \\
+   &=\max\{v+a, b, v+c, d\} \\
+   &=\max\{v+\max\{a, c\}, \max\{b, d\}\} \\
+\end{aligned}
+$$</latex><p>问题来了：怎么合并历史最大值的标记？</p>
+<p>考虑现在有两个标记 <latex>$(a, b), (c, d)$</latex>，其中 <latex>$(a, b)$</latex> 在 <latex>$(c, d)$</latex> 之前进行操作。那么可得</p>
+<latex>$$
+\begin{aligned}
+F(v)&=\max\{v+\max\{a, a+c\}, \max\{b, \max\{b+c, d\}\}\} \\
+    &=\max\{v+a+\max\{c, 0\}, \max\{b+\max\{0, c\}, d\}\} \\
+\end{aligned}
+$$</latex><p>直接实现即可。</p>
+<div class="ui existing segment"><pre><code class="lang-cpp">// p 为某个节点，fp 为其父亲
+// 将 fp 的标记下落到 p 结点上
+// hmx[p], hmy[p], my[p] 必定大于等于 0
+inline void add(int p, int fp) {
+    ismark[p] = true;
+    hmx[p] = std::max(hmx[p], mx[p] + hmx[fp]);
+    hmy[p] = std::max(hmy[p], std::max(my[p] + hmx[fp], hmy[fp]));
+    my[p] = std::max(my[p] + mx[fp], my[fp]);
+    mx[p] = std::max(-INF, mx[p] + mx[fp]);
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+
+#define lp (p &lt;&lt; 1)
+#define rp (p &lt;&lt; 1 | 1)
+#define mid ((l + r) &gt;&gt; 1)
+#define lson lp, l, mid
+#define rson rp, mid + 1, r
+
+typedef long long int64;
+
+const int MAXN = 500000 + 10;
+const int P = 1 &lt;&lt; 19;
+const int64 INF = 1e18;
+
+int a[MAXN];
+int n, m;
+bool ismark[P &lt;&lt; 1];
+int64 hmx[P &lt;&lt; 1], hmy[P &lt;&lt; 1], mx[P &lt;&lt; 1], my[P &lt;&lt; 1];
+
+inline void add(int p, int fp) {
+    ismark[p] = true;
+    hmx[p] = std::max(hmx[p], mx[p] + hmx[fp]);
+    hmy[p] = std::max(hmy[p], std::max(my[p] + hmx[fp], hmy[fp]));
+    my[p] = std::max(my[p] + mx[fp], my[fp]);
+    mx[p] = std::max(-INF, mx[p] + mx[fp]);
+}
+inline void down(int p) {
+    if (ismark[p]) {
+        ismark[p] = false;
+        add(lp, p);
+        add(rp, p);
+        hmx[p] = hmy[p] = mx[p] = my[p] = 0;
+    }
+}
+void update(int p, int l, int r, int a, int b) {
+    if (a &lt;= l and r &lt;= b) {
+        add(p, 0);
+        return;
+    }
+    down(p);
+    if (a &lt;= mid)
+        update(lson, a, b);
+    if (b &gt; mid)
+        update(rson, a, b);
+}
+inline void pushdown(int p) {
+    static int s[100];
+    int top = 0;
+
+    for (p = (p + P) &gt;&gt; 1; p; p &gt;&gt;= 1) {
+        top++;
+        s[top] = p;
+    }
+    while (top) {
+        down(s[top]);
+        top--;
+    }
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;164.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;164.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int i, opt, l, r, x;
+
+    scanf(&quot;%d %d&quot;, &amp;n, &amp;m);
+    for (i = 1; i &lt;= n; i++)
+        scanf(&quot;%d&quot;, &amp;a[i]);
+    for (i = 1; i &lt;= m; i++) {
+        scanf(&quot;%d&quot;, &amp;opt);
+        if (opt &lt;= 3) {
+            scanf(&quot;%d %d %d&quot;, &amp;l, &amp;r, &amp;x);
+            if (opt == 1) {
+                mx[0] = x;
+                my[0] = 0;
+                hmx[0] = x;
+                hmy[0] = 0;
+            }
+            else if (opt == 2) {
+                mx[0] = -x;
+                my[0] = 0;
+                hmx[0] = 0;
+                hmy[0] = 0;
+            }
+            else {
+                mx[0] = -INF;
+                my[0] = x;
+                hmx[0] = 0;
+                hmy[0] = x;
+            }
+            update(1, 0, P - 1, l, r);
+        }
+        else {
+            scanf(&quot;%d&quot;, &amp;x);
+            pushdown(x);
+            if (opt == 4)
+                printf(&quot;%lld\n&quot;, std::max(a[x] + mx[x + P], my[x + P]));
+            else
+                printf(&quot;%lld\n&quot;, std::max(a[x] + hmx[x + P], hmy[x + P]));
+        }
+    }
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

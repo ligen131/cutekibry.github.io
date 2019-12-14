@@ -1,0 +1,474 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「NOI2010」超级钢琴 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LGOJ #P2048. 「NOI2010」超级钢琴</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：512 MiB</span>
+          <span class="ui label">时间限制：2000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://www.luogu.org/problem/P2048">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LGOJ P2048 「NOI2010」超级钢琴.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LGOJ P2048 「NOI2010」超级钢琴.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LGOJ P2048 「NOI2010」超级钢琴.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>小 Z 是一个小有名气的钢琴家，最近 C 博士送给了小 Z 一架超级钢琴，小 Z 希望能够用这架钢琴创作出世界上最美妙的音乐。</p>
+<p>这架超级钢琴可以弹奏出 <latex>$n$</latex> 个音符，编号为 <latex>$1$</latex> 至 <latex>$n$</latex>。第 <latex>$i$</latex> 个音符的美妙度为 <latex>$A_i$</latex>，其中 <latex>$A_i$</latex> 可正可负。</p>
+<p>一个 “超级和弦” 由若干个编号连续的音符组成，包含的音符个数不少于 <latex>$L$</latex> 且不多于 <latex>$R$</latex>。我们定义超级和弦的美妙度为其包含的所有音符的美妙度之和。两个超级和弦被认为是相同的，当且仅当这两个超级和弦所包含的音符集合是相同的。</p>
+<p>小 Z 决定创作一首由 <latex>$k$</latex> 个超级和弦组成的乐曲，为了使得乐曲更加动听，小 Z 要求该乐曲由 <latex>$k$</latex> 个不同的超级和弦组成。我们定义一首乐曲的美妙度为其所包含的所有超级和弦的美妙度之和。小 Z 想知道他能够创作出来的乐曲美妙度最大值是多少。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>输入第一行包含四个正整数 <latex>$n, k, L, R$</latex>。其中 <latex>$n$</latex> 为音符的个数，<latex>$k$</latex> 为乐曲所包含的超级和弦个数，<latex>$L$</latex> 和 <latex>$R$</latex> 分别是超级和弦所包含音符个数的下限和上限。</p>
+<p>接下来 <latex>$n$</latex> 行，每行包含一个整数 <latex>$A_i$</latex>，表示按编号从小到大每个音符的美妙度。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>输出只有一个整数，表示乐曲美妙度的最大值。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">4 3 2 3
+3
+2
+-6
+8
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">11
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>共有 <latex>$5$</latex> 种不同的超级和弦：</p>
+<ol>
+<li>音符 <latex>$1 \sim 2$</latex>，美妙度为 <latex>$3 + 2 = 5$</latex></li>
+<li>音符 <latex>$2 \sim 3$</latex>，美妙度为 <latex>$2 + (-6) = -4$</latex></li>
+<li>音符 <latex>$3 \sim 4$</latex>，美妙度为 <latex>$(-6) + 8 = 2$</latex></li>
+<li>音符 <latex>$1 \sim 3$</latex>，美妙度为 <latex>$3 + 2 + (-6) = -1$</latex></li>
+<li>音符 <latex>$2 \sim 4$</latex>，美妙度为 <latex>$2 + (-6) + 8 = 4$</latex></li>
+</ol>
+<p>最优方案为：乐曲由和弦 <latex>$1$</latex>，和弦 <latex>$3$</latex>，和弦 <latex>$5$</latex> 组成，美妙度为 <latex>$5 + 2 + 4 = 11$</latex>。</p>
+<table class="ui celled table">
+<thead><tr>
+<th style="text-align:center">测试点</th>
+<th style="text-align:left"><latex>$N$</latex></th>
+<th style="text-align:left"><latex>$K$</latex></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><latex>$1$</latex></td>
+<td style="text-align:left"><latex>$\leq 10$</latex></td>
+<td style="text-align:left"><latex>$\leq 100$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$2$</latex></td>
+<td style="text-align:left"><latex>$\leq 1,000$</latex></td>
+<td style="text-align:left"><latex>$\leq 500,000$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$3$</latex></td>
+<td style="text-align:left"><latex>$\leq 100,000$</latex></td>
+<td style="text-align:left"><latex>$=1$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$4$</latex></td>
+<td style="text-align:left"><latex>$\leq 10,000$</latex></td>
+<td style="text-align:left"><latex>$\leq 10,000$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$5$</latex></td>
+<td style="text-align:left"><latex>$\leq 500,000$</latex></td>
+<td style="text-align:left"><latex>$\leq 10,000$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$6$</latex></td>
+<td style="text-align:left"><latex>$\leq 80,000$</latex></td>
+<td style="text-align:left"><latex>$\leq 80,000$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$7$</latex></td>
+<td style="text-align:left"><latex>$\leq 100,000$</latex></td>
+<td style="text-align:left"><latex>$\leq 100,000$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$8$</latex></td>
+<td style="text-align:left"><latex>$\leq 100,000$</latex></td>
+<td style="text-align:left"><latex>$\leq 500,000$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$9$</latex></td>
+<td style="text-align:left"><latex>$\leq 500,000$</latex></td>
+<td style="text-align:left"><latex>$\leq 500,000$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$10$</latex></td>
+<td style="text-align:left"><latex>$\leq 500,000$</latex></td>
+<td style="text-align:left"><latex>$\leq 500,000$</latex></td>
+</tr>
+</tbody>
+</table>
+<p>所有数据满足：<latex>$-1000 \leq A_i \leq 1000$</latex>，<latex>$1 \leq L \leq R \leq n$</latex> 且保证一定存在满足要求的乐曲。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>明显，可以差分一下，这样每个区间的和就变成了 <latex>$S_r - S_{l - 1}$</latex>。</p>
+<p>可持久化线段树。</p>
+<p>我们用第 <latex>$i$</latex> 棵线段树维护 <latex>$\max\{S_r\}$</latex>，其中 <latex>$[i, r]$</latex> 是合法区间。当取出该区间时，把第 <latex>$i$</latex> 棵线段树上的 <latex>$S_r$</latex> 置为 <latex>$-\infty$</latex> 即可。</p>
+<p>时间复杂度：<latex>$O((n+k) \log n)$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;cstdio&gt;
+#include &lt;queue&gt;
+
+#define mid ((l + r) &gt;&gt; 1)
+#define lp lson[p]
+#define rp rson[p]
+#define lc lson[p], l, mid
+#define rc rson[p], mid + 1, r
+
+typedef long long int64;
+
+#ifdef ONLINE_JUDGE
+const int MAXN = 500000 + 10;
+const int MAXSIZE = 20000000;
+#else
+const int MAXN = 1000;
+const int MAXSIZE = 1000;
+#endif
+
+const int INF = 0x7fffffff;
+
+int n, m, lb, rb;
+int sum[MAXN];
+int rt[MAXN];
+int maxp[MAXSIZE], lson[MAXSIZE], rson[MAXSIZE], nodecnt;
+
+struct Node {
+    int p, v;
+
+    Node() {}
+    Node(int _p, int _v) {
+        p = _p;
+        v = _v;
+    }
+    Node operator=(const Node b) {
+        p = b.p;
+        v = b.v;
+        return *this;
+    }
+    bool operator&lt;(const Node b) const { return v &lt; b.v; }
+};
+std::priority_queue&lt;Node&gt; pq;
+
+inline void up(int p) { maxp[p] = sum[maxp[lp]] &gt; sum[maxp[rp]] ? maxp[lp] : maxp[rp]; }
+void ins(int &amp;p, int l, int r, int a, int b) {
+    nodecnt++;
+    lson[nodecnt] = lson[p];
+    rson[nodecnt] = rson[p];
+    p = nodecnt;
+    if (l == r) {
+        maxp[p] = b;
+        return;
+    }
+    else {
+        if (a &lt;= mid)
+            ins(lc, a, b);
+        else
+            ins(rc, a, b);
+        up(p);
+    }
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;P2048.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;P2048.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int i;
+    int64 ans = 0;
+    Node x;
+
+    scanf(&quot;%d %d %d %d&quot;, &amp;n, &amp;m, &amp;lb, &amp;rb);
+    for (i = 1; i &lt;= n; i++) {
+        scanf(&quot;%d&quot;, &amp;sum[i]);
+        sum[i] += sum[i - 1];
+    }
+    sum[0] = -INF;
+    for (i = n - lb + 1; i; i--) {
+        rt[i] = rt[i + 1];
+        if (i == 27904) {
+            printf(&quot;\n&quot;);
+        }
+        ins(rt[i], 1, n, i + lb - 1, i + lb - 1);
+        if (i + rb &lt;= n)
+            ins(rt[i], 1, n, i + rb, 0);
+        pq.push(Node(i, sum[maxp[rt[i]]] - bool(i - 1) * sum[i - 1]));
+    }
+
+    for (i = 1; i &lt;= m; i++) {
+        x = pq.top();
+        pq.pop();
+        ans += x.v;
+        x.v = maxp[rt[x.p]];
+        ins(rt[x.p], 1, n, maxp[rt[x.p]], 0);
+        if (maxp[rt[x.p]] == x.v)
+            printf(&quot;%d %d Error\n&quot;, x.p, x.v);
+        if (maxp[rt[x.p]])
+            pq.push(Node(x.p, sum[maxp[rt[x.p]]] - bool(x.p - 1) * sum[x.p - 1]));
+    }
+    printf(&quot;%lld\n&quot;, ans);
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

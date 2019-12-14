@@ -1,0 +1,399 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「2017 山东一轮集训 Day2」Pair - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #6062. 「2017 山东一轮集训 Day2」Pair</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/6062">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 6062 「2017 山东一轮集训 Day2」Pair.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 6062 「2017 山东一轮集训 Day2」Pair.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 6062 「2017 山东一轮集训 Day2」Pair.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>给出一个长度为 <latex>$n$</latex> 的数列 <latex>$\{a_i \}$</latex> 和一个长度为 <latex>$m$</latex> 的数列 <latex>$\{ b_i \}$</latex>，求 <latex>$\{ a_i \}$</latex> 有多少个长度为 <latex>$m$</latex> 的连续子数列能与 <latex>$\{ b_i \}$</latex> 匹配。</p>
+<p>两个数列可以匹配，当且仅当存在一种方案，使两个数列中的数可以两两配对，两个数可以配对当且仅当它们的和不小于 <latex>$h$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行三个数字 <latex>$n, m, h$</latex>。</p>
+<p>第二行有 <latex>$m$</latex> 个数字 <latex>$b_1, b_2, \ldots, b_m$</latex>。</p>
+<p>第三行有 <latex>$n$</latex> 个数字 <latex>$a_1, a_2, \ldots, a_n$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>输出一个数字，<latex>$\{a_i\}$</latex> 有多少个长度为 <latex>$m$</latex> 的连续子数列能与 <latex>$\{b_i\}$</latex> 匹配。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入 1</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">5 2 10
+5 3
+1 8 5 5 7
+</code></pre></div>
+<h4>样例输出 1</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">2
+</code></pre></div>
+<h4>样例输入 2</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">2 2 6
+2 3
+3 4
+</code></pre></div>
+<h4>样例输出 2</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">1
+</code></pre></div>
+<h4>样例输入 3</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">4 2 10
+5 5
+9 3 8 9
+</code></pre></div>
+<h4>样例输出 3</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">1
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于 <latex>$10\%$</latex> 的数据，<latex>$1 \leq m \leq n \leq 10$</latex>；</p>
+<p>对于 <latex>$40\%$</latex> 的数据，<latex>$1 \leq m \leq n \leq 1000$</latex>；</p>
+<p>对于 <latex>$100\%$</latex> 的数据，<latex>$1 \leq m \leq n \leq 150000$</latex>；</p>
+<p>对于 <latex>$100\%$</latex> 的数据，<latex>$1 \leq a_i, b_i, h \leq 10 ^ 9$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>容易发现，<latex>$b$</latex> 的顺序是无关的。我们可以先对 <latex>$b$</latex> 进行排序，这样连边就可以直接向 <latex>$[p, m]$</latex> 连边了。</p>
+<p>很容易想到一个贪心的思路。若 <latex>$a_i$</latex> 可以向 <latex>$b_j \: (j \in [p_i, m])$</latex> 连边，那么我们会优先向 <latex>$p_i$</latex> 连边，这样可以给其他限制较多的 <latex>$a_i$</latex> 腾出更多的空间。</p>
+<p>另一个角度上说，我们可以把子序列的 <latex>$p_i$</latex> 进行排序，那么当且仅当 <latex>$p_i \leq i$</latex> 时该图可以匹配。</p>
+<p>证明是很显然的。如果 <latex>$p_i > i$</latex>，说明要用前 <latex>$i$</latex> 个数填满 <latex>$[1, p_i]$</latex> 是不可能的。这也可以通过霍尔定理来证明。</p>
+<p>用权值线段树维护。初始化序列为 <latex>$[-1, -2, -3, \ldots, -m]$</latex>，然后对于添加 <latex>$a_i$</latex> 的情况令区间 <latex>$[p_i, m]$</latex> 加 <latex>$1$</latex>，查看全局最小值是否为负数即可。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+
+#define lp (p &lt;&lt; 1)
+#define rp (p &lt;&lt; 1 | 1)
+#define mid ((l + r) &gt;&gt; 1)
+#define lson lp, l, mid
+#define rson rp, mid + 1, r
+
+const int MAXN = 150000 + 10;
+const int P = 1 &lt;&lt; 18;
+
+int a[MAXN], p[MAXN];
+int b[MAXN];
+int n, m, h;
+int mark[P &lt;&lt; 1];
+int minv[P &lt;&lt; 1];
+
+inline void addnode(int p, int x) {
+    mark[p] += x;
+    minv[p] += x;
+}
+inline void down(int p) {
+    if (mark[p]) {
+        addnode(lp, mark[p]);
+        addnode(rp, mark[p]);
+        mark[p] = 0;
+    }
+}
+inline void up(int p) { minv[p] = std::min(minv[lp], minv[rp]); }
+void add(int p, int l, int r, int a, int b, int x) {
+    if (a &lt;= l and r &lt;= b) {
+        addnode(p, x);
+        return;
+    }
+    down(p);
+    if (a &lt;= mid)
+        add(lson, a, b, x);
+    if (b &gt; mid)
+        add(rson, a, b, x);
+    up(p);
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;6062.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;6062.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int i, ans;
+
+    memset(minv, 0x3f, sizeof(minv));
+
+    scanf(&quot;%d %d %d&quot;, &amp;n, &amp;m, &amp;h);
+    for (i = 1; i &lt;= m; i++)
+        scanf(&quot;%d&quot;, &amp;b[i]);
+    for (i = 1; i &lt;= n; i++)
+        scanf(&quot;%d&quot;, &amp;a[i]);
+
+    for (i = 1; i &lt;= m; i++)
+        minv[i + P] = -i;
+    for (i = P; i; i--)
+        up(i);
+
+    std::sort(b + 1, b + 1 + m);
+    for (i = 1; i &lt;= n; i++)
+        p[i] = std::lower_bound(b + 1, b + 1 + m, h - a[i]) - b;
+
+    for (i = 1; i &lt;= m; i++)
+        add(1, 0, P - 1, p[i], m, 1);
+    ans = minv[1] &gt;= 0;
+    for (i = m + 1; i &lt;= n; i++) {
+        add(1, 0, P - 1, p[i - m], m, -1);
+        add(1, 0, P - 1, p[i], m, 1);
+        ans += minv[1] &gt;= 0;
+    }
+    printf(&quot;%d\n&quot;, ans);
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,491 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>一个人的高三楼 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #6261. 一个人的高三楼</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：200 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/6261">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 6261 一个人的高三楼.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 6261 一个人的高三楼.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 6261 一个人的高三楼.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>一天的学习快要结束了，高三楼在晚自习的时候恢复了宁静。</p>
+<p>不过，HSD 桑还有一些作业没有完成，他需要在这个晚自习写完。比如这道数学题：</p>
+<div class="ui message"><p>1、给出一个数列，求它的前 <latex>$i$</latex> 项和 <latex>$S_i$</latex>，<latex>$i\in \{x|1\le x\le n,x\in \mathbb{N}\}$</latex></p>
+</div>
+<p>HSD 桑擅长数学，很快就把这题秒了……</p>
+<p>然而还有第二题：</p>
+<div class="ui message"><p>2、如果把上一问的前 <latex>$i$</latex> 项和看成一个新数列，请求出它的前 <latex>$i$</latex> 项和</p>
+</div>
+<p>看完第二题，还有第三题……HSD 桑已经预感到情况不妙了。</p>
+<p>HSD 桑大致看了看题，发现有些规律。其实就是在求 <latex>$k$</latex> 次前缀和。如果我们借用函数迭代的标记，就是在求 <latex>$S_n^{(k)}$</latex>……</p>
+<p>HSD 桑还有很多作业要写，请你帮助他完成这项作业。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行，两个正整数 <latex>$n,k$</latex>，<latex>$n$</latex> 表示数列的长度，<latex>$k$</latex> 的意义如题目描述；</p>
+<p>第二行，<latex>$n$</latex> 个正整数，表示这个数列，两个数之间用一个空格隔开。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>共 <latex>$n$</latex> 行，每行一个数，第 <latex>$i$</latex> 行表示 <latex>$S_i^{(k)}$</latex>，结果可能会非常大，请对 <latex>$998244353$</latex> 取模后输出。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入 1</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">4 1
+1 2 3 4
+</code></pre></div>
+<h4>样例输出 1</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">1
+3
+6
+10
+</code></pre></div>
+<h4>样例解释 1</h4>
+<p>对于这个序列，求它的 <latex>$1$</latex> 次前缀和，就是输出这个数列的前缀和咯……</p>
+<h4>样例输入 2</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">4 3
+1 2 3 4
+</code></pre></div>
+<h4>样例输出 2</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">1
+5
+15
+35
+</code></pre></div>
+<h4>样例解释 2</h4>
+<p>要求这个数列的 <latex>$3$</latex> 次前缀和，这个数列的 <latex>$1$</latex> 次前缀和为 <latex>$\{1,3,6,10\}$</latex>，<latex>$2$</latex> 次前缀和为 <latex>$\{1,4,10,20\}$</latex>，<latex>$3$</latex> 次前缀和即为 <latex>$\{1,5,15,35\}$</latex>。</p>
+<h4>样例输入 3</h4>
+<p>见「附加文件」中 <code>one_sample3.in</code></p>
+<h4>样例输出 3</h4>
+<p>见「附加文件」中 <code>one_sample3.ans</code></p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>本题为捆绑测评，只有一组子任务内所有测试点均通过才能获得该子任务的分数。</p>
+<table class="ui celled table">
+<thead><tr>
+<th style="text-align:center">Subtask</th>
+<th style="text-align:center">分数</th>
+<th style="text-align:center"><latex>$n$</latex></th>
+<th style="text-align:center"><latex>$k$</latex></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><latex>$1$</latex></td>
+<td style="text-align:center"><latex>$20$</latex></td>
+<td style="text-align:center"><latex>$\le 10^3$</latex></td>
+<td style="text-align:center"><latex>$\le 10^2$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$2$</latex></td>
+<td style="text-align:center"><latex>$30$</latex></td>
+<td style="text-align:center"><latex>$\le 10^5$</latex></td>
+<td style="text-align:center"><latex>$\le 2^{18}$</latex></td>
+</tr>
+<tr>
+<td style="text-align:center"><latex>$3$</latex></td>
+<td style="text-align:center"><latex>$50$</latex></td>
+<td style="text-align:center"><latex>$\le 10^5$</latex></td>
+<td style="text-align:center"><latex>$\le 2^{60}$</latex></td>
+</tr>
+</tbody>
+</table>
+<p>对于全部数据，保证数列中的任意一个数的范围在 <latex>$[1,998244353)$</latex> 内。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>高次前缀和的模板题。</p>
+<p>考虑元素 <latex>$a_i$</latex> 对于前缀和 <latex>$S_j$</latex> 的贡献（<latex>$i &lt; j$</latex>）。</p>
+<p>显然，我们可以去枚举它每一步跳到哪个地方，然后计算这个东西。</p>
+<p>举个例子，<latex>$a_1$</latex> 对 <latex>$S_4^{(2)}$</latex> 的贡献有：</p>
+<ul>
+<li><latex>$a_1$</latex> 被算到 <latex>$S_1^{(1)}$</latex> 中，然后被算到 <latex>$S_4^{(2)}$</latex> 中；</li>
+<li><latex>$a_1$</latex> 被算到 <latex>$S_2^{(1)}$</latex> 中，然后被算到 <latex>$S_4^{(2)}$</latex> 中；</li>
+<li><latex>$a_1$</latex> 被算到 <latex>$S_3^{(1)}$</latex> 中，然后被算到 <latex>$S_4^{(2)}$</latex> 中；</li>
+<li><latex>$a_1$</latex> 被算到 <latex>$S_4^{(1)}$</latex> 中，然后被算到 <latex>$S_4^{(2)}$</latex> 中。</li>
+</ul>
+<p>类似地，<latex>$a_1$</latex> 对 <latex>$S_8^{(4)}$</latex> 的贡献次数为</p>
+<latex>$$\sum_{i = 1}^8 \sum_{j = i}^8 \sum_{k = j}^8 1$$</latex><p>本质上是枚举下一步跳到哪里去。</p>
+<p>显然，这样的次数为 <latex>$\mathrm{C}^{k - 1}_{k - 1 + i - j}$</latex>。</p>
+<p>也即是说</p>
+<latex>$$S_i^{(k)} = \sum_{j = 0}^i \mathrm{C}^{k - 1}_{k - 1 + i - j} a_j$$</latex><p>如果我们令 <latex>$b_i = \mathrm{C}^{k - 1}_{k - 1 + i}$</latex>，那么有</p>
+<latex>$$S_i^{(k)} = \sum_{j + k = 0} b_j a_k$$</latex><p>也就是一个卷积了。</p>
+<p>DFT 优化即可。</p>
+<p>时间复杂度：<latex>$O(n \log n)$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+
+typedef long long int64;
+
+const int MOD = 998244353;
+const int G = 3;
+const int INVG = 332748118;
+const int MAXLOG = 20;
+const int MAXN = 1 &lt;&lt; MAXLOG;
+
+int n, len;
+int64 m;
+int a[MAXN], b[MAXN];
+
+int rev[MAXN];
+int INV[MAXN];
+int GT[MAXLOG + 2], INVGT[MAXLOG + 2];
+
+inline int qmod(int x) { return (x &gt;= MOD) ? (x - MOD) : x; }
+inline int qpow(int64 b, int p, int mod) {
+    int64 res = 1;
+
+    while (p) {
+        if (p &amp; 1)
+            res = res * b % mod;
+        b = b * b % mod;
+        p &gt;&gt;= 1;
+    }
+    return res;
+}
+
+inline void init() {
+    int i;
+    int64 x;
+
+    for (i = 1; i &lt;= MAXLOG; i++) {
+        GT[i] = qpow(G, (MOD - 1) &gt;&gt; i, MOD);
+        INVGT[i] = qpow(INVG, (MOD - 1) &gt;&gt; i, MOD);
+    }
+
+    x = 1;
+    for (i = 2; i &lt; MAXN; i++)
+        x = x * i % MOD;
+    INV[MAXN - 1] = qpow(x, MOD - 2, MOD);
+    for (i = MAXN - 2; i; i--)
+        INV[i] = INV[i + 1] * (i + 1ll) % MOD;
+    x = 1;
+    for (i = 2; i &lt; MAXN; x = x * i % MOD, i++)
+        INV[i] = INV[i] * x % MOD;
+}
+inline void initrev() {
+    int i, k;
+
+    k = 1;
+    while (len &gt;&gt; k &gt;&gt; 1)
+        k++;
+    for (i = 1; i &lt; len; i++)
+        rev[i] = (rev[i &gt;&gt; 1] &gt;&gt; 1) | ((i &amp; 1) &lt;&lt; (k - 1));
+}
+inline void dft(int a[], int len, bool inv = false) {
+    int i, j, k, logk, x, y;
+    int64 g, gn;
+
+    for (i = 1; i &lt; len; i++)
+        if (i &lt; rev[i])
+            std::swap(a[i], a[rev[i]]);
+    for (k = logk = 1; k &lt; len; k &lt;&lt;= 1, logk++) {
+        gn = inv ? INVGT[logk] : GT[logk];
+        for (i = 0; i &lt; len; i += k &lt;&lt; 1) {
+            g = 1;
+            for (j = 0; j &lt; k; j++) {
+                x = a[i + j];
+                y = a[i + j + k] * g % MOD;
+                a[i + j] = qmod(x + y);
+                a[i + j + k] = qmod(MOD + x - y);
+                g = g * gn % MOD;
+            }
+        }
+    }
+    if (inv) {
+        g = qpow(len, MOD - 2, MOD);
+        for (i = 0; i &lt; len; i++)
+            a[i] = a[i] * g % MOD;
+    }
+}
+#define idft(a, len) dft(a, len, true)
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;6261.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;6261.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int i;
+
+    init();
+
+    scanf(&quot;%d %lld&quot;, &amp;n, &amp;m);
+    m--;
+    m %= MOD;
+    len = 1;
+    while (len &lt; (n &lt;&lt; 1))
+        len &lt;&lt;= 1;
+    for (i = 0; i &lt; n; i++)
+        scanf(&quot;%d&quot;, &amp;a[i]);
+    b[0] = 1;
+    for (i = 1; i &lt; n; i++)
+        b[i] = b[i - 1] * (m + i) % MOD * INV[i] % MOD;
+
+    initrev();
+    dft(a, len);
+    dft(b, len);
+    for (i = 0; i &lt; len; i++)
+        a[i] = 1ll * a[i] * b[i] % MOD;
+    idft(a, len);
+    for (i = 0; i &lt; n; i++)
+        printf(&quot;%d\n&quot;, a[i]);
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

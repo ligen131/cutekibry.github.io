@@ -1,0 +1,532 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「SCOI2016」幸运数字 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #2013. 「SCOI2016」幸运数字</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：4000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/2013">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 2013 「SCOI2016」幸运数字.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 2013 「SCOI2016」幸运数字.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 2013 「SCOI2016」幸运数字.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>A 国共有 <latex>$ n $</latex> 座城市，这些城市由 <latex>$ n - 1 $</latex> 条道路相连，使得任意两座城市可以互达，且路径唯一。每座城市都有一个幸运数字，以纪念碑的形式矗立在这座城市的正中心，作为城市的象征。一些旅行者希望游览 A 国。旅行者计划乘飞机降落在 <latex>$ x $</latex> 号城市，沿着 <latex>$ x $</latex> 号城市到 <latex>$ y $</latex> 号城市之间那条唯一的路径游览，最终从 <latex>$ y $</latex> 城市起飞离开 A 国。</p>
+<p>在经过每一座城市时，游览者就会有机会与这座城市的幸运数字拍照，从而将这份幸运保存到自己身上。然而，幸运是不能简单叠加的，这一点游览者也十分清楚。他们迷信着幸运数字是以异或的方式保留在自己身上的。例如，游览者拍了 <latex>$ 3 $</latex> 张照片，幸运值分别是 <latex>$ 5 $</latex>、<latex>$ 7 $</latex>、<latex>$ 11 $</latex>，那么最终保留在自己身上的幸运值就是 <latex>$ 9 $</latex>（<latex>$ 5 \mathbin{\text{xor}} 7 \mathbin{\text{xor}} 11 $</latex>）。</p>
+<p>有些聪明的游览者发现，只要选择性地进行拍照，便能获得更大的幸运值。例如在上述三个幸运值中，只选择 <latex>$ 5 $</latex> 和 <latex>$ 11 $</latex> ，可以保留的幸运值为 <latex>$ 14 $</latex> 。现在，一些游览者找到了聪明的你，希望你帮他们计算出在他们的行程安排中可以保留的最大幸运值是多少。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行包含两个正整数 <latex>$ n $</latex>、<latex>$ q $</latex>，分别表示城市的数量和旅行者数量。</p>
+<p>第二行包含 <latex>$ n $</latex> 个非负整数，其中第 <latex>$ i $</latex> 个整数 <latex>$ G_i $</latex> 表示 <latex>$ i $</latex> 号城市的幸运值。随后 <latex>$ n - 1 $</latex> 行，每行包含两个正整数 <latex>$ x $</latex>、<latex>$ y $</latex>，表示 <latex>$ x $</latex> 号城市和 <latex>$ y $</latex> 号城市之间有一条道路相连。</p>
+<p>随后 <latex>$ q $</latex> 行，每行包含两个正整数 <latex>$ x $</latex>、<latex>$ y $</latex>，表示这名旅行者的旅行计划是从 <latex>$ x $</latex> 号城市到 <latex>$ y $</latex> 号城市。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>输出需要包含 <latex>$ q $</latex> 行，每行包含 <latex>$ 1 $</latex> 个非负整数，表示这名旅行者可以保留的最大幸运值。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">4 2
+11 5 7 9
+1 2
+1 3
+1 4
+2 3
+1 4
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">14
+11
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <latex>$N \leq 20000, Q \leq 200000, G_i \leq 2 ^ {60}$</latex>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>集合异或最大值？线性基。</p>
+<p>树上路径？树链剖分？倍增？</p>
+<p>虽然都可以做，但是复杂度要上天。树链剖分为 <latex>$O(n \log^2 n \log^2 G_i)$</latex>，倍增为 <latex>$O(n \log n \log^2 G_i)$</latex>。</p>
+<p>本题虽然因为时限较大，可以允许部分使用了树链剖分或倍增的程序通过，但这道题还有更优的做法——点分治。</p>
+<p>点分治不仅能解决路径统计问题，还能解决路径查询问题。</p>
+<p>计算出某个点到重心路径上所有数结合而成的线性基，然后直接把两个点的线性基合并后求最大值即可。</p>
+<p>对于计算线性基，点分治总计会遍历 <latex>$O(n \log n)$</latex> 次点，对于每个点，需要在它父亲的线性基上再插入该点的权值，需要 <latex>$O(\log G_i)$</latex>，因而是 <latex>$O(n \log n \log G_i)$</latex> 的。</p>
+<p>对于枚举询问，因为递归层数只有 <latex>$O(\log n)$</latex> 层，枚举每个询问为 <latex>$O(q)$</latex>，因而是 <latex>$O(q \log n)$</latex> 的。</p>
+<p>对于求每个询问的答案，每个询问需要合并两个线性基，再求异或最大值，因而是 <latex>$O(q \log^2 G_i)$</latex> 的。</p>
+<p>综上，总时间复杂度：<latex>$O(n \log n \log G_i + q \log n+ q \log^2 G_i)$</latex>。该复杂度只有两个 <latex>$\log$</latex>，跑得飞快。我的代码在不加快读的情况下，在 LibreOJ 上可以在 1s 的时间内通过本题。</p>
+<h4>思考</h4>
+<p>为什么这道题的路径查询用点分治就会跑得比树链剖分/倍增快？</p>
+<p>假设我们需要维护路径上的某个数据结构的并（例如，路径上的线段树合并）。该数据结构插入某个权值需要 <latex>$O(A)$</latex> 时间，合并两个数据结构需要 <latex>$O(B)$</latex> 时间。同时，假设建立维护需要的数据结构（树链剖分的线段树，倍增的倍增表）不算入时间。</p>
+<p><latex>$n$</latex> 个点，<latex>$n$</latex> 个询问。</p>
+<p>对于树链剖分，我们需要合并 <latex>$O(\log^2 n)$</latex> 个区间。一一合并，需要 <latex>$O(B\log^2 n)$</latex> 时间，总共 <latex>$O(B n\log^2 n)$</latex>。</p>
+<p>对于倍增，我们需要合并 <latex>$O(\log n)$</latex> 个区间。一一合并，需要 <latex>$O(B\log n)$</latex> 时间，总共 <latex>$O(B n\log n)$</latex>。</p>
+<p>对于点分治，我们需要遍历 <latex>$O(n \log n)$</latex> 次每个点。对于每个点，插入其父亲需要 <latex>$O(A)$</latex> 。对于查询，我们只需要合并 <latex>$(u, v)$</latex> 两个点的数据结构，需要 <latex>$O(B)$</latex>，同时每个查询至多遍历 <latex>$O(\log n)$</latex> 次，因而总共 <latex>$O(An \log n+Bn)$</latex> 。</p>
+<p>举个例子：<strong>静态</strong>树上路径求和问题。在这个例子中，维护的数据结构只是一个数值，因而 <latex>$O(A)=O(B)=1$</latex> 。在这种情况下，树链剖分的劣势就体现出来了：</p>
+<p><strong>树链剖分需要合并的数据结构个数过多。</strong></p>
+<p>这也间接导致在很多的，静态树上路径查询问题中，树链剖分一般不会有很明显的时间优势——因为通常来说，按照上面的计算，<latex>$O(Bn \log^2 n)>O(Bn \log n)$</latex>。</p>
+<p>什么时候 <latex>$O(Bn \log n)>O(An \log n+Bn)$</latex> 呢？</p>
+<p>比如线性基。对于此类 <latex>$O(B)>O(A)$</latex> 的数据结构（即合并时间复杂度比插入时间复杂度大的数据结构），点分治可能会比倍增要快：因为它用多次单点插入，换来了查询时合并的便利。</p>
+<p>限于 Tsukimaru 的见识过浅，这里就不再信口开河、夸夸其谈了。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;vector&gt;
+
+typedef long long int64;
+
+const int MAXN = 20000 + 10;
+const int MAXQ = 200000 + 10;
+const int LOG = 60;
+// const int MAXN = 20 + 10;
+// const int MAXQ = 200 + 10;
+// const int LOG = 6;
+
+int n, m;
+int64 val[MAXN];
+
+struct Base {
+    int64 a[LOG + 5];
+    int size;
+    Base() {
+        memset(a, 0, sizeof(a));
+        size = 0;
+    }
+    Base operator=(const Base b) {
+        memcpy(a, b.a, sizeof(b.a));
+        size = b.size;
+        return *this;
+    }
+    Base operator+(int64 x) {
+        Base res = (*this);
+        int i;
+        if (res.size == LOG + 1)
+            return res;
+        for (i = LOG; ~i; i--) {
+            if (x &gt;&gt; i &amp; 1) {
+                if (res.a[i])
+                    x ^= res.a[i];
+                else {
+                    res.a[i] = x;
+                    res.size++;
+                    return res;
+                }
+            }
+        }
+        return res;
+    }
+    Base operator+(Base b) {
+        Base res = (*this);
+        int i;
+        if (res.size &lt; b.size)
+            std::swap(res, b);
+        if (res.size == LOG + 1)
+            return res;
+        for (i = LOG; ~i; i--)
+            if (b.a[i])
+                res = res + b.a[i];
+        return res;
+    }
+    int64 getmax() {
+        int64 res = 0;
+        int i;
+        for (i = LOG; ~i; i--)
+            res = std::max(res, res ^ a[i]);
+        return res;
+    }
+};
+
+int qpre[MAXQ], qv[MAXQ], qid[MAXQ], qhead[MAXN], qcnt;
+int64 ans[MAXQ];
+inline void addq(int u, int v, int id) {
+    qcnt++;
+    qpre[qcnt] = qhead[u];
+    qhead[u] = qcnt;
+    qv[qcnt] = v;
+    qid[qcnt] = id;
+}
+
+int pre[MAXN &lt;&lt; 1], to[MAXN &lt;&lt; 1], head[MAXN], wcnt = 1;
+inline void addedge(int u, int v) {
+    wcnt++;
+    pre[wcnt] = head[u];
+    head[u] = wcnt;
+    to[wcnt] = v;
+}
+inline void add2edge(int u, int v) {
+    addedge(u, v);
+    addedge(v, u);
+}
+
+int far[MAXN], size[MAXN], maxsize[MAXN];
+Base base[MAXN];
+
+#define v to[i]
+void predfs(int u) {
+    int i;
+    size[u] = 1;
+    for (i = head[u]; i; i = pre[i]) {
+        if (v and !size[v]) {
+            far[v] = u;
+            predfs(v);
+            size[u] += size[v];
+        }
+    }
+}
+void getcg(int u, int rt, int &amp;cg) {
+    int i;
+    maxsize[u] = size[rt] - size[u];
+    for (i = head[u]; i; i = pre[i]) {
+        if (v and far[v] == u) {
+            getcg(v, rt, cg);
+            maxsize[u] = std::max(maxsize[u], size[v]);
+        }
+    }
+    if (!cg or maxsize[u] &lt; maxsize[cg])
+        cg = u;
+}
+void cleardfs(int u) {
+    int i;
+    size[u] = far[u] = 0;
+    for (i = head[u]; i; i = pre[i])
+        if (v and size[v])
+            cleardfs(v);
+}
+void basedfs(int u) {
+    int i;
+    base[u] = base[far[u]] + val[u];
+    size[u] = 1;
+    for (i = head[u]; i; i = pre[i]) {
+        if (v and !size[v]) {
+            far[v] = u;
+            basedfs(v);
+            size[u] += size[v];
+        }
+    }
+}
+void countdfs(int u, int inv, int *c) {
+    int i;
+    c[u] += inv;
+    for (i = head[u]; i; i = pre[i])
+        if (v and far[v] == u)
+            countdfs(v, inv, c);
+}
+void solvedfs(int u, int *c) {
+    int i;
+    for (i = qhead[u]; i; i = qpre[i])
+        if (c[qv[i]])
+            ans[qid[i]] = (base[u] + base[qv[i]]).getmax();
+    for (i = head[u]; i; i = pre[i])
+        if (v and far[v] == u)
+            solvedfs(v, c);
+}
+void solve(int rt) {
+    int i = 0;
+    static int c[MAXQ];
+
+    // printf(&quot;%d\n&quot;, rt);
+
+    predfs(rt);
+    getcg(rt, rt, i);
+    rt = i;
+    cleardfs(rt);
+    basedfs(rt);
+    countdfs(rt, 1, c);
+    for (i = qhead[rt]; i; i = qpre[i])
+        if (c[qv[i]])
+            ans[qid[i]] = base[qv[i]].getmax();
+    for (i = head[rt]; i; i = pre[i]) {
+        if (v) {
+            countdfs(v, -1, c);
+            solvedfs(v, c);
+            countdfs(v, 1, c);
+        }
+    }
+    countdfs(rt, -1, c);
+    cleardfs(rt);
+    for (i = head[rt]; i; i = pre[i]) {
+        if (v) {
+            to[i ^ 1] = 0;
+            solve(v);
+        }
+    }
+}
+#undef v
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;2013.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;2013.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int i, u, v;
+
+    scanf(&quot;%d %d&quot;, &amp;n, &amp;m);
+    for (i = 1; i &lt;= n; i++)
+        scanf(&quot;%lld&quot;, &amp;val[i]);
+    for (i = 1; i &lt; n; i++) {
+        scanf(&quot;%d %d&quot;, &amp;u, &amp;v);
+        add2edge(u, v);
+    }
+    for (i = 1; i &lt;= m; i++) {
+        scanf(&quot;%d %d&quot;, &amp;u, &amp;v);
+        addq(u, v, i);
+    }
+    solve(1);
+    for (i = 1; i &lt;= m; i++)
+        printf(&quot;%lld\n&quot;, ans[i]);
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

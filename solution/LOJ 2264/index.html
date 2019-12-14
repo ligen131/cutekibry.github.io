@@ -1,0 +1,363 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「CTSC2017」吉夫特 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #2264. 「CTSC2017」吉夫特</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：512 MiB</span>
+          <span class="ui label">时间限制：1500 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/2264">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 2264 「CTSC2017」吉夫特.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 2264 「CTSC2017」吉夫特.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 2264 「CTSC2017」吉夫特.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>简单的题目，既是礼物，也是毒药。</p>
+<p>B 君设计了一道简单的题目，准备作为 gift 送给大家。</p>
+<p>输入一个长度为 <latex>$n$</latex> 的数列 <latex>$a_1, a_2 , \dots, a_n$</latex> 问有多少个长度大于等于 <latex>$2$</latex> 的不上升的子序列 <latex>$a_{b_1}, a_{b_2}, \ldots, a_{b_k}$</latex> 满足</p>
+<latex>$$\prod\limits_{i = 2} ^ k \binom{a_{b_{i - 1}}}{a_{b_i}} \bmod 2 = \binom{a_{b_1}}{a_{b_2}} \times \binom{a_{b_2}}{a_{b_3}} \times \cdots \times \binom{a_{b_{k - 1}}}{a_{b_k}}\bmod 2 > 0$$</latex><p>输出这个个数对 <latex>$1000000007$</latex> 取模的结果。</p>
+<p>G 君看到题目后，为大家解释了一些基本概念。</p>
+<p>我们选择任意多个整数 <latex>$b_i$</latex> 满足</p>
+<latex>$$1 \leq b_1 &lt;b_2 &lt; \cdots &lt; b_{k - 1} &lt; b_k \leq n$$</latex><p>我们称 <latex>$a_{b_1}, a_{b_2}, \ldots, a_{b_k}$</latex> 是 <latex>$a$</latex> 的一个子序列。</p>
+<p>如果这个子序列同时还满足</p>
+<latex>$$a_{b_1} \geq a_{b_2} \geq \ldots \geq a_{b_k}$$</latex><p>我们称这个子序列是不上升的。</p>
+<p>组合数 <latex>$\binom{n}{m}$</latex> 是从 <latex>$n$</latex> 个互不相同的元素中取 <latex>$m$</latex> 个元素的方案数，具体计算方法如下：</p>
+<latex>$$\binom{n}{m} = \frac{n!}{m!(n - m)!} = \frac{n \times (n - 1) \times \cdots \times 2 \times 1}{(m \times (m - 1) \times \cdots \times 2 \times 1)((n - m) \times (n - m - 1) \times \cdots \times 2 \times 1)}$$</latex><p>这里要特别注意，因为我们只考虑不上升子序列，所以在求组合数的过程中，一定满足 <latex>$n \geq m$</latex>，也就是 <latex>$\binom{a_{b_{i - 1}}}{a_{b_i}}$</latex> 中一定有 <latex>$a_{b_{i - 1}} \geq a_{b_i}$</latex>。</p>
+<p>我们在这里强调取模 <latex>$x \bmod y$</latex> 的定义：</p>
+<latex>$$x \bmod y = x - \lfloor \frac{x}{y} \rfloor \times y$$</latex><p>其中 <latex>$\lfloor n \rfloor$</latex> 表示小于等于 <latex>$n$</latex> 的最大整数。</p>
+<p><latex>$x \bmod 2 > 0$</latex>，就是在说 <latex>$x$</latex> 是奇数。</p>
+<p>与此同时，经验告诉我们一个长度为 <latex>$n$</latex> 的序列，子序列个数有 <latex>$O(2 ^ n)$</latex> 个，所以我们通过对答案取模来避免输出过大。</p>
+<p>B 君觉得 G 君说的十分有道理，于是再次强调了这些基本概念。</p>
+<p>最后，G 君听说这个题是作为 gift 送给大家，她有一句忠告。</p>
+<p>“Vorsicht, Gift!”</p>
+<p>‘‘小心. . . . . . 剧毒!”</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行一个整数 <latex>$n$</latex>。</p>
+<p>接下来 <latex>$n$</latex> 行，每行一个整数，这 <latex>$n$</latex> 行中的第 <latex>$i$</latex> 行，表示 <latex>$a_i$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>一行一个整数表示答案。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">4
+15
+7
+3
+1
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">11
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于前 <latex>$10\%$</latex> 的测试点，<latex>$n \leq 9, 1 \leq a_i \leq 13$</latex>；</p>
+<p>对于前 <latex>$20\%$</latex> 的测试点，<latex>$n \leq 17, 1 \leq a_i \leq 20$</latex>；</p>
+<p>对于前 <latex>$40\%$</latex> 的测试点，<latex>$n \leq 1911, 1 \leq a_i \leq 4000$</latex>；</p>
+<p>对于前 <latex>$70\%$</latex> 的测试点，<latex>$n \leq 2017$</latex>；</p>
+<p>对于前 <latex>$85\%$</latex> 的测试点，<latex>$n \leq 100084$</latex>；</p>
+<p>对于 <latex>$100\%$</latex> 的测试点，<latex>$1 \leq n \leq 211985, 1 \leq a_i \leq 233333$</latex>。</p>
+<p>所有的 <latex>$a_i$</latex> 互不相同，也就是说不存在 <latex>$i,  j$</latex> 同时满足 <latex>$1 \leq i &lt; j \leq n$</latex> 和 <latex>$a_i = a_j$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>题目说得非常匪夷所思。</p>
+<p>但是仔细思考就很容易发现，题目给出的条件</p>
+<latex>$$\prod\limits_{i = 2} ^ k \binom{a_{b_{i - 1}}}{a_{b_i}} \bmod 2 = \binom{a_{b_1}}{a_{b_2}} \times \binom{a_{b_2}}{a_{b_3}} \times \cdots \times \binom{a_{b_{k - 1}}}{a_{b_k}}\bmod 2 > 0$$</latex><p>相当于</p>
+<latex>$$\binom{a_{b_1}}{a_{b_2}} \bmod 2 = \binom{a_{b_2}}{a_{b_3}} \bmod 2 = \cdots = \binom{a_{b_{k - 1}}}{a_{b_k}}\bmod 2 = 1$$</latex><p>因为 <latex>$0$</latex> 乘任何数都等于 <latex>$0$</latex>，又因为 <latex>$x \bmod 2$</latex> 只可能为 <latex>$0$</latex> 或 <latex>$1$</latex>，所以如果最后的乘积为 <latex>$1$</latex>，那么所有因数一定都为 <latex>$1$</latex>。</p>
+<p>Lucas 定理。对于任意质数 <latex>$p$</latex> 和任意非负整数 <latex>$n, m$</latex>，有</p>
+<latex>$$\binom nm \equiv \binom {n \backslash p}{m \backslash p} \cdot \binom {n \bmod p}{m \bmod p} \pmod p$$</latex><p>在本题中，<latex>$p=2$</latex>。因为 <latex>$\binom 00=\binom 10=\binom 11=1, \binom 01=0$</latex>，所以我们可以将 <latex>$a_i$</latex> 二进制分解，那么当且仅当 <latex>$a_{b_{i-1}}$</latex> 的二进制表示下，每一位都不小于 <latex>$a_{b_i}$</latex> 对应的二进制位时，<latex>$\binom {a_{b_{i-1}}}{a_{b_i}} \bmod 2=1$</latex> 。</p>
+<p>换句话说，<latex>$a_{b_{i-1}} \cup a_{b_i}=a_{b_{i-1}}$</latex>。<latex>$a_{b_i}$</latex> 为 <latex>$a_{b_{i-1}}$</latex> 的子集。</p>
+<p>据此，我们直接去暴力枚举其子集，就可以了。</p>
+<p>令 <latex>$f[i]$</latex> 表示以 <latex>$a_j=i$</latex> 结尾的子序列数量，直接暴力计算即可。</p>
+<p>时间复杂度：<latex>$O(3^{\log a_i-1})$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;cstdio&gt;
+
+const int MOD = 1000000007;
+
+#ifdef ONLINE_JUDGE
+const int MAXN = 250000 + 10;
+#else
+const int MAXN = 100;
+#endif
+
+int f[MAXN];
+
+inline int qmod(int x) { return (x &gt;= MOD) ? (x - MOD) : x; }
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;2264.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;2264.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int ans = 0;
+    int i, j, x, n;
+
+    scanf(&quot;%d&quot;, &amp;n);
+    for (i = 1; i &lt;= n; i++) {
+        scanf(&quot;%d&quot;, &amp;x);
+        f[x]++;
+        for (j = x &amp; (x - 1); j; j = x &amp; (j - 1))
+            f[j] = qmod(f[x] + f[j]);
+        ans = qmod(ans + f[x]);
+    }
+    printf(&quot;%d\n&quot;, qmod(MOD + ans - n));
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

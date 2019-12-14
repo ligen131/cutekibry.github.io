@@ -1,0 +1,510 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>拯救世界 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LGOJ #P2000. 拯救世界</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：128 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://www.luogu.org/problem/P2000">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LGOJ P2000 拯救世界.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LGOJ P2000 拯救世界.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LGOJ P2000 拯救世界.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>公元 <latex>$2000$</latex> 年，根据预言家诺查丹玛斯的预言，世界就要毁灭了！！！</p>
+<p>为了拯救世界，小 a 和 uim 决定召唤出 kkksc03 大神和 lzn 大神。根据古籍记载，召唤出任何一位大神，都需要使用金木水火土五种五行神石来摆一个特定的大阵。而在古籍中，记载是这样的：</p>
+<p>kkksc03 大神召唤方法：</p>
+<p>金神石的块数必须是 <latex>$6$</latex> 的倍数。</p>
+<p>木神石最多用 <latex>$9$</latex> 块。</p>
+<p>水神石最多用 <latex>$5$</latex> 块。</p>
+<p>火神石的块数必须是 <latex>$4$</latex> 的倍数。</p>
+<p>土神石最多用 <latex>$7$</latex> 块。</p>
+<p>lzn 大神召唤方法:</p>
+<p>金神石的块数必须是 <latex>$2$</latex> 的倍数。</p>
+<p>木神石最多用 <latex>$1$</latex> 块。</p>
+<p>水神石的块数必须是 <latex>$8$</latex> 的倍数。</p>
+<p>火神石的块数必须是 <latex>$10$</latex> 的倍数。</p>
+<p>土神石最多用 <latex>$3$</latex> 块。</p>
+<p>现在是公元 <latex>$1999$</latex> 年 <latex>$12$</latex> 月 <latex>$31$</latex> 日，小 a 和 uim 从 <latex>$00:00:00$</latex> 开始找，一直找到 <latex>$23:00:00$</latex>，终于，还是没找到神石。不过，他们在回到家后在自家地窖里发现了一些奇怪的东西，一查古籍，哎呦妈呀，怎么不早点来呢？这里有一些混沌之石，可以通过敲击而衰变成五行神石。于是，他们拼命地敲，终于敲出了 <latex>$n$</latex> 块神石，在 <latex>$23:59:59$</latex> 完成了两座大阵。然而，kkksc03 大神和 lzn 大神确实出现了，但是由于能量不够，无法发挥神力。只有把所有用 <latex>$n$</latex> 块神石可能摆出的大阵都摆出来，才能给他们充满能量。这下小 a 和 uim 傻了眼了，赶快联系上了你，让你帮忙算一下，一共有多少种大阵。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>输入一个数 <latex>$n$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>输出用 <latex>$n$</latex> 块混沌之石能摆出的大阵的种数。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">2
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">15
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>数据范围：</p>
+<latex>$length(n)=100000$</latex><p>是等于！不是小于等于！</p>
+<p>提示 由于现在已经是 <latex>$23:59:59$</latex>，所以你只有 0.5s 时间。（小 a 与 uim 需要 0.5s 排出所有阵法）</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>题目大意就是求在这 <latex>$10$</latex> 种物品中选择 <latex>$n$</latex> 个物品的方案数。</p>
+<p>直接上生成函数，可得：</p>
+<latex>$$
+\begin{aligned}
+g(x) &= \frac 1 {1 - x^2} \frac 1 {1 - x^4} \frac 1 {1 - x^6} \frac 1 {1 - x^8} \frac 1 {1 - x^{10}} \frac {1 - x^2} {1 - x} \frac {1 - x^4} {1 - x} \frac {1 - x^6} {1 - x} \frac {1 - x^8} {1 - x} \frac {1 - x^{10}} {1 - x} \\
+     &= \frac {1} {(1 - x)^5} \\
+     &= \mathrm{C}^4_4 + \mathrm{C}^4_5 x+ \mathrm{C}^4_6 x^2 + \mathrm{C}^4_7 x^3 + \ldots\\
+\end{aligned}
+$$</latex><p>所以可得 <latex>$n$</latex> 的方案数为 <latex>$C^4_{4+n} = \frac {(n + 1)(n + 2)(n + 3)(n + 4)}{24}$</latex>。</p>
+<p>高精度 FFT/NTT 即可。</p>
+<p>时间复杂度：<latex>$O(\lg n \log \lg n)$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">// luogu-judger-enable-o2
+#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+
+typedef long long int64;
+
+const int G = 3;
+const int INVG = 332748118;
+const int MOD = 998244353;
+const int LEN = 1 &lt;&lt; 19;
+const int L = 19;
+const int INVLEN = 998242449;
+
+typedef int Expr[LEN];
+
+int rev[LEN];
+
+int invw[LEN * L], w[LEN * L];
+
+inline int qmod(int x, int mod) {
+    while (x &gt;= mod)
+        x -= mod;
+    return x;
+}
+inline int qpow(int b, int p, int mod) {
+    int res = 1;
+    while (p) {
+        if (p &amp; 1)
+            res = (int64)res * b % mod;
+        b = (int64)b * b % mod;
+        p &gt;&gt;= 1;
+    }
+    return res;
+}
+
+void init() {
+    int i, j, k, p;
+    int wn, ww;
+
+    for (i = 1; i &lt; LEN; i++)
+        rev[i] = (rev[i &gt;&gt; 1] &gt;&gt; 1) | ((i &amp; 1) &lt;&lt; (L - 1));
+    p = 0;
+    for (k = 1; k &lt; LEN; k &lt;&lt;= 1) {
+        wn = qpow(G, (MOD - 1) / (k &lt;&lt; 1), MOD);
+        for (i = 0; i &lt; LEN; i += k &lt;&lt; 1) {
+            ww = 1;
+            for (j = 0; j &lt; k; j++) {
+                p++;
+                w[p] = ww;
+                ww = (int64)ww * wn % MOD;
+            }
+        }
+    }
+    p = 0;
+    for (k = 1; k &lt; LEN; k &lt;&lt;= 1) {
+        wn = qpow(INVG, (MOD - 1) / (k &lt;&lt; 1), MOD);
+        for (i = 0; i &lt; LEN; i += k &lt;&lt; 1) {
+            ww = 1;
+            for (j = 0; j &lt; k; j++) {
+                p++;
+                invw[p] = ww;
+                ww = (int64)ww * wn % MOD;
+            }
+        }
+    }
+}
+void ntt(Expr a, bool inv) {
+    int i, j, k, p = 0, x, y;
+
+    for (i = 1; i &lt; LEN; i++)
+        if (i &lt; rev[i])
+            std::swap(a[i], a[rev[i]]);
+    for (k = 1; k &lt; LEN; k &lt;&lt;= 1) {
+        for (i = 0; i &lt; LEN; i += k &lt;&lt; 1) {
+            for (j = 0; j &lt; k; j++) {
+                p++;
+                x = a[i + j];
+                y = (int64)a[i + j + k] * (inv ? invw[p] : w[p]) % MOD;
+                a[i + j] = qmod(x + y, MOD);
+                a[i + j + k] = qmod(x - y + MOD, MOD);
+            }
+        }
+    }
+    if (inv)
+        for (i = 0; i &lt; LEN; i++)
+            a[i] = (int64)a[i] * INVLEN % MOD;
+}
+
+Expr a, b, c, d;
+
+inline void assign(Expr a, Expr b) { memcpy(a, b, sizeof(Expr)); }
+inline void read(Expr a) {
+    int i, j, len = 0;
+    char ch;
+
+    memset(a, 0, sizeof(Expr));
+    do
+        ch = getchar();
+    while (ch &lt; &#39;0&#39; or ch &gt; &#39;9&#39;);
+    while (ch &gt;= &#39;0&#39; and ch &lt;= &#39;9&#39;) {
+        a[len] = ch &amp; 15;
+        len++;
+        ch = getchar();
+    }
+    for (i = 0, j = len - 1; i &lt; j; i++, j--)
+        std::swap(a[i], a[j]);
+}
+inline void writeln(Expr a) {
+    int i;
+
+    i = LEN - 1;
+    while (!a[i])
+        i--;
+    while (~i) {
+        putchar(a[i] | 48);
+        i--;
+    }
+    putchar(&#39;\n&#39;);
+}
+inline void inc(Expr a) {
+    int i;
+
+    for (i = 0; a[i] == 9; i++)
+        a[i] = 0;
+    a[i]++;
+}
+inline void mul(Expr a, Expr b) {
+    int i;
+
+    for (i = 0; i &lt; LEN; i++)
+        a[i] = (int64)a[i] * b[i] % MOD;
+}
+inline void div(Expr a, int b) {
+    int i, rest = 0;
+
+    for (i = LEN - 1; ~i; i--) {
+        rest = rest * 10 + a[i];
+        a[i] = rest / b;
+        rest %= b;
+    }
+}
+inline void adjust(Expr a) {
+    int i;
+
+    for (i = 0; i &lt; LEN - 1; i++) {
+        if (a[i] &gt;= 10) {
+            a[i + 1] += a[i] / 10;
+            a[i] %= 10;
+        }
+    }
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;P2000.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;P2000.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    init();
+
+    read(a);
+    inc(a);
+    assign(b, a);
+    inc(b);
+    assign(c, b);
+    inc(c);
+    assign(d, c);
+    inc(d);
+
+    ntt(a, false);
+    ntt(b, false);
+    ntt(c, false);
+    ntt(d, false);
+
+    mul(a, b);
+    ntt(a, true);
+    adjust(a);
+    ntt(a, false);
+
+    mul(a, c);
+    ntt(a, true);
+    adjust(a);
+    ntt(a, false);
+
+    mul(a, d);
+    ntt(a, true);
+    adjust(a);
+    div(a, 24);
+    writeln(a);
+
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

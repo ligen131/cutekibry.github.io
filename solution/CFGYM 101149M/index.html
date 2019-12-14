@@ -1,0 +1,403 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>Ex Machina - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">CFGYM #101149M. Ex Machina</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：2000 ms</span>
+          <span class="ui label">题目类型：交互</span>
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="http://codeforces.com/gym/101149/problem/M">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/CFGYM 101149M Ex Machina.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/CFGYM 101149M Ex Machina.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/CFGYM 101149M Ex Machina.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>这是一道交互题。</p>
+<p>有一个长度为 <latex>$n$</latex> 的排列 <latex>$A_1, A_2, \ldots, A_n$</latex>，元素的值是未知的。</p>
+<p>你的程序可以输出 <code>? x y</code>，表示询问元素 <latex>$A_i, A_j$</latex> 的大小关系。如果 <latex>$A_i &lt; A_j$</latex>，交互器会输出 <code>&lt;</code>，否则输出 <code>&gt;</code>。</p>
+<p>请在 <latex>$(n + 24)$</latex> 次询问内求出序列中次大值的下标，并输出 <code>! x</code>，其中 <latex>$x$</latex> 为序列次大值的下标。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行，一个整数 <latex>$n \: (2 \leq n \leq 1000)$</latex>，表示排列长度。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>多行，表示你的程序的询问。</p>
+<p>最后一行，字符串 <code>! x</code>，其中 <latex>$x$</latex> 为序列次大值的下标。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">5
+&gt;
+&gt;
+&gt;
+&gt;
+&gt;
+&lt;
+&gt;
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">? 1 2
+? 1 3
+? 1 4
+? 1 5
+? 2 3
+? 2 4
+? 4 5
+! 4
+</code></pre></div>
+<h4>样例解释</h4>
+<p>可能的排列为 <latex>$[5, 4, 3, 2, 1]$</latex> 或 <latex>$[5, 4, 1, 3, 2]$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>题目翻译：@Tsukimaru Oshawott</p>
+<p>请注意，很多语言的输入 / 输出库都会带有缓存，请在写入操作请求后手动刷新缓存，以确保请求顺利递送。</p>
+<table class="ui celled table">
+<thead><tr>
+<th style="text-align:center">语言</th>
+<th style="text-align:center">参考方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">C</td>
+<td style="text-align:center"><code>fflush(stdout);</code></td>
+</tr>
+<tr>
+<td style="text-align:center">C++</td>
+<td style="text-align:center"><code>std::cout &lt;&lt; endl;</code> 或 <code>std::cout &lt;&lt; std::flush;</code></td>
+</tr>
+<tr>
+<td style="text-align:center">Pascal</td>
+<td style="text-align:center"><code>flush(output);</code></td>
+</tr>
+<tr>
+<td style="text-align:center">Java</td>
+<td style="text-align:center"><code>System.out.flush();</code></td>
+</tr>
+<tr>
+<td style="text-align:center">C#</td>
+<td style="text-align:center"><code>Console.Out.Flush();</code></td>
+</tr>
+<tr>
+<td style="text-align:center">Python</td>
+<td style="text-align:center"><code>sys.stdout.flush()</code></td>
+</tr>
+</tbody>
+</table>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p><a href="http://codeforces.com/blog/entry/62602">Blogewoosh #6</a> 评论区 dalex 提到的问题，算是该随机算法的模板题了。</p>
+<p>维护目前最大值、次小值的下标 <latex>$m1, m2$</latex>。</p>
+<p>首先询问 <latex>$A_i$</latex> 是否大于次大值，这需要 <latex>$1$</latex> 次询问。</p>
+<p>如果 <latex>$A_i$</latex> 大于次大值，再询问 <latex>$A_i$</latex> 是否大于最大值，根据结果更改 <latex>$m1, m2$</latex>，这需要 <latex>$1$</latex> 次询问。</p>
+<p>怎么证明期望询问约 <latex>$n + \log n$</latex> 次呢？</p>
+<p>显然，只有当 <latex>$A_i$</latex> 大于次大值时，才会多出一次询问；此时次大值一定会变得更大。因为在打乱询问顺序后，<latex>$A_i$</latex> 期望在 <latex>$[1, n]$</latex> 间均匀随机，所以次大值变化的次数约为 <latex>$\log n$</latex>。</p>
+<p>期望询问次数：<latex>$n + \log n$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+
+typedef unsigned uint;
+
+const int MAXN = 1000 + 10;
+
+int n;
+int pos[MAXN];
+uint seed;
+
+inline uint randint(uint l, uint r) { return (seed = seed * 2333ll + 10007) % (r - l + 1) + l; }
+inline void shuffle(int a[], int l, int r, int t) {
+    while (t) {
+        std::swap(a[randint(l, r)], a[randint(l, r)]);
+        t--;
+    }
+}
+
+inline char query(int x, int y) {
+    char ch;
+    printf(&quot;? %d %d\n&quot;, x, y);
+    fflush(stdout);
+    scanf(&quot; %c&quot;, &amp;ch);
+    return ch;
+}
+inline void submit(int x) {
+    printf(&quot;! %d\n&quot;, x);
+    fflush(stdout);
+}
+
+int main() {
+    int i;
+    int m1, m2;
+    char x;
+
+    scanf(&quot;%d&quot;, &amp;n);
+    for (i = 1; i &lt;= n; i++)
+        pos[i] = i;
+    shuffle(pos, 1, n, n);
+
+    m1 = pos[1];
+    m2 = pos[2];
+    if (query(m1, m2) == &#39;&lt;&#39;)
+        std::swap(m1, m2);
+
+    for (i = 3; i &lt;= n; i++) {
+        if (query(m2, pos[i]) == &#39;&lt;&#39;) {
+            if (query(m1, pos[i]) == &#39;&lt;&#39;) {
+                m2 = m1;
+                m1 = pos[i];
+            }
+            else
+                m2 = pos[i];
+        }
+    }
+    submit(m2);
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

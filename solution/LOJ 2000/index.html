@@ -1,0 +1,438 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「SDOI2017」数字表格 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #2000. 「SDOI2017」数字表格</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/2000">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 2000 「SDOI2017」数字表格.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 2000 「SDOI2017」数字表格.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 2000 「SDOI2017」数字表格.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>Doris 刚刚学习了 fibnacci 数列，用 <latex>$f[i]$</latex> 表示数列的第 <latex>$i$</latex> 项，那么：</p>
+<latex>$$
+\begin{aligned}
+    f[0] &= 0 \\
+    f[1] &= 1 \\
+    f[n] &= f[n - 1] + f[n - 2], n \geq 2
+\end{aligned}
+​$$</latex><p>Doris 用老师的超级计算机生成了一个 <latex>$n \times m$</latex> 的表格，第 <latex>$i$</latex> 行第 <latex>$j$</latex> 列的格子中的数是 <latex>$f[\gcd(i, j)]$</latex> ，其中 <latex>$\gcd(i, j)$</latex> 表示 <latex>$i$</latex> 与 <latex>$j$</latex> 的最大公约数。</p>
+<p>Doris 的表格中共有 <latex>$n \times m$</latex> 个数，她想知道这些数的乘积是多少。</p>
+<p>这些数的乘积实在是太大了，所以 Doris 只想知道乘积对 <latex>$1000000007$</latex> 取模后的结果。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>有多组测试数据。</p>
+<p>第一行一个数 <latex>$T$</latex>，表示数据组数。</p>
+<p>接下来 <latex>$T$</latex> 行，每行两个数 <latex>$n$</latex> 和 <latex>$m$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>输出 <latex>$T$</latex> 行，第 <latex>$i$</latex> 行的数是第 <latex>$i$</latex> 组数据的结果。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">3
+2 3
+4 5
+6 7
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">1
+6
+960
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于 <latex>$10\%$</latex> 的数据， <latex>$1 \leq n, m \leq 100$</latex> ；</p>
+<p>对于 <latex>$30\%$</latex> 的数据， <latex>$1 \leq n, m \leq 1000$</latex> ；</p>
+<p>另外存在 <latex>$30\%$</latex> 的数据， <latex>$T \leq 3$</latex> ；</p>
+<p>对于 <latex>$100\%$</latex> 的数据， <latex>$1 \leq n, m \leq 10 ^ 6, 1 \leq T \leq 1000$</latex> 。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>设</p>
+<latex>$$
+f(x)=\sum_{i=1}^n \sum_{j=1}^m [\gcd(i,j)=x]
+$$</latex><p>则答案可转化成</p>
+<latex>$$
+\prod_{x=1}^n fib[x]^{f(x)}
+$$</latex><p>那么设</p>
+<latex>$$
+F(x)=\sum_{i=1}^n \sum_{j=1}^m [x|\gcd(i,j)] \\
+F(x)=\lfloor\frac nx \rfloor \lfloor\frac mx \rfloor
+$$</latex><p>而</p>
+<latex>$$
+F(x)=\sum_{x|d} f(d) \\
+f(x)=\sum_{x|d} \mu(\frac dx)F(d)
+$$</latex><p>推出</p>
+<latex>$$
+f(x)=\sum_{x|d} \mu(\frac dx)F(d) \\
+f(x)=\sum_{i=1}^{\lfloor\frac nx \rfloor} \mu(i)F(ix) \\
+f(x)=\sum_{i=1}^{\lfloor\frac nx \rfloor} \mu(i)\lfloor\frac n{ix} \rfloor \lfloor\frac m{ix} \rfloor \\
+f(x)=\sum_{i=1}^{\lfloor\frac nx \rfloor} \mu(i)\lfloor\frac {\lfloor\frac nx \rfloor}i \rfloor \lfloor\frac {\lfloor\frac mx \rfloor}i \rfloor \\
+$$</latex><p>对于任意 <latex>$f(x)$</latex> ，我们都可以在 <latex>$O(\sqrt n)$</latex> 的时间内算出结果。</p>
+<p>再回来看一下我们刚才得到的答案的式子：</p>
+<latex>$$
+\begin{aligned}
+    &\prod_{x=1}^n fib[x]^{f(x)} \\
+  = &\prod_{x=1}^n fib[x]^{\sum_{i=1}^{\lfloor\frac nx \rfloor} \mu(i)\lfloor\frac {\lfloor\frac nx \rfloor}i \rfloor \lfloor\frac {\lfloor\frac mx \rfloor}i \rfloor} \\
+  = &\prod_{x=1}^n \prod_{i=1}^{\lfloor\frac nx \rfloor} fib[x]^{\mu(i)\lfloor\frac {\lfloor\frac nx \rfloor}i \rfloor \lfloor\frac {\lfloor\frac mx \rfloor}i \rfloor} \\
+\end{aligned} \\
+$$</latex><p>设 <latex>$T=xi$</latex> 则</p>
+<latex>$$
+\begin{aligned}
+    &\prod_{x=1}^n \prod_{i=1}^{\lfloor\frac nx \rfloor} fib[x]^{\mu(i)\lfloor\frac {\lfloor\frac nx \rfloor}i \rfloor \lfloor\frac {\lfloor\frac mx \rfloor}i \rfloor} \\
+  = &\prod_{T=1}^n \prod_{x|T} fib[x]^{\mu(\frac Tx) \lfloor\frac nT \rfloor \lfloor\frac mT \rfloor} \\
+  = &\prod_{T=1}^n (\prod_{x|T} fib[x]^{\mu(\frac Tx)})^{\lfloor\frac nT \rfloor \lfloor\frac mT \rfloor} \\
+\end{aligned} \\
+$$</latex><p>设 <latex>$mul(T)=\prod_{x|T} fib[x]^{\mu(\frac Tx)}$</latex> ，则答案变为</p>
+<latex>$$
+\prod_{T=1}^n mul(T)^{\lfloor\frac nT \rfloor \lfloor\frac mT \rfloor}
+$$</latex><p>同时注意到由于 <latex>$\mu(\frac Tx) \in \{-1, 0, 1\}$</latex> ，所以 <latex>$fib[x]^{\mu(\frac Tx)}$</latex> 可以在 <latex>$O(1)$</latex> 的时间内计算出来。</p>
+<p>所以 <latex>$mul(T)$</latex> 的时间复杂度为 <latex>$O(T的因子个数)$</latex> 。</p>
+<p>使用线性筛暴力预处理出 <latex>$mul(1\ldots n)$</latex> ，时间复杂度为 <latex>$O(\frac n1+\frac n2+\ldots+\frac nn)\approx O(n log n)$</latex> 。</p>
+<p>再结合刚才的式子，预处理出 <latex>$mul(T)$</latex> 的前缀积，也就可以对 <latex>$\lfloor\frac nT \rfloor$</latex> 和 <latex>$\lfloor\frac mT \rfloor$</latex> 数论分块，做到 <latex>$O(\sqrt n)$</latex> 求解了。</p>
+<h2>总结</h2>
+<p>本题是一道不错的莫比乌斯反演的题目。</p>
+<p>当我们做到莫比乌斯反演题目被卡住时，不妨换个变量枚举。</p>
+<p>可以枚举 <latex>$d$</latex> 、 <latex>$id$</latex> 、 <latex>$xi$</latex> 、 <latex>$\ldots$</latex> ，也许换一个枚举的变量，就可以得出正确的答案了。</p>
+<p>同时要记得： <latex>$O(\frac n1+\frac n2+\ldots+\frac nn)\approx O(n log n)$</latex> 。</p>
+<p>不要被这个看似会超时的复杂度给吓到。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;cstdio&gt;
+#include &lt;algorithm&gt;
+#define ri register int
+using namespace std;
+typedef long long int64;
+const int SCP=682*999*2, MOD=1e9+7;
+int mu[SCP], mul[SCP], fib[SCP], invfib[SCP], mulprod[SCP], invmulprod[SCP];
+int p[SCP], pn;
+bool notp[SCP];
+inline int qmod(int x, int mod){
+    while(x&lt;0) x+=mod;
+    while(x&gt;=mod) x-=mod;
+    return x;
+}
+inline int qpow(int b, int p, int mod){
+    ri res=1;
+    while(p){
+        if(p&amp;1) res=(int64)res*b%mod;
+        b=(int64)b*b%mod;
+        p&gt;&gt;=1;
+    }
+    return res;
+}
+inline void getfunction(int n){
+    r&lt;latex&gt;$i$&lt;/latex&gt;, j;
+    // fib
+    fib[1]=1;
+    for(i=2; i&lt;=n; i++) fib[i]=qmod(fib[i-1]+fib[i-2], MOD);
+    // mu &amp;&amp; prime
+    mu[1]=1;
+    for(i=2; i&lt;=n; i++){
+        if(!notp[i]){
+            p[++pn]=i;
+            mu[i]=-1;
+        }
+        for(j=1; i*p[j]&lt;=n and j&lt;=pn; j++){
+            notp[i*p[j]]=1;
+            if(i%p[j]) mu[i*p[j]]=-mu[i];
+            else{
+                mu[i*p[j]]=0;
+                break;
+            }
+        }
+    }
+    // mul
+    for(i=1; i&lt;=n; i++) mul[i]=1;
+    for(i=1; i&lt;=n; i++) invfib[i]=qpow(fib[i], MOD-2, MOD);
+    for(i=1; i&lt;=n; i++){
+        for(j=1; i*j&lt;=n; j++){
+            if(mu[j]==1) mul[i*j]=(int64)mul[i*j]*fib[i]%MOD;
+            else if(mu[j]==-1) mul[i*j]=(int64)mul[i*j]*invfib[i]%MOD;
+        }
+    }
+    mulprod[0]=invmulprod[0]=1;
+    for(i=1; i&lt;=n; i++){
+        mulprod[i]=(int64)mulprod[i-1]*mul[i]%MOD;
+        invmulprod[i]=qpow(mulprod[i], MOD-2, MOD);
+    }
+}
+int main(){
+    #ifndef ONLINE_JUDGE
+    freopen(&quot;2000.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;2000.out&quot;, &quot;w&quot;, stdout);
+    #endif
+
+    r&lt;latex&gt;$i$&lt;/latex&gt;, j, T, n, m, ans;
+    getfunction(1000000);
+    scanf(&quot;%d&quot;, &amp;T);
+    while(T--){
+        ans=1;
+        scanf(&quot;%d %d&quot;, &amp;n, &amp;m);
+        if(n&gt;m) swap(n, m);
+        for(i=1; i&lt;=n; i=j+1){
+            j=min(n, min(n/(n/i), m/(m/i)));
+            // printf(&quot;%d %d %d %d\n&quot;, i, j, (int64)mulprod[j]*invmulprod[i-1]%MOD, qpow((int64)mulprod[j]*invmulprod[i-1]%MOD, (int64)(n/i)*(m/i)%(MOD-1), MOD));
+            ans=(int64)ans*qpow((int64)mulprod[j]*invmulprod[i-1]%MOD, (int64)(n/i)*(m/i)%(MOD-1), MOD)%MOD;
+        }
+        printf(&quot;%d\n&quot;, ans);
+    }
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

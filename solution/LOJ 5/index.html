@@ -1,0 +1,354 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>Guess Date - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #5. Guess Date</h1>
+    </div>
+
+    
+    
+
+      <div class="row" style="margin-top: -15px">
+          <span class="ui label">题目类型：答案提交</span>
+        
+          <span class="ui label">评测方式：Special Judge</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/5">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 5 Guess Date.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 5 Guess Date.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 5 Guess Date.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>给你一个提示，请猜测对应的日期。假设日期 <latex>$x$</latex> 用 <latex>$1,2,\cdots,n$</latex> 中的一个整数表示。</p>
+<p>在任意一个数据点输出 <latex>$0$</latex> 都可以得到一定的同情分。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行一个整数 <latex>$n$</latex>，表示日期 <latex>$x$</latex> 的范围是 <latex>$1,2,\cdots,n$</latex>。</p>
+<p>第二行一个字符串，为一个关于日期 <latex>$x$</latex> 的 Python 表达式，表示给出的提示。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于每个测试点，请将对应答案写入 <code>date#.usr</code> 中，并填入网页下方提交答案处，或者以 zip 压缩包形式上传。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">10
+abs(x - 7) == 4
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">3
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>本题中给出的 Python 表达式与 C++ 语义相同。表达式中 <code>x</code> 是一个整型变量，当 <code>x</code> 为正确答案时，表达式求值为 <code>True</code>；否则为 <code>False</code>。保证答案惟一。</p>
+<p>注：</p>
+<ul>
+<li>Python 中 <code>a ** b</code> 表示计算 <latex>$a^b$</latex>。</li>
+<li><code>pi</code> 的值为 <latex>$3.141592653589793$</latex>；三角函数使用弧度制。</li>
+<li>给出的表达式可以直接在 Python 中 <code>from math import *</code> 后求值。</li>
+<li>本题的测试数据中，<code>in</code> 文件是输出 <latex>$0$</latex> 可得的分数百分比；<code>out</code> 文件是正确日期。在上传提交答案类题目时，如果 Special Judge 不需要 <code>in</code>/<code>out</code> 文件，可在 <code>data.yml</code> 中对应省略 <code>inputFile</code>/<code>outputFile</code> 项。</li>
+<li><strong>不保证</strong> 答案是一个公历日期。</li>
+</ul>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>data1.<span></span>in</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">1231
+x * (x - 31) == 815184 - x
+</code></pre></div>
+<p>解一元二次方程。</p>
+<latex>$$
+x(x-31)=815184-x
+x^2-31x=815184-x
+x^2-30x-815184=0
+x=\frac{-b \pm \sqrt {b^2-4ac}}{2a}
+x=\frac{30 \pm \sqrt {30^2+4 \times 815184} }{2}
+$$</latex><p>解得 <latex>$x_1=-888, x_2=918$</latex> 。</p>
+<p>由于 <latex>$x \in [1, 1231]$</latex> ，所以 <latex>$x$</latex> 有唯一解 <latex>$x=918$</latex> 。</p>
+<p>时间复杂度： <latex>$O(1)$</latex> 。</p>
+<p>直接枚举也可以，不需要太多的时间。</p>
+<p>时间复杂度： <latex>$O(n)$</latex> 。</p>
+<h4>data2.<span></span>in</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">20021231
+(x ** x % 911) + (x ^ (x % 1248679)) == 20000000
+</code></pre></div>
+<p>因为 <latex>$911$</latex> 是质数，所以 <latex>$x^x \bmod 911=(x \bmod 911)^{x \bmod 910} \bmod 911$</latex> 。可以用快速幂 <latex>$O(\log 911)$</latex> 算出 <latex>$x^x \bmod 911$</latex> 。</p>
+<p>又因为有 <latex>$a \oplus b \leq a+b$</latex> ，所以 <latex>$x \oplus (x \bmod 1248679) \leq x + x \bmod 1248679$</latex> 。</p>
+<p>在最理想情况下， <latex>$\max\{x^x \bmod 911+x \oplus (x \bmod 1248679)\}=910+x+1248678=x+1249588$</latex> 。</p>
+<p>也就是说，可以看成 <latex>$x+p=20000000$</latex> ，其中 <latex>$p \in [0, 1249588]$</latex> 。</p>
+<p>所以存在的解 <latex>$x$</latex> 必定满足 <latex>$x \in [20000000-1249588, 20021231]$</latex> ，即 <latex>$x \in [18750412, 20021231]$</latex> 。</p>
+<p>尝试所有 <latex>$20021231-18750412+1=1270820$</latex> 个解即可。</p>
+<p>时间复杂度： <latex>$O(1270820 \log 911)$</latex> 。</p>
+<p>当然也可以暴力枚举，只不过那样比较慢，也应该不是出题人的意图。</p>
+<h4>data3.<span></span>in</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">1234567890
+abs(2e9 - max(abs(x - 1e9), abs(x - 2e9), abs(x - 3e9))) &lt;= 10 and abs(sin(pi * (x + 25) / 32)) &lt;= 1e-8
+</code></pre></div>
+<p>首先，我们知道 <latex>$|a-b|$</latex> 的几何意义是在数轴上 <latex>$a$</latex> 和 <latex>$b$</latex> 的距离。因此，我们可以得到：</p>
+<latex>$$
+\max\{|x-10^9|, |x-2 \times 10^9|, |x-3 \times 10^9|\}=\max\{|x-10^9|, |x-3 \times 10^9|\}
+$$</latex><p>由</p>
+<latex>$$
+|2 \times 10^9 - \max\{|x-10^9|, |x-3 \times 10^9|\} | \leq 10
+$$</latex><p>可得</p>
+<latex>$$
+(\max\{|x-10^9|, |x-3 \times 10^9|\}) \in [2 \times 10^9-10, 2 \times 10^9+10]
+$$</latex><p>所以有 <latex>$x \in [10^9-10, 10^9+10]$</latex> 或 <latex>$x \in [3 \times 10^9-10, 3 \times 10^9+10]$</latex> 。</p>
+<p>根据 <latex>$x \in [1, 1234567890]$</latex> ，所以可以排除 <latex>$x \in [3 \times 10^9-10, 3 \times 10^9+10]$</latex> 。</p>
+<p>综上， 满足第一个条件的 <latex>$x$</latex> 共有 <latex>$21$</latex> 个解，满足 <latex>$x \in [10^9-10, 10^9+10]$</latex> 。</p>
+<p>直接判断这些解是否满足第二个条件即可。</p>
+<p>时间复杂度： <latex>$O(21)$</latex> 。</p>
+<h4>data4.<span></span>in</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">1463030063184
+x * ((x &amp; -x) + ((x - (x &amp; -x)) &amp; -(x - (x &amp; -x)))) == 1463030063184
+</code></pre></div>
+<latex>$lowbit(x)=x \land -x$</latex> 。
+
+所以这道题目可以转化为
+
+<latex>$$
+\begin{aligned}
+    & x \times ((x \land -x) + ((x - (x \land -x)) \land -(x - (x \land -x)))) \\
+  = & x \times (lowbit(x) + ((x - lowbit(x)) \land -(x - lowbit(x)))) \\
+  = & x \times (lowbit(x) + lowbit(x - lowbit(x))) \\
+\end{aligned}
+$$</latex><p>由于 <latex>$lowbit(x)$</latex> 和 <latex>$lowbit(x-lowbit(x))$</latex> 各有 <latex>$\log 1463030063184$</latex> 个取值，所以直接枚举即可。</p>
+<p>时间复杂度： <latex>$O(\log^2 1463030063184)$</latex> 。</p>
+<h4>data5.<span></span>in</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">1
+not not not not not not not not x and not (((x + (x ^ 998244353) + (((((x + 123) % 456 * 789) ^ 987) - x * 654) ^ (321 * (x % 2))) - (987654321 ^ ((x * x) &gt;&gt; 1)) - (12344321 * x * x * x) - ((1234321 - x) ^ (123454321 &gt;&gt; 2) / (x - 12321) - ((x + (x * x * x) ^ (x * x)) / (x + 123))) * x + 456789 / (x + 9) + 87654 + (32 &lt;&lt; (x + 1))) &gt;&gt; 19) + 1)
+</code></pre></div>
+<p>因为 <latex>$x \in [1, 1]$</latex> 且题目保证一定有且只有一个整数解，所以 <latex>$x=1$</latex> 。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

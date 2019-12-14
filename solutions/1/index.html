@@ -1,0 +1,1443 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="padding">
+    <div class="ui grid" style="margin-bottom: 10px; ">
+      <div class="row" style="white-space: nowrap; ">
+        
+        <div class="right aligned column">
+          <div class="ui toggle checkbox" id="show_tag">
+            <style id="show_tag_style"></style>
+            <script>
+              if (localStorage.getItem('show_tag') === '1') {
+                document.write('<input type="checkbox" checked>');
+                document.getElementById('show_tag_style').innerHTML = '.show_tag_controled { white-space: nowrap; overflow: hidden; }';
+              } else {
+                document.write('<input type="checkbox">');
+                document.getElementById('show_tag_style').innerHTML = '.show_tag_controled { width: 0; white-space: nowrap; overflow: hidden; }';
+              }
+            </script>
+            <script>
+              $(function () {
+                $('#show_tag').checkbox('setting', 'onChange', function () {
+                  let checked = $('#show_tag').checkbox('is checked');
+                  localStorage.setItem('show_tag', checked ? '1' : '0');
+                  if (checked) {
+                    document.getElementById('show_tag_style').innerHTML = '.show_tag_controled { white-space: nowrap; overflow: hidden; }';
+                  } else {
+                    document.getElementById('show_tag_style').innerHTML = '.show_tag_controled { width: 0; white-space: nowrap; overflow: hidden; }';
+                  }
+                });
+              });
+            </script>
+            <label>显示分类标签</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+  
+    <div style="margin-bottom: 30px; ">
+      <div style="text-align: center; ">
+        <div class="ui pagination menu" style="box-shadow: none; ">
+          
+            
+          
+          
+            
+          
+
+          
+            
+          
+          
+            
+          
+
+          
+            <a class="disabled icon item" id="page_prev">
+              <i class="left chevron icon"></i>
+            </a>
+            <a class="active item" href="/solutions/1">1</a>
+          
+
+          
+
+          
+          
+          
+            <a class="item" href="/solutions/2">2</a>
+            <a class="icon item" href="/solutions/2" id="page_next">
+              <i class="right chevron icon"></i>
+            </a>
+          
+        </div>
+      </div>
+    </div>
+  
+
+
+    <table class="ui very basic center aligned table">
+      <thead>
+        <tr>
+          <th class="two wide">编号</th>
+          <th class="left aligned">题目名称</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        
+          <tr style="height:44px">
+            <td><b>CF 719E</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/CF 719E">Sasha and Array</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/13" class="ui tiny blue label">Codeforces</a>
+  
+    <a href="/solutions/tag/36" class="ui tiny blue label">2016</a>
+  
+    <a href="/solutions/tag/86" class="ui tiny olive label">线段树</a>
+  
+    <a href="/solutions/tag/122" class="ui tiny olive label">矩阵</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>CF 799F</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/CF 799F">Beautiful fountains rows</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/13" class="ui tiny blue label">Codeforces</a>
+  
+    <a href="/solutions/tag/37" class="ui tiny blue label">2017</a>
+  
+    <a href="/solutions/tag/152" class="ui tiny olive label">Hash</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>CFGYM 101149M</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/CFGYM 101149M">Ex Machina</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/4" class="ui tiny teal label">交互题</a>
+  
+    <a href="/solutions/tag/13" class="ui tiny blue label">Codeforces</a>
+  
+    <a href="/solutions/tag/36" class="ui tiny blue label">2016</a>
+  
+    <a href="/solutions/tag/165" class="ui tiny olive label">随机化</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>HDU 4035</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/HDU 4035">Maze</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/20" class="ui tiny blue label">ZJU</a>
+  
+    <a href="/solutions/tag/119" class="ui tiny olive label">概率与期望</a>
+  
+    <a href="/solutions/tag/148" class="ui tiny olive label">树形 DP</a>
+  
+    <a href="/solutions/tag/170" class="ui tiny pink label">DP</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>HDU 4651</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/HDU 4651">Partition</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/14" class="ui tiny blue label">HDU</a>
+  
+    <a href="/solutions/tag/94" class="ui tiny olive label">分块及按大小分类</a>
+  
+    <a href="/solutions/tag/143" class="ui tiny olive label">背包 DP</a>
+  
+    <a href="/solutions/tag/170" class="ui tiny pink label">DP</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>HDU 5852</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/HDU 5852">Intersection is not allowed!</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/14" class="ui tiny blue label">HDU</a>
+  
+    <a href="/solutions/tag/118" class="ui tiny olive label">LGV 定理</a>
+  
+    <a href="/solutions/tag/120" class="ui tiny olive label">高斯消元</a>
+  
+    <a href="/solutions/tag/128" class="ui tiny olive label">组合计数</a>
+  
+    <a href="/solutions/tag/167" class="ui tiny pink label">图论</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LGOJ P2000</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LGOJ P2000">拯救世界</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/15" class="ui tiny blue label">LGOJ</a>
+  
+    <a href="/solutions/tag/124" class="ui tiny olive label">DFT（含 NTT）及 FFT</a>
+  
+    <a href="/solutions/tag/129" class="ui tiny olive label">生成函数</a>
+  
+    <a href="/solutions/tag/168" class="ui tiny pink label">数学</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LGOJ P2048</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LGOJ P2048">「NOI2010」超级钢琴</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/15" class="ui tiny blue label">LGOJ</a>
+  
+    <a href="/solutions/tag/30" class="ui tiny blue label">2010</a>
+  
+    <a href="/solutions/tag/65" class="ui tiny blue label">NOI</a>
+  
+    <a href="/solutions/tag/86" class="ui tiny olive label">线段树</a>
+  
+    <a href="/solutions/tag/88" class="ui tiny olive label">堆</a>
+  
+    <a href="/solutions/tag/98" class="ui tiny olive label">可持久化</a>
+  
+    <a href="/solutions/tag/102" class="ui tiny olive label">差分</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LGOJ P2221</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LGOJ P2221">「HAOI2012」高速公路</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/15" class="ui tiny blue label">LGOJ</a>
+  
+    <a href="/solutions/tag/32" class="ui tiny blue label">2012</a>
+  
+    <a href="/solutions/tag/44" class="ui tiny blue label">HAOI</a>
+  
+    <a href="/solutions/tag/86" class="ui tiny olive label">线段树</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LGOJ P2495</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LGOJ P2495">「SDOI2011」消耗战</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/15" class="ui tiny blue label">LGOJ</a>
+  
+    <a href="/solutions/tag/31" class="ui tiny blue label">2011</a>
+  
+    <a href="/solutions/tag/51" class="ui tiny blue label">SDOI</a>
+  
+    <a href="/solutions/tag/103" class="ui tiny olive label">虚树</a>
+  
+    <a href="/solutions/tag/148" class="ui tiny olive label">树形 DP</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+    <a href="/solutions/tag/170" class="ui tiny pink label">DP</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LGOJ P2508</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LGOJ P2508">「HAOI2008」圆上的整点</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/15" class="ui tiny blue label">LGOJ</a>
+  
+    <a href="/solutions/tag/28" class="ui tiny blue label">2008</a>
+  
+    <a href="/solutions/tag/44" class="ui tiny blue label">HAOI</a>
+  
+    <a href="/solutions/tag/168" class="ui tiny pink label">数学</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LGOJ P3768</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LGOJ P3768">简单的数学题</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/15" class="ui tiny blue label">LGOJ</a>
+  
+    <a href="/solutions/tag/136" class="ui tiny olive label">莫比乌斯反演</a>
+  
+    <a href="/solutions/tag/140" class="ui tiny olive label">杜教筛</a>
+  
+    <a href="/solutions/tag/169" class="ui tiny pink label">数论</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LGOJ P4139</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LGOJ P4139">上帝与集合的正确用法</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/15" class="ui tiny blue label">LGOJ</a>
+  
+    <a href="/solutions/tag/139" class="ui tiny olive label">欧拉函数</a>
+  
+    <a href="/solutions/tag/169" class="ui tiny pink label">数论</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LGOJ P4151</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LGOJ P4151">「WC2011」最大 XOR 和路径</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/15" class="ui tiny blue label">LGOJ</a>
+  
+    <a href="/solutions/tag/31" class="ui tiny blue label">2011</a>
+  
+    <a href="/solutions/tag/66" class="ui tiny blue label">WC</a>
+  
+    <a href="/solutions/tag/100" class="ui tiny olive label">线性基</a>
+  
+    <a href="/solutions/tag/167" class="ui tiny pink label">图论</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LGOJ P4316</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LGOJ P4316">绿豆蛙的归宿</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/15" class="ui tiny blue label">LGOJ</a>
+  
+    <a href="/solutions/tag/119" class="ui tiny olive label">概率与期望</a>
+  
+    <a href="/solutions/tag/167" class="ui tiny pink label">图论</a>
+  
+    <a href="/solutions/tag/170" class="ui tiny pink label">DP</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 5</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 5">Guess Date</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/3" class="ui tiny teal label">提交答案</a>
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/126" class="ui tiny olive label">位运算</a>
+  
+    <a href="/solutions/tag/169" class="ui tiny pink label">数论</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 139</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 139">树链剖分</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/79" class="ui tiny blue label">模板</a>
+  
+    <a href="/solutions/tag/96" class="ui tiny olive label">树链剖分</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 556</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 556">「Antileaf's Round」咱们去烧菜吧</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/123" class="ui tiny olive label">多项式</a>
+  
+    <a href="/solutions/tag/124" class="ui tiny olive label">DFT（含 NTT）及 FFT</a>
+  
+    <a href="/solutions/tag/129" class="ui tiny olive label">生成函数</a>
+  
+    <a href="/solutions/tag/168" class="ui tiny pink label">数学</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2000</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2000">「SDOI2017」数字表格</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/37" class="ui tiny blue label">2017</a>
+  
+    <a href="/solutions/tag/51" class="ui tiny blue label">SDOI</a>
+  
+    <a href="/solutions/tag/136" class="ui tiny olive label">莫比乌斯反演</a>
+  
+    <a href="/solutions/tag/169" class="ui tiny pink label">数论</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2013</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2013">「SCOI2016」幸运数字</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/36" class="ui tiny blue label">2016</a>
+  
+    <a href="/solutions/tag/50" class="ui tiny blue label">SCOI</a>
+  
+    <a href="/solutions/tag/99" class="ui tiny olive label">点分治</a>
+  
+    <a href="/solutions/tag/100" class="ui tiny olive label">线性基</a>
+  
+    <a href="/solutions/tag/127" class="ui tiny olive label">异或</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2015</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2015">「SCOI2016」妖怪</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/36" class="ui tiny blue label">2016</a>
+  
+    <a href="/solutions/tag/50" class="ui tiny blue label">SCOI</a>
+  
+    <a href="/solutions/tag/121" class="ui tiny olive label">二分</a>
+  
+    <a href="/solutions/tag/168" class="ui tiny pink label">数学</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2016</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2016">「SCOI2016」美味</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/36" class="ui tiny blue label">2016</a>
+  
+    <a href="/solutions/tag/50" class="ui tiny blue label">SCOI</a>
+  
+    <a href="/solutions/tag/86" class="ui tiny olive label">线段树</a>
+  
+    <a href="/solutions/tag/98" class="ui tiny olive label">可持久化</a>
+  
+    <a href="/solutions/tag/127" class="ui tiny olive label">异或</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2018</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2018">「AHOI / HNOI2017」单旋</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/37" class="ui tiny blue label">2017</a>
+  
+    <a href="/solutions/tag/41" class="ui tiny blue label">AHOI</a>
+  
+    <a href="/solutions/tag/46" class="ui tiny blue label">HNOI</a>
+  
+    <a href="/solutions/tag/104" class="ui tiny olive label">Link-Cut Tree</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2021</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2021">「AHOI / HNOI2017」大佬</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/37" class="ui tiny blue label">2017</a>
+  
+    <a href="/solutions/tag/41" class="ui tiny blue label">AHOI</a>
+  
+    <a href="/solutions/tag/46" class="ui tiny blue label">HNOI</a>
+  
+    <a href="/solutions/tag/143" class="ui tiny olive label">背包 DP</a>
+  
+    <a href="/solutions/tag/156" class="ui tiny olive label">DFS</a>
+  
+    <a href="/solutions/tag/170" class="ui tiny pink label">DP</a>
+  
+    <a href="/solutions/tag/172" class="ui tiny pink label">搜索</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2023</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2023">「AHOI / HNOI2017」抛硬币</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/37" class="ui tiny blue label">2017</a>
+  
+    <a href="/solutions/tag/41" class="ui tiny blue label">AHOI</a>
+  
+    <a href="/solutions/tag/46" class="ui tiny blue label">HNOI</a>
+  
+    <a href="/solutions/tag/128" class="ui tiny olive label">组合计数</a>
+  
+    <a href="/solutions/tag/138" class="ui tiny olive label">Lucas 定理</a>
+  
+    <a href="/solutions/tag/168" class="ui tiny pink label">数学</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2026</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2026">「JLOI / SHOI2016」成绩比较</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/36" class="ui tiny blue label">2016</a>
+  
+    <a href="/solutions/tag/47" class="ui tiny blue label">JLOI</a>
+  
+    <a href="/solutions/tag/52" class="ui tiny blue label">SHOI</a>
+  
+    <a href="/solutions/tag/123" class="ui tiny olive label">多项式</a>
+  
+    <a href="/solutions/tag/128" class="ui tiny olive label">组合计数</a>
+  
+    <a href="/solutions/tag/133" class="ui tiny olive label">拉格朗日插值</a>
+  
+    <a href="/solutions/tag/168" class="ui tiny pink label">数学</a>
+  
+    <a href="/solutions/tag/170" class="ui tiny pink label">DP</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2032</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2032">「SDOI2016」游戏</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/36" class="ui tiny blue label">2016</a>
+  
+    <a href="/solutions/tag/51" class="ui tiny blue label">SDOI</a>
+  
+    <a href="/solutions/tag/86" class="ui tiny olive label">线段树</a>
+  
+    <a href="/solutions/tag/96" class="ui tiny olive label">树链剖分</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2038</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2038">「SHOI2015」超能粒子炮・改</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/35" class="ui tiny blue label">2015</a>
+  
+    <a href="/solutions/tag/52" class="ui tiny blue label">SHOI</a>
+  
+    <a href="/solutions/tag/128" class="ui tiny olive label">组合计数</a>
+  
+    <a href="/solutions/tag/138" class="ui tiny olive label">Lucas 定理</a>
+  
+    <a href="/solutions/tag/168" class="ui tiny pink label">数学</a>
+  
+    <a href="/solutions/tag/169" class="ui tiny pink label">数论</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2048</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2048">「HNOI2016」最小公倍数</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/36" class="ui tiny blue label">2016</a>
+  
+    <a href="/solutions/tag/46" class="ui tiny blue label">HNOI</a>
+  
+    <a href="/solutions/tag/84" class="ui tiny olive label">并查集</a>
+  
+    <a href="/solutions/tag/94" class="ui tiny olive label">分块及按大小分类</a>
+  
+    <a href="/solutions/tag/97" class="ui tiny olive label">离线</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2056</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2056">「TJOI /  HEOI2016」序列</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/36" class="ui tiny blue label">2016</a>
+  
+    <a href="/solutions/tag/45" class="ui tiny blue label">HEOI</a>
+  
+    <a href="/solutions/tag/54" class="ui tiny blue label">TJOI</a>
+  
+    <a href="/solutions/tag/162" class="ui tiny olive label">CDQ 分治</a>
+  
+    <a href="/solutions/tag/170" class="ui tiny pink label">DP</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2086</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2086">「NOI2016」区间</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/36" class="ui tiny blue label">2016</a>
+  
+    <a href="/solutions/tag/65" class="ui tiny blue label">NOI</a>
+  
+    <a href="/solutions/tag/86" class="ui tiny olive label">线段树</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2107</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2107">「JLOI2015」城池攻占</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/35" class="ui tiny blue label">2015</a>
+  
+    <a href="/solutions/tag/47" class="ui tiny blue label">JLOI</a>
+  
+    <a href="/solutions/tag/88" class="ui tiny olive label">堆</a>
+  
+    <a href="/solutions/tag/89" class="ui tiny olive label">可并堆</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2108</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2108">「JLOI2015」装备购买</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/35" class="ui tiny blue label">2015</a>
+  
+    <a href="/solutions/tag/47" class="ui tiny blue label">JLOI</a>
+  
+    <a href="/solutions/tag/100" class="ui tiny olive label">线性基</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+    <a href="/solutions/tag/168" class="ui tiny pink label">数学</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2109</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2109">「JLOI2015」骗我呢</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/35" class="ui tiny blue label">2015</a>
+  
+    <a href="/solutions/tag/47" class="ui tiny blue label">JLOI</a>
+  
+    <a href="/solutions/tag/128" class="ui tiny olive label">组合计数</a>
+  
+    <a href="/solutions/tag/168" class="ui tiny pink label">数学</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2127</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2127">「HAOI2015」按位或</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/35" class="ui tiny blue label">2015</a>
+  
+    <a href="/solutions/tag/44" class="ui tiny blue label">HAOI</a>
+  
+    <a href="/solutions/tag/125" class="ui tiny olive label">FWT</a>
+  
+    <a href="/solutions/tag/130" class="ui tiny olive label">容斥原理</a>
+  
+    <a href="/solutions/tag/131" class="ui tiny olive label">Min-Max 容斥</a>
+  
+    <a href="/solutions/tag/168" class="ui tiny pink label">数学</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2142</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2142">「SHOI2017」相逢是问候</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/37" class="ui tiny blue label">2017</a>
+  
+    <a href="/solutions/tag/52" class="ui tiny blue label">SHOI</a>
+  
+    <a href="/solutions/tag/86" class="ui tiny olive label">线段树</a>
+  
+    <a href="/solutions/tag/139" class="ui tiny olive label">欧拉函数</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+    <a href="/solutions/tag/169" class="ui tiny pink label">数论</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2182</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2182">「SDOI2015」寻宝游戏</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/35" class="ui tiny blue label">2015</a>
+  
+    <a href="/solutions/tag/51" class="ui tiny blue label">SDOI</a>
+  
+    <a href="/solutions/tag/90" class="ui tiny olive label">平衡树</a>
+  
+    <a href="/solutions/tag/103" class="ui tiny olive label">虚树</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+    <a href="/solutions/tag/167" class="ui tiny pink label">图论</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2186</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2186">「SDOI2015」道路修建</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/35" class="ui tiny blue label">2015</a>
+  
+    <a href="/solutions/tag/51" class="ui tiny blue label">SDOI</a>
+  
+    <a href="/solutions/tag/86" class="ui tiny olive label">线段树</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2220</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2220">「HEOI2014」平衡</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/34" class="ui tiny blue label">2014</a>
+  
+    <a href="/solutions/tag/45" class="ui tiny blue label">HEOI</a>
+  
+    <a href="/solutions/tag/128" class="ui tiny olive label">组合计数</a>
+  
+    <a href="/solutions/tag/143" class="ui tiny olive label">背包 DP</a>
+  
+    <a href="/solutions/tag/168" class="ui tiny pink label">数学</a>
+  
+    <a href="/solutions/tag/170" class="ui tiny pink label">DP</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2221</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2221">「HEOI2014」南园满地堆轻絮</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/34" class="ui tiny blue label">2014</a>
+  
+    <a href="/solutions/tag/45" class="ui tiny blue label">HEOI</a>
+  
+    <a href="/solutions/tag/164" class="ui tiny olive label">贪心</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2245</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2245">「NOI2014」魔法森林</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/34" class="ui tiny blue label">2014</a>
+  
+    <a href="/solutions/tag/65" class="ui tiny blue label">NOI</a>
+  
+    <a href="/solutions/tag/104" class="ui tiny olive label">Link-Cut Tree</a>
+  
+    <a href="/solutions/tag/108" class="ui tiny olive label">最小生成树</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+    <a href="/solutions/tag/167" class="ui tiny pink label">图论</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2248</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2248">「NOI2014」随机数生成器</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/34" class="ui tiny blue label">2014</a>
+  
+    <a href="/solutions/tag/65" class="ui tiny blue label">NOI</a>
+  
+    <a href="/solutions/tag/81" class="ui tiny olive label">ST 表</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2264</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2264">「CTSC2017」吉夫特</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/37" class="ui tiny blue label">2017</a>
+  
+    <a href="/solutions/tag/67" class="ui tiny blue label">CTSC</a>
+  
+    <a href="/solutions/tag/128" class="ui tiny olive label">组合计数</a>
+  
+    <a href="/solutions/tag/138" class="ui tiny olive label">Lucas 定理</a>
+  
+    <a href="/solutions/tag/169" class="ui tiny pink label">数论</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2271</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2271">「SDOI2017」遗忘的集合</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/37" class="ui tiny blue label">2017</a>
+  
+    <a href="/solutions/tag/51" class="ui tiny blue label">SDOI</a>
+  
+    <a href="/solutions/tag/123" class="ui tiny olive label">多项式</a>
+  
+    <a href="/solutions/tag/124" class="ui tiny olive label">DFT（含 NTT）及 FFT</a>
+  
+    <a href="/solutions/tag/129" class="ui tiny olive label">生成函数</a>
+  
+    <a href="/solutions/tag/168" class="ui tiny pink label">数学</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2273</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2273">「JXOI2017」数列</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/37" class="ui tiny blue label">2017</a>
+  
+    <a href="/solutions/tag/49" class="ui tiny blue label">JXOI</a>
+  
+    <a href="/solutions/tag/170" class="ui tiny pink label">DP</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2312</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2312">「HAOI2017」八纵八横</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/37" class="ui tiny blue label">2017</a>
+  
+    <a href="/solutions/tag/44" class="ui tiny blue label">HAOI</a>
+  
+    <a href="/solutions/tag/86" class="ui tiny olive label">线段树</a>
+  
+    <a href="/solutions/tag/100" class="ui tiny olive label">线性基</a>
+  
+    <a href="/solutions/tag/161" class="ui tiny olive label">分治</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+    <a href="/solutions/tag/167" class="ui tiny pink label">图论</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2359</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2359">「NOIP2016」天天爱跑步</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/36" class="ui tiny blue label">2016</a>
+  
+    <a href="/solutions/tag/64" class="ui tiny blue label">NOIP</a>
+  
+    <a href="/solutions/tag/86" class="ui tiny olive label">线段树</a>
+  
+    <a href="/solutions/tag/93" class="ui tiny olive label">启发式合并</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2383</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2383">「HNOI2013」游走</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/33" class="ui tiny blue label">2013</a>
+  
+    <a href="/solutions/tag/46" class="ui tiny blue label">HNOI</a>
+  
+    <a href="/solutions/tag/119" class="ui tiny olive label">概率与期望</a>
+  
+    <a href="/solutions/tag/120" class="ui tiny olive label">高斯消元</a>
+  
+    <a href="/solutions/tag/168" class="ui tiny pink label">数学</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2409</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2409">「THUPC 2017」小 L 的计算题 / Sum</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/37" class="ui tiny blue label">2017</a>
+  
+    <a href="/solutions/tag/69" class="ui tiny blue label">THUPC</a>
+  
+    <a href="/solutions/tag/123" class="ui tiny olive label">多项式</a>
+  
+    <a href="/solutions/tag/124" class="ui tiny olive label">DFT（含 NTT）及 FFT</a>
+  
+    <a href="/solutions/tag/129" class="ui tiny olive label">生成函数</a>
+  
+    <a href="/solutions/tag/161" class="ui tiny olive label">分治</a>
+  
+    <a href="/solutions/tag/168" class="ui tiny pink label">数学</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+          <tr style="height:44px">
+            <td><b>LOJ 2466</b></td>
+            <td class="left aligned">
+              <a style="vertical-align:middle" href="/solution/LOJ 2466">「POI2014」卡片 Card</a>
+              <div class="show_tag_controled" style="float:right">
+                
+  
+    <a href="/solutions/tag/16" class="ui tiny blue label">LOJ</a>
+  
+    <a href="/solutions/tag/34" class="ui tiny blue label">2014</a>
+  
+    <a href="/solutions/tag/77" class="ui tiny blue label">POI</a>
+  
+    <a href="/solutions/tag/86" class="ui tiny olive label">线段树</a>
+  
+    <a href="/solutions/tag/166" class="ui tiny pink label">数据结构</a>
+  
+
+              </div>
+            </td>
+          </tr>
+        
+      </tbody>
+    </table>
+
+    
+  
+    <div style="margin-bottom: 30px; ">
+      <div style="text-align: center; ">
+        <div class="ui pagination menu" style="box-shadow: none; ">
+          
+            
+          
+          
+            
+          
+
+          
+            
+          
+          
+            
+          
+
+          
+            <a class="disabled icon item" id="page_prev">
+              <i class="left chevron icon"></i>
+            </a>
+            <a class="active item" href="/solutions/1">1</a>
+          
+
+          
+
+          
+          
+          
+            <a class="item" href="/solutions/2">2</a>
+            <a class="icon item" href="/solutions/2" id="page_next">
+              <i class="right chevron icon"></i>
+            </a>
+          
+        </div>
+      </div>
+    </div>
+  
+
+    <script>
+      document.addEventListener('keydown', function (event) {
+        if (event.keyCode === 39)
+          document.getElementById('page_next').click();
+        else if (event.keyCode === 37)
+          document.getElementById('page_prev').click();
+      });
+    </script>
+  </div>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

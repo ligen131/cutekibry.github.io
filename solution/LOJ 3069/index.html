@@ -1,0 +1,702 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「2019 集训队互测 Day 1」整点计数 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #3069. 「2019 集训队互测 Day 1」整点计数</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：4000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/3069">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 3069 「2019 集训队互测 Day 1」整点计数.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 3069 「2019 集训队互测 Day 1」整点计数.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 3069 「2019 集训队互测 Day 1」整点计数.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>小 X 的姐姐小 F 是一名 X 国的占星师，而作为附魔师的小 X 则需要在占星的过程中辅助小 F。</p>
+<p>今夜，空中的星星排列得格外整齐，如果将整个星空抽象成一个平面直角坐标系的话，在每一个整点处，都恰好有一颗星，小 X 和小 F 所在的星就是原点。</p>
+<p>距离小 X 和小 F 所在的星相同的星之间是会相互作用的，如果记 <latex>$f(x)$</latex> 表示距离小 X 和小 F 所在的星 <latex>$x$</latex> 个单位的星星的个数，那么这一系列的星将共计产生 <latex>$f(x)^k$</latex> 点能量。</p>
+<p>小 F 观察到，在月圆之夜，距离自己和小 X 所在的星恰好整数个单位的星产生的能量将会变得易于收集。并且，由于技术限制，小 F 暂时只能够收集距离自己和小 X 所在的星不超过 <latex>$N$</latex> 个单位的星产生的能量。需要特别注意的是，小 X 和小 F 所在的星并不会产生能量。</p>
+<p>小 X 要做的，就是帮助小 F 计算此时能够被收集的能量总量。由于能够收集的能量实在太过庞大，小 X 难以确保自己计算毫无失误，因此他希望你能够告诉他这个数值在对某一个数 <latex>$P$</latex> 取模后的结果来验证他计算的正确性。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>一行三个正整数 <latex>$N,k,P$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>一行一个整数 <latex>$\text{Ans}$</latex>，表示能量总量对 <latex>$P$</latex> 取模的结果。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入 1</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">5 1 998244353
+</code></pre></div>
+<h4>样例输出 1</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">28
+</code></pre></div>
+<h4>样例说明</h4>
+<p>样例输入中 <latex>$k=1$</latex>，不难发现此时小 <latex>$X$</latex> 需要计算的就是距原点 <latex>$5$</latex> 单位内，且至原点距离为整数的整点个数，对 <latex>$998244353$</latex> 取模的结果。</p>
+<p>形如 <latex>$(x,0),(-x,0),(0,x),(0,-x)$</latex> 的符合要求的整点有 <latex>$4\times 5=20$</latex> 个；除了以上整点以外，还有 <latex>$(3,4),(-3,4),(3,-4),(-3,-4),(4,3),(-4,3),(4,-3),(-4,-3)$</latex> 共 <latex>$8$</latex> 个符合要求的整点，总计 <latex>$28$</latex> 个。</p>
+<h4>样例输入 2</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">500 5 1000000000
+</code></pre></div>
+<h4>样例输出 2</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">365511168
+</code></pre></div>
+<h4>样例输入 3</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">142857 1 1000000009
+</code></pre></div>
+<h4>样例输出 3</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">2481012
+</code></pre></div>
+<h4>样例输入 4</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">998244353 998244353 998244353
+</code></pre></div>
+<h4>样例输出 4</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">637246480
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于所有测试数据，保证 <latex>$1 \leq N,k \leq 10^{11},10^8 \leq P \leq 10^9+9$</latex>。</p>
+<table class="ui celled table">
+<thead><tr>
+<th style="text-align:center">测试点编号</th>
+<th style="text-align:center">分值</th>
+<th style="text-align:center"><latex>$N$</latex></th>
+<th style="text-align:center"><latex>$k$</latex></th>
+<th style="text-align:center"><latex>$P$</latex></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><latex>$3$</latex></td>
+<td style="text-align:center"><latex>$\leq 1000$</latex></td>
+<td style="text-align:center"><latex>$\leq 5$</latex></td>
+<td style="text-align:center"><latex>$P$</latex> 是质数</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center"><latex>$3$</latex></td>
+<td style="text-align:center"><latex>$\leq 8\times 10^3$</latex></td>
+<td style="text-align:center"><latex>$\leq 5$</latex></td>
+<td style="text-align:center"><latex>$P$</latex> 是质数</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center"><latex>$6$</latex></td>
+<td style="text-align:center"><latex>$\leq 2\times 10^5$</latex></td>
+<td style="text-align:center"><latex>$\leq 5$</latex></td>
+<td style="text-align:center"><latex>$P$</latex> 是质数</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center"><latex>$6$</latex></td>
+<td style="text-align:center"><latex>$\leq 5\times 10^5$</latex></td>
+<td style="text-align:center"><latex>$\leq 5$</latex></td>
+<td style="text-align:center"><latex>$P$</latex> 是质数</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center"><latex>$5$</latex></td>
+<td style="text-align:center"><latex>$\leq 3\times 10^6$</latex></td>
+<td style="text-align:center"><latex>$\leq 5$</latex></td>
+<td style="text-align:center"><latex>$P$</latex> 是质数</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center"><latex>$5$</latex></td>
+<td style="text-align:center"><latex>$\leq 2\times 10^7$</latex></td>
+<td style="text-align:center"><latex>$\leq 5$</latex></td>
+<td style="text-align:center"><latex>$P$</latex> 是质数</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center"><latex>$5$</latex></td>
+<td style="text-align:center"><latex>$\leq 2\times 10^7$</latex></td>
+<td style="text-align:center"><latex>$\leq 5$</latex></td>
+<td style="text-align:center"><latex>$P$</latex> 是质数</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center"><latex>$5$</latex></td>
+<td style="text-align:center"><latex>$\leq 2\times 10^7$</latex></td>
+<td style="text-align:center"><latex>$\leq 5$</latex></td>
+<td style="text-align:center"><latex>$P$</latex> 是质数</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:center"><latex>$8$</latex></td>
+<td style="text-align:center"><latex>$\leq 2\times 10^8$</latex></td>
+<td style="text-align:center"><latex>$=1$</latex></td>
+<td style="text-align:center"><latex>$P$</latex> 是质数</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center"><latex>$8$</latex></td>
+<td style="text-align:center"><latex>$\leq 2\times 10^8$</latex></td>
+<td style="text-align:center"><latex>$=1$</latex></td>
+<td style="text-align:center"><latex>$P$</latex> 是质数</td>
+</tr>
+<tr>
+<td style="text-align:center">11</td>
+<td style="text-align:center"><latex>$8$</latex></td>
+<td style="text-align:center"><latex>$\leq 2\times 10^8$</latex></td>
+<td style="text-align:center"><latex>$=2$</latex></td>
+<td style="text-align:center"><latex>$P$</latex> 是质数</td>
+</tr>
+<tr>
+<td style="text-align:center">12</td>
+<td style="text-align:center"><latex>$8$</latex></td>
+<td style="text-align:center"><latex>$\leq 2\times 10^8$</latex></td>
+<td style="text-align:center"><latex>$=2$</latex></td>
+<td style="text-align:center"><latex>$P$</latex> 是质数</td>
+</tr>
+<tr>
+<td style="text-align:center">13</td>
+<td style="text-align:center"><latex>$1$</latex></td>
+<td style="text-align:center"><latex>$\leq 10^9$</latex></td>
+<td style="text-align:center"><latex>$=15$</latex></td>
+<td style="text-align:center"><latex>$P$</latex> 是 <latex>$2$</latex> 的次幂</td>
+</tr>
+<tr>
+<td style="text-align:center">14</td>
+<td style="text-align:center"><latex>$1$</latex></td>
+<td style="text-align:center"><latex>$\leq 10^9$</latex></td>
+<td style="text-align:center"><latex>$=18$</latex></td>
+<td style="text-align:center"><latex>$P$</latex> 是 <latex>$2$</latex> 的次幂</td>
+</tr>
+<tr>
+<td style="text-align:center">15</td>
+<td style="text-align:center"><latex>$4$</latex></td>
+<td style="text-align:center"><latex>$\leq 10^9$</latex></td>
+<td style="text-align:center"><latex>$\leq 10^9$</latex></td>
+<td style="text-align:center"><latex>$P$</latex> 是质数</td>
+</tr>
+<tr>
+<td style="text-align:center">16</td>
+<td style="text-align:center"><latex>$4$</latex></td>
+<td style="text-align:center"><latex>$\leq 10^{10}$</latex></td>
+<td style="text-align:center"><latex>$\leq 10^9$</latex></td>
+<td style="text-align:center"><latex>$P$</latex> 是质数</td>
+</tr>
+<tr>
+<td style="text-align:center">17</td>
+<td style="text-align:center"><latex>$4$</latex></td>
+<td style="text-align:center"><latex>$\leq 10^{10}$</latex></td>
+<td style="text-align:center"><latex>$\leq 10^9$</latex></td>
+<td style="text-align:center"><latex>$P$</latex> 是质数</td>
+</tr>
+<tr>
+<td style="text-align:center">18</td>
+<td style="text-align:center"><latex>$4$</latex></td>
+<td style="text-align:center"><latex>$\leq 10^{10}$</latex></td>
+<td style="text-align:center"><latex>$\leq 10^9$</latex></td>
+<td style="text-align:center"><latex>$P$</latex> 是质数</td>
+</tr>
+<tr>
+<td style="text-align:center">19</td>
+<td style="text-align:center"><latex>$6$</latex></td>
+<td style="text-align:center"><latex>$\leq 10^{11}$</latex></td>
+<td style="text-align:center"><latex>$\leq 10^{11}$</latex></td>
+<td style="text-align:center">没有额外的限制</td>
+</tr>
+<tr>
+<td style="text-align:center">20</td>
+<td style="text-align:center"><latex>$6$</latex></td>
+<td style="text-align:center"><latex>$\leq 10^{11}$</latex></td>
+<td style="text-align:center"><latex>$\leq 10^{11}$</latex></td>
+<td style="text-align:center">没有额外的限制</td>
+</tr>
+</tbody>
+</table>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>根据「圆上的整点」，我们可以设 <latex>$g(n) = \frac {f(n)}4 = \sum_{d | n^2} \chi(d)$</latex>，那么答案即是</p>
+<latex>$$4^k \sum_{i = 1}^N g(i)^k$$</latex><p>两个积性函数的狄利克雷卷积也是一个积性函数，一个积性函数的幂函数也是积性函数，因而 <latex>$g^k$</latex> 也是积性函数。</p>
+<p>注意到 <latex>$N \leq 10^{11}$</latex>，同时 <latex>$\chi$</latex> 也没有什么好的性质能用到杜教筛中，所以我们只能考虑洲阁筛。</p>
+<p>那么对于任意质数 <latex>$p$</latex> 和正整数 <latex>$k$</latex>，有</p>
+<latex>$$
+g(p^k)^K =
+\begin{cases}
+    (2k + 1)^K, &p \bmod 4 = 1 \\
+    1, &p \bmod 4 \neq 1 \\
+\end{cases}
+$$</latex><p>可以根据这一点完成洲阁筛第一部分的计算。</p>
+<p>特别地，当 <latex>$k = 1$</latex> 时，有</p>
+<latex>$$
+g(p)^K =
+\begin{cases}
+    3^K, &p \bmod 4 = 1 \\
+    1, &p \bmod 4 = 3 \\
+\end{cases}
+$$</latex><p>这相当于求出 <latex>$\bmod \: 4$</latex> 分别为 <latex>$1, 3$</latex> 的质数个数，可参见 LOJ 6027 「from CommonAnts」质数计数 I（<a href="https://loj.ac/problem/6027">原题</a> / <a href="/solution/LOJ%206027">题解</a>）。</p>
+<p>可以根据这一点完成洲阁筛第二部分的计算。</p>
+<p>时间复杂度：<latex>$O(\frac {n^{\frac 34}}{\log n})$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;cmath&gt;
+#include &lt;cstdio&gt;
+
+typedef long long int64;
+
+// #ifdef ONLINE_JUDGE
+const int MAXB = 8000000 + 10;
+// #else
+// const int MAXB = 1000 + 10;
+// #endif
+
+const int MAXLOG = 50 + 10;
+
+int MOD;
+int64 n, m;
+int B;
+
+// POWK[i] = i ** k
+int POWK[MAXLOG];
+
+// floor(n / i)
+int64 d[MAXB];
+int dn;
+
+// Primes not exceed B
+int p[MAXB], pn;
+
+int pgsum[MAXB];              // prefix sum of g(p)
+int p1sum[MAXB], p3sum[MAXB]; // prefix sum of p mod 4 == 1 / 3
+int g[MAXB];                  // g(p)
+
+// Result of zz_sleve()
+int F1;
+int F2[MAXB];
+
+inline int min(int64 x, int64 y) { return (x &lt; y) ? x : y; }
+inline int qmod(int x) { return (x &gt;= MOD) ? (x - MOD) : x; }
+inline int qpow(int64 b, int64 p, int mod = MOD) {
+    int res = 1;
+
+    while (p) {
+        if (p &amp; 1)
+            res = res * b % mod;
+        b = b * b % mod;
+        p &gt;&gt;= 1;
+    }
+    return res;
+}
+inline void linear_sleve() {
+    static bool notp[MAXB];
+    int i, j;
+    int64 x, y;
+
+    for (i = 1; i &lt; MAXLOG; i++)
+        POWK[i] = qpow(i, m);
+
+    notp[1] = true;
+    g[1] = 1;
+    for (i = 2; i &lt;= B; i++) {
+        if (!notp[i]) {
+            pn++;
+            p[pn] = i;
+            for (j = 3, x = i; x &lt;= B; x *= i, j += 2)
+                g[x] = (i &amp; 2) ? 1 : POWK[j];
+        }
+        for (j = 1; j &lt;= pn and i * p[j] &lt;= B; j++) {
+            notp[i * p[j]] = true;
+            if (i % p[j])
+                g[i * p[j]] = 1ll * g[i] * g[p[j]] % MOD;
+            else {
+                x = i;
+                y = p[j];
+                while (!(x % p[j])) {
+                    x /= p[j];
+                    y *= p[j];
+                }
+                g[i * p[j]] = 1ll * g[x] * g[y] % MOD;
+                break;
+            }
+        }
+    }
+
+    for (i = 2; i &lt;= B; i++) {
+        p1sum[i] = p1sum[i - 1];
+        p3sum[i] = p3sum[i - 1];
+        pgsum[i] = pgsum[i - 1];
+        if (!notp[i]) {
+            pgsum[i] = qmod(pgsum[i - 1] + g[i]);
+            if ((i &amp; 3) == 1)
+                p1sum[i] = qmod(p1sum[i - 1] + 1);
+            if ((i &amp; 3) == 3)
+                p3sum[i] = qmod(p3sum[i - 1] + 1);
+        }
+    }
+}
+
+void zz_sleve() {
+    static int last[MAXB];
+    static int f1[MAXB], f3[MAXB];
+    int i, j, k, pos;
+    int64 x;
+
+    for (x = n; x; x = n / (d[dn] + 1)) {
+        dn++;
+        d[dn] = n / x;
+    }
+
+    // Sleve 1
+    for (i = 1; i &lt;= dn; i++)
+        f1[i] = 1;
+    for (i = pn; i; i--) {
+        for (j = dn; j; j--) {
+            x = d[j] / p[i];
+            if (x &lt; p[i])
+                break;
+
+            if (i == pn or d[j] &lt; p[i + 1])
+                f1[j] = 1;
+            else if (d[j] / p[i + 1] &lt; p[i + 1])
+                f1[j] = qmod(1 + qmod(MOD + pgsum[min(B, d[j])] - pgsum[p[i]]));
+
+            for (k = 3; x; x /= p[i], k += 2) {
+                pos = (x &lt;= B) ? x : (dn - n / x + 1);
+
+                if (x &lt; p[i + 1] or i == pn)
+                    f1[pos] = 1;
+                else if (x / p[i + 1] &lt; p[i + 1])
+                    f1[pos] = qmod(1 + qmod(MOD + pgsum[min(B, x)] - pgsum[p[i]]));
+
+                if ((p[i] &amp; 3) ^ 1)
+                    k = 1;
+                f1[j] = (f1[j] + 1ll * POWK[k] * f1[pos]) % MOD;
+            }
+        }
+    }
+    F1 = f1[dn];
+
+    // Sleve 2
+    for (i = 1; i &lt;= dn; i++) {
+        f1[i] = ((d[i] + 3) &gt;&gt; 2) % MOD;
+        f3[i] = ((d[i] + 1) &gt;&gt; 2) % MOD;
+    }
+    for (i = 2; i &lt;= pn; i++) {
+        for (j = dn; j; j--) {
+            x = d[j] / p[i];
+            if (x &lt; p[i])
+                break;
+
+            pos = (x &lt;= B) ? x : (dn - n / x + 1);
+            f1[pos] = qmod(f1[pos] + qmod(MOD + p1sum[p[last[pos]]] - p1sum[p[i - 1]]));
+            f3[pos] = qmod(f3[pos] + qmod(MOD + p3sum[p[last[pos]]] - p3sum[p[i - 1]]));
+            last[pos] = i - 1;
+
+            if ((p[i] &amp; 3) == 3) {
+                f1[j] = qmod(MOD + f1[j] - f3[pos]);
+                f3[j] = qmod(MOD + f3[j] - f1[pos]);
+            }
+            else {
+                f1[j] = qmod(MOD + f1[j] - f1[pos]);
+                f3[j] = qmod(MOD + f3[j] - f3[pos]);
+            }
+            last[j] = i;
+        }
+    }
+
+    for (i = 1; i &lt;= dn; i++) {
+        if (d[i] &gt; B) {
+            f1[i] = qmod(f1[i] + qmod(MOD + p1sum[p[last[i]]] - p1sum[B]));
+            f3[i] = qmod(f3[i] + qmod(MOD + p3sum[p[last[i]]] - p3sum[B]));
+        }
+        else {
+            f1[i] = 1;
+            f3[i] = 0;
+        }
+        f1[i] = qmod(MOD + f1[i] - 1);
+        F2[i] = (1ll * f1[i] * POWK[3] + f3[i]) % MOD;
+    }
+
+    // #ifndef ONLINE_JUDGE
+    //     printf(&quot;# F1 = %d\n&quot;, F1);
+    //     for (i = 1; i &lt;= dn; i++)
+    //         printf(&quot;# d = %lld, f1 = %d, f3 = %d, F2 = %d\n&quot;, d[i], f1[i], f3[i], F2[i]);
+    // #endif
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;3069.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;3069.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int i, pos;
+    int64 ans, x;
+
+    scanf(&quot;%lld %lld %d&quot;, &amp;n, &amp;m, &amp;MOD);
+
+    if (n &lt;= 3) {
+        printf(&quot;%lld\n&quot;, 1ll * qpow(4, m) * n % MOD);
+        return 0;
+    }
+    B = sqrt(n);
+    linear_sleve();
+    zz_sleve();
+
+    ans = F1;
+    for (i = 1; i &lt;= B; i++) {
+        x = n / i;
+        pos = (x &lt;= B) ? x : (dn - n / x + 1);
+        ans = (ans + 1ll * g[i] * F2[pos]) % MOD;
+    }
+
+    printf(&quot;%lld\n&quot;, 1ll * POWK[4] * ans % MOD);
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

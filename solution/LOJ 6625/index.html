@@ -1,0 +1,453 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>时间复杂度 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #6625. 时间复杂度</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：2333 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/6625">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 6625 时间复杂度.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 6625 时间复杂度.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 6625 时间复杂度.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>一年半前，在 <code>nantf</code> 是个连线性筛和 <latex>$O(\sqrt{n})$</latex> 判断素数都不会的蒟蒻时，他遇到了这样一道题：</p>
+<div class="ui message"><p>给定正整数 <latex>$n$</latex>，求在 <latex>$1$</latex> 到 <latex>$n$</latex> 之间有多少个质数。</p>
+<p><latex>$1\le n\le 10^{11}$</latex>。</p>
+</div>
+<p><code>nantf</code> 当然知道暴力会超时，但是他也没有办法。</p>
+<p>突然，他想到了：判断素数的复杂度是跑不满的！</p>
+<p>于是他打了下面的暴力：（<code>C++</code> 代码）</p>
+<div class="ui existing segment"><pre><code class="lang-cpp">typedef long long ll;
+bool check(ll x){
+    if(x == 1) return false;
+    for(ll i = 2; i &lt; x; i++)
+        if(x % i == 0) return false;
+    return true;
+}
+int main(){
+    ll n, ans = 0;
+    cin &gt;&gt; n;
+    for(ll i = 1; i &lt;= n; i++)
+        if(check(i)) ans++;
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+</code></pre></div>
+<p>虽然这个程序复杂度跑不满 <latex>$O(n^2)$</latex>，但是它还是毫无疑问地挂了。</p>
+<p><code>nantf</code> 不服气，他把 <code>check</code> 函数改写了一下：</p>
+<div class="ui existing segment"><pre><code class="lang-cpp">typedef long long ll;
+ll cnt = 0;
+bool check(ll x){
+    if(x == 1) return false;
+    for(ll i = 2; i &lt; x; i++){
+        cnt++;
+        if(x % i == 0) return false;
+    }
+    return true;
+}
+</code></pre></div>
+<p>众所周知程序结束时 <latex>$cnt$</latex> 的值能反应程序的实际复杂度。</p>
+<p>所以 <code>nantf</code> 找到了你，想让你帮忙算一下程序结束时 <latex>$cnt$</latex> 的值。<strong>不需要考虑溢出。</strong></p>
+<hr>
+<p>以上是一年半前 <code>nantf</code> 的惨痛回忆。</p>
+<p>现在 <code>nantf</code> 已经会做这题了，但他现在对这个 <latex>$cnt$</latex> 很感兴趣，想要计算它的值。</p>
+<p><code>nantf</code> 当然知道怎么做啦！但是他想考考你……</p>
+<p>另外，<code>nantf</code> 已经不关心这个程序的时间复杂度了，于是他决定让你求出 <latex>$cnt$</latex> 对 <latex>$20190601$</latex>（一个质数）取模的值。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>仅一行，包含一个正整数 <latex>$n$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>仅一行，输出 <latex>$cnt$</latex> 对 <latex>$20190601$</latex> 取模的值。<strong>不需要考虑溢出。</strong></p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入1</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">10
+</code></pre></div>
+<h4>样例输出1</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">15
+</code></pre></div>
+<h4>样例输入2</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">20190601
+</code></pre></div>
+<h4>样例输出2</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">10608902
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于 <latex>$10\%$</latex> 的数据，<latex>$1\le n\le 10^2$</latex>。</p>
+<p>对于 <latex>$20\%$</latex> 的数据，<latex>$1\le n\le 10^3$</latex>。</p>
+<p>对于 <latex>$40\%$</latex> 的数据，<latex>$1\le n\le 10^7$</latex>。</p>
+<p>对于 <latex>$70\%$</latex> 的数据，<latex>$1\le n\le 10^9$</latex>。</p>
+<p>对于 <latex>$100\%$</latex> 的数据，<latex>$1\le n\le 10^{11}$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>注意到 <latex>$n \leq 10^{11}$</latex>，可以考虑洲阁筛。</p>
+<p>设 <latex>$minp(i)$</latex> 为 <latex>$i$</latex> 的最小质因子，则答案等于</p>
+<latex>$$\left( \sum_{i = 1}^n minp(i) \right) - n - \left( \sum_{i = 1}^n [i \in \mathbb{P}] \right)$$</latex><p>后面两项显然可以直接洲阁筛求出。</p>
+<p>考虑如何求出前面的东西。</p>
+<p>显然，可以枚举最小的质因子 <latex>$p$</latex> 和质因子的质数 <latex>$c$</latex>：</p>
+<latex>$$\sum_{i = 1}^n minp(i) = \sum_{i = 1}^m \sum_{c \in \mathbb{N}^+} p_i f(\lfloor \frac n{p_i^c} \rfloor, i)$$</latex><p>这里 <latex>$f(n, k)$</latex> 表示 <latex>$[1, n]$</latex> 中与 <latex>$p_1, p_2, \ldots, p_k$</latex> 互质的整数个数。这是很明显的，因为只有当 <latex>$x$</latex> 的因子中没有 <latex>$p_1, p_2, \ldots, p_k$</latex> 时，<latex>$p_k$</latex> 才是 <latex>$p_k^cx$</latex> 的最小质因子。</p>
+<p>显然，这个东西其实我们在洲阁筛的过程中就已经求出来了。</p>
+<p>因此直接洲阁筛即可，实现细节留给读者思考。</p>
+<p>时间复杂度：<latex>$O(\frac {n^{\frac 34}}{\log n})$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;cmath&gt;
+#include &lt;cstdio&gt;
+
+typedef long long int64;
+
+#ifdef ONLINE_JUDGE
+const int MAXB = 8000000;
+#else
+const int MAXB = 10000 + 10;
+#endif
+
+const int MOD = 20190601;
+
+int64 n;
+int B;
+
+int64 d[MAXB];
+int dn;
+int p[MAXB], psum[MAXB], pn;
+
+inline int qmod(int x) { return (x &gt;= MOD) ? (x - MOD) : x; }
+void linear_sleve() {
+    static bool notp[MAXB];
+    int i, j;
+
+    notp[1] = true;
+    for (i = 2; i &lt;= B; i++) {
+        if (!notp[i]) {
+            pn++;
+            p[pn] = i;
+            psum[pn] = qmod(psum[pn - 1] + i);
+        }
+        for (j = 1; i * p[j] &lt;= B; j++) {
+            notp[i * p[j]] = true;
+            if (!(i % p[j]))
+                break;
+        }
+    }
+}
+int zz_sleve() {
+    static int f1[MAXB], f2[MAXB], last[MAXB];
+    int i, j, pos;
+    int64 x;
+    int ans = 0;
+
+    for (x = n; x; x = n / (d[dn] + 1)) {
+        dn++;
+        d[dn] = n / x;
+    }
+    for (i = 1; i &lt;= dn; i++) {
+        f1[i] = d[i] % MOD;
+        f2[i] = f1[i] * (f1[i] + 1ll) / 2 % MOD;
+    }
+    for (i = 1; i &lt;= pn; i++) {
+        for (j = dn; j; j--) {
+            x = d[j] / p[i];
+            if (x &lt; p[i])
+                break;
+
+            pos = (x &lt;= B) ? x : (dn - n / x + 1);
+            f1[pos] = qmod(MOD + f1[pos] - (i - 1 - last[pos]));
+            f2[pos] = qmod(f2[pos] + qmod(MOD + psum[last[pos]] - psum[i - 1]));
+            last[pos] = i - 1;
+
+            f1[j] = qmod(MOD + f1[j] - f1[pos]);
+            f2[j] = qmod(MOD + f2[j] - 1ll * f2[pos] * p[i] % MOD);
+            last[j] = i;
+        }
+
+        x = n / p[i];
+        while (x) {
+            pos = (x &lt;= B) ? x : (dn - n / x + 1);
+
+            if (d[pos] &lt; p[i])
+                f1[pos] = 1;
+            else {
+                f1[pos] = qmod(MOD + f1[pos] - (i - last[pos]));
+                f2[pos] = qmod(f2[pos] + qmod(MOD + psum[last[pos]] - psum[i]));
+                last[pos] = i;
+            }
+
+            ans = (ans + 1ll * p[i] * f1[pos]) % MOD;
+            x /= p[i];
+        }
+    }
+    ans = qmod(MOD + ans - n % MOD);
+    ans = qmod(ans + qmod(MOD + f2[dn] - f1[dn]));
+    ans = qmod(ans + qmod(MOD - pn + 1));
+    return ans;
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;6625.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;6625.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    scanf(&quot;%lld&quot;, &amp;n);
+    B = sqrt(n);
+    linear_sleve();
+    printf(&quot;%d\n&quot;, zz_sleve());
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

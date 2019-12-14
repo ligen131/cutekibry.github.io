@@ -1,0 +1,707 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「SDOI2017」遗忘的集合 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #2271. 「SDOI2017」遗忘的集合</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：512 MiB</span>
+          <span class="ui label">时间限制：5000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/2271">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 2271 「SDOI2017」遗忘的集合.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 2271 「SDOI2017」遗忘的集合.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 2271 「SDOI2017」遗忘的集合.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>小 Q 在他的个人主页上放出了一个悬赏：征集只含正整数的<strong>非空</strong>集合 <latex>$S$</latex>，其中的每个元素都不超过 <latex>$n$</latex>，并且满足一些附加条件。</p>
+<p>众所周知，我们可以很轻松地对于任意不超过 <latex>$n$</latex> 的正整数 <latex>$x$</latex>，计算出把 <latex>$x$</latex> 表示成 <latex>$S$</latex> 中元素之和的方案数 <latex>$f(x)$</latex>，在这里我们约定，在任意方案中每个数字可以出现多次，但是不考虑数字出现的顺序。</p>
+<p>例如，当 <latex>$S = \{1,2,3,4,5\}$</latex> 时，我们可以计算出 <latex>$f(2) = 2$</latex>，<latex>$f(3) = 3$</latex>，<latex>$f(4) = 5$</latex>，<latex>$f(5) = 7$</latex>。</p>
+<p>再例如，当 <latex>$S = \{1,2,5\}$</latex> 时，我们可以计算出 <latex>$f(4) = 3$</latex>，<latex>$f(5) = 4$</latex>，<latex>$f(6) = 5$</latex>，<latex>$f(7) = 6$</latex>。</p>
+<p>麻烦地是现在小 Q 忘记了 <latex>$S$</latex> 里有哪些元素，幸运地是他用存储设备记录下了所有 <latex>$f(i) \bmod p$</latex> 的值，小 Q 希望你能利用这些信息帮他恢复出 <latex>$S$</latex> 原来的样子。</p>
+<p>具体来说，他希望你找到这样一个正整数的<strong>非空</strong>集合 <latex>$S$</latex>，其中的每个元素都不超过 <latex>$n$</latex>，并且对于任意的 <latex>$i = 1,2,··· ,n$</latex>，满足把 <latex>$i$</latex> 表示成 <latex>$S$</latex> 中元素之和的方案数在模 <latex>$p$</latex> 意义下等于 <latex>$f(i)$</latex>，其中 <latex>$p$</latex> 是记录在存储设备中的一个质数。他向你保证：<strong>一定存在</strong>这样的集合 <latex>$S$</latex>。</p>
+<p>然而，小 Q 觉得他存储的信息并不足以恢复出唯一的 <latex>$S$</latex>，也就是说，可能会存在多个这样的集合 <latex>$S$</latex>，所以小 Q 希望你能给出所有解中<strong>字典序</strong>最小的解。</p>
+<p>对于满足条件的两个不同的集合 <latex>$S_1$</latex> 和 <latex>$S_2$</latex>，我们认为 <latex>$S_1$</latex> 的字典序比 <latex>$S_2$</latex> 的字典序小，当且仅当存在非负整数 <latex>$k$</latex>，使得 <latex>$S_1$</latex> 的前 <latex>$k$</latex> 小元素与 <latex>$S_2$</latex> 的前 <latex>$k$</latex> 小元素完全相等，并且，要么 <latex>$S_1$</latex> 的元素个数为 <latex>$k$</latex>，且 <latex>$S_2$</latex> 的元素个数至少为 <latex>$(k+1)$</latex>，要么 <latex>$S_1$</latex> 和 <latex>$S_2$</latex> 都有至少 <latex>$(k+1)$</latex> 个元素，且 <latex>$S_1$</latex> 的第 <latex>$(k+1)$</latex> 小元素比 <latex>$S_2$</latex> 的第 <latex>$(k+1)$</latex> 小元素小。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行包含两个整数 <latex>$n$</latex> 和 <latex>$p$</latex>，满足 <latex>$p$</latex> 是质数。</p>
+<p>第二行包含 <latex>$n$</latex> 个整数 <latex>$f(1), f(2), \dots , f(n)$</latex>，含义见题目描述。</p>
+<p>保证每一行中相邻的整数由恰好一个空格隔开，并且末尾没有多余的空格。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>你需要输出两行信息来描述字典序最小的解，其中第一行包含一个整数 <latex>$m (m > 0)$</latex>，表示 <latex>$S$</latex> 的元素个数，第二行包含 <latex>$m$</latex> 个正整数 <latex>$s_1, s_2, \dots  , s_m$</latex>，表示将 <latex>$S$</latex> 的所有元素按升序排序后得到的序列。</p>
+<p>你需要保证输出的每一行中相邻的整数由恰好一个空格隔开，并且每一行的末尾没有多余的空格。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入 1</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">5 1000003
+1 2 3 5 7
+</code></pre></div>
+<h3>样例输出 1</h3>
+<div class="ui existing segment"><pre><code class="lang-plain">5
+1 2 3 4 5
+</code></pre></div>
+<h4>样例输入 2</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">9 1000003
+1 2 2 3 4 5 6 7 8
+</code></pre></div>
+<h3>样例输出 2</h3>
+<div class="ui existing segment"><pre><code class="lang-plain">3
+1 2 5
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于 <latex>$100\%$</latex> 的数据，有 <latex>$1 \leq n &lt; 2^{18}$</latex>，<latex>$10^6 \leq p &lt; 2^{30}$</latex>，<latex>$0 \leq f(i)&lt;p(i=1,2,···,n)$</latex>。</p>
+<table class="ui celled table">
+<thead><tr>
+<th>测试点编号</th>
+<th><latex>$n$</latex></th>
+<th><latex>$p$</latex></th>
+<th>特殊约定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><latex>$n = 5$</latex></td>
+<td><latex>$p = 1000003$</latex></td>
+<td>无特殊约定</td>
+</tr>
+<tr>
+<td>2</td>
+<td><latex>$n \leq 20$</latex></td>
+<td>同最大限制</td>
+<td>无特殊约定</td>
+</tr>
+<tr>
+<td>3</td>
+<td><latex>$n \leq 25$</latex></td>
+<td>同最大限制</td>
+<td>无特殊约定</td>
+</tr>
+<tr>
+<td>4</td>
+<td><latex>$n \leq 25$</latex></td>
+<td>同最大限制</td>
+<td>无特殊约定</td>
+</tr>
+<tr>
+<td>5</td>
+<td><latex>$n \leq 5000$</latex></td>
+<td>同最大限制</td>
+<td><latex>$s_m \leq 40$</latex></td>
+</tr>
+<tr>
+<td>6</td>
+<td><latex>$n \leq 5000$</latex></td>
+<td>同最大限制</td>
+<td><latex>$s_m \leq 40$</latex></td>
+</tr>
+<tr>
+<td>7</td>
+<td><latex>$n \leq 8000$</latex></td>
+<td><latex>$p = 1000003$</latex></td>
+<td>无特殊约定</td>
+</tr>
+<tr>
+<td>8</td>
+<td><latex>$n \leq 8000$</latex></td>
+<td><latex>$p = 1000000007$</latex></td>
+<td>无特殊约定</td>
+</tr>
+<tr>
+<td>9</td>
+<td><latex>$n \leq 8000$</latex></td>
+<td>同最大限制</td>
+<td>无特殊约定</td>
+</tr>
+<tr>
+<td>10</td>
+<td><latex>$n \leq 8000$</latex></td>
+<td>同最大限制</td>
+<td><latex>$m = s_m$</latex></td>
+</tr>
+<tr>
+<td>11</td>
+<td>同最大限制</td>
+<td>同最大限制</td>
+<td><latex>$m = s_m$</latex></td>
+</tr>
+<tr>
+<td>12</td>
+<td>同最大限制</td>
+<td>同最大限制</td>
+<td><latex>$m = s_m$</latex></td>
+</tr>
+<tr>
+<td>13</td>
+<td>同最大限制</td>
+<td>同最大限制</td>
+<td><latex>$m = s_m$</latex></td>
+</tr>
+<tr>
+<td>14</td>
+<td>同最大限制</td>
+<td>同最大限制</td>
+<td><latex>$m = s_m$</latex></td>
+</tr>
+<tr>
+<td>15</td>
+<td>同最大限制</td>
+<td><latex>$p = 998244353$</latex></td>
+<td>无特殊约定</td>
+</tr>
+<tr>
+<td>16</td>
+<td>同最大限制</td>
+<td><latex>$p = 991668907$</latex></td>
+<td>无特殊约定</td>
+</tr>
+<tr>
+<td>17</td>
+<td>同最大限制</td>
+<td><latex>$p = 1000000007$</latex></td>
+<td>无特殊约定</td>
+</tr>
+<tr>
+<td>18</td>
+<td>同最大限制</td>
+<td>同最大限制</td>
+<td>无特殊约定</td>
+</tr>
+<tr>
+<td>19</td>
+<td>同最大限制</td>
+<td>同最大限制</td>
+<td>无特殊约定</td>
+</tr>
+<tr>
+<td>20</td>
+<td>同最大限制</td>
+<td>同最大限制</td>
+<td>无特殊约定</td>
+</tr>
+</tbody>
+</table>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>基础题。</p>
+<p>强行枚举 <latex>$1 \ldots n$</latex> 的物品有没有出现，可以在 <latex>$O(n^2)$</latex> 时间内解决问题。通过这个枚举过程，我们可以发现方案唯一，因此不需要考虑字典序问题。</p>
+<p>考虑一般型生成函数。</p>
+<p>令 <latex>$s_0 = 1$</latex>。设 <latex>$F(x) = \sum_{i = 0}^n s_i x^i$</latex>，那么已知 <latex>$s_1, s_2, \ldots, s_n$</latex>，求将 <latex>$F(x)$</latex> 分解为若干 <latex>$\frac 1{1 - x^k} \pmod {x^{n + 1}}$</latex> 的乘积。</p>
+<p>数据保证 <latex>$F(x)$</latex> 可以分解。</p>
+<p><em>以下省略 <latex>$\bmod \: x^{n + 1}$</latex>。</em></p>
+<latex>$$F(x) = \prod_{i = 1}^n (\frac 1{1 - x^i})^{a_i}$$</latex><p>显然，直接做太复杂了。经验告诉我们，面对这种奇怪的乘积问题——遇事不决先 <latex>$\ln$</latex>。</p>
+<latex>$$
+\begin{aligned}
+    \ln F(x) &= \ln \prod_{i = 1}^n (\frac 1{x^i - 1})^{a_i} \\
+    &= \sum_{i = 1}^n a_i \ln (\frac 1{1 - x^i}) \\
+    &= -\sum_{i = 1}^n a_i \ln (1 - x^i) \\
+    &= \sum_{i = 1}^n a_i \sum_{j = 1}^\infty \frac {x^{ij}}j \\
+\end{aligned}
+$$</latex><p>对 <latex>$F(x)$</latex> 简单取个 <latex>$\ln$</latex> 就可以得到右边的式子。</p>
+<p>现在我们要求的即为 <latex>$a_i$</latex>。设 <latex>$\ln F(x)$</latex> 的第 <latex>$i$</latex> 项系数为 <latex>$b_i$</latex>，则</p>
+<latex>$$
+\begin{aligned}
+    b_i &= \sum_{j | i} \frac {a_j}{(\frac ij)} \\
+    b_i &= \sum_{j | i} \frac {ja_j}{i} \\
+    ib_i &= \sum_{j | i} ja_j \\
+\end{aligned}
+$$</latex><p>对这个式子做一遍莫比乌斯反演，得</p>
+<latex>$$ia_i = \sum_{j | i} \mu(\frac ij) jb_j$$</latex><p>时间复杂度：<latex>$O(n \log n)$</latex>。</p>
+<p><del>毒瘤出题人还要 MTT，报警了。</del></p>
+<hr>
+<p>附：多项式逆元</p>
+<latex>$$
+\begin{aligned}
+    (B - B_0)^2 &\equiv 0 \\
+    B^2 - 2BB_0 + B_0^2 &\equiv 0 \\
+    B^2 &\equiv 2BB_0 - B_0^2 \\
+    B &\equiv 2B_0 - AB_0^2 \\
+    B &\equiv B_0 (2 - AB_0) \\
+\end{aligned}
+$$</latex><p>多项式 <latex>$\ln$</latex></p>
+<latex>$$
+\begin{aligned}
+    B &\equiv \ln A \\
+    B' &\equiv (\ln A)' \\
+    B' &\equiv \frac {A'}{A} \\
+    B &\equiv \int \frac {A'}{A} \\
+\end{aligned}
+$$</latex>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cmath&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+
+typedef long long int64;
+typedef long double extend;
+
+const extend PI = std::acos(extend(-1));
+
+#ifdef ONLINE_JUDGE
+const int MAXLOG = 20;
+#else
+const int MAXLOG = 7;
+#endif
+
+const int MAXN = 1 &lt;&lt; MAXLOG;
+
+struct Complex {
+    extend r, i;
+    Complex() {}
+    Complex(extend _r, extend _i) {
+        r = _r;
+        i = _i;
+    }
+    Complex operator=(extend x) {
+        r = x;
+        i = 0;
+        return *this;
+    }
+    Complex conj() { return Complex(r, -i); }
+    Complex operator+(Complex b) { return Complex(r + b.r, i + b.i); }
+    Complex operator-(Complex b) { return Complex(r - b.r, i - b.i); }
+    Complex operator*(Complex b) { return Complex(r * b.r - i * b.i, r * b.i + i * b.r); }
+    Complex operator/(extend x) { return Complex(r / x, i / x); }
+};
+typedef Complex CExpr[MAXN];
+typedef int IExpr[MAXN];
+
+int n, MOD;
+int rev[MAXN];
+int mu[MAXN];
+Complex WN[MAXLOG + 2];
+
+inline int qpow(int64 b, int p) {
+    int res = 1;
+    while (p) {
+        if (p &amp; 1)
+            res = res * b % MOD;
+        b = b * b % MOD;
+        p &gt;&gt;= 1;
+    }
+    return res;
+}
+inline int qmod(int x) { return (x &gt;= MOD) ? (x - MOD) : x; }
+
+// Mu
+inline void linear_sleve(int n) {
+    int i, j;
+    static int p[MAXN], pn;
+    static bool notp[MAXN];
+
+    mu[1] = 1;
+    for (i = 2; i &lt;= n; i++) {
+        if (!notp[i]) {
+            pn++;
+            p[pn] = i;
+            mu[i] = -1;
+        }
+        for (j = 1; j &lt;= pn and i * p[j] &lt;= n; j++) {
+            notp[i * p[j]] = true;
+            if (i % p[j])
+                mu[i * p[j]] = -mu[i];
+            else {
+                mu[i * p[j]] = 0;
+                break;
+            }
+        }
+    }
+    for (i = 2; i &lt;= n; i++)
+        if (mu[i] == -1)
+            mu[i] = MOD - 1;
+}
+
+// Expr
+inline int64 roundm(extend x) { return (int64)(x + 0.5) % MOD; }
+inline void initwn() {
+    int i, k;
+    for (k = i = 1; i &lt;= MAXLOG; k &lt;&lt;= 1, i++)
+        WN[i] = Complex(std::cos(PI / k), std::sin(PI / k));
+}
+inline void initrev(int len) {
+    int i, k = 1;
+    while (len &gt;&gt; k &gt;&gt; 1)
+        k++;
+    for (i = 1; i &lt; len; i++)
+        rev[i] = (rev[i &gt;&gt; 1] &gt;&gt; 1) | ((i &amp; 1) &lt;&lt; (k - 1));
+}
+void dft(CExpr a, int len) {
+    int i, j, k, logk;
+    Complex wn, w, t;
+
+    for (i = 1; i &lt; len; i++)
+        if (i &lt; rev[i])
+            std::swap(a[i], a[rev[i]]);
+    for (k = logk = 1; k &lt; len; k &lt;&lt;= 1, logk++) {
+        wn = WN[logk];
+        for (i = 0; i &lt; len; i += k &lt;&lt; 1) {
+            w = 1;
+            for (j = 0; j &lt; k; j++) {
+                t = a[i + j + k] * w;
+                a[i + j + k] = a[i + j] - t;
+                a[i + j] = a[i + j] + t;
+                w = w * wn;
+            }
+        }
+    }
+}
+void mul(IExpr res, IExpr a, IExpr b, int len) {
+    static CExpr a1, b1, c1, c2;
+    int i, j;
+
+    for (i = 0; i &lt; len; i++) {
+        a1[i] = Complex(a[i] &amp; 32767, a[i] &gt;&gt; 15);
+        b1[i] = Complex(b[i] &amp; 32767, b[i] &gt;&gt; 15);
+    }
+    dft(a1, len);
+    dft(b1, len);
+    for (i = 0; i &lt; len; i++) {
+        j = i ? (len - i) : 0;
+        c1[j] = (a1[i] + a1[j].conj()) * Complex(0.5, 0) * b1[i];
+        c2[j] = (a1[i] - a1[j].conj()) * Complex(0, -0.5) * b1[i];
+    }
+    dft(c1, len);
+    dft(c2, len);
+    for (i = 0; i &lt; len; i++) {
+        c1[i] = c1[i] / len;
+        c2[i] = c2[i] / len;
+        res[i] =
+            ((roundm(c2[i].i) &lt;&lt; 30) + ((roundm(c2[i].r) + roundm(c1[i].i)) &lt;&lt; 15) + roundm(c1[i].r)) % MOD;
+    }
+}
+void inv(IExpr res, IExpr a, int len) {
+    static IExpr a0, b, c;
+    int i, k;
+
+    b[0] = qpow(a[0], MOD - 2);
+    for (k = 4; k &lt;= (len &lt;&lt; 1); k &lt;&lt;= 1) {
+        initrev(k);
+
+        memcpy(a0, a, k &lt;&lt; 1);
+
+        mul(c, a0, b, k);
+        for (i = 0; i &lt; k; i++)
+            c[i] = qmod(MOD - c[i]);
+        c[0] = qmod(c[0] + 2);
+        mul(b, b, c, k);
+        memset(b + (k &gt;&gt; 1), 0, k &lt;&lt; 1);
+    }
+    memcpy(res, b, k &lt;&lt; 2);
+}
+inline void det(IExpr a, IExpr b, int len) {
+    int i;
+    for (i = 1; i &lt; len; i++)
+        a[i - 1] = 1ll * b[i] * i % MOD;
+    a[len - 1] = 0;
+}
+inline void int_(IExpr a, IExpr b, int len) {
+    int i;
+    for (i = len - 1; i; i--)
+        a[i] = 1ll * b[i - 1] * qpow(i, MOD - 2) % MOD;
+    a[0] = 0;
+}
+void ln(IExpr res, IExpr a, int len) {
+    static IExpr deta, inva;
+
+    det(deta, a, len);
+    inv(inva, a, len);
+    initrev(len &lt;&lt; 1);
+    mul(res, deta, inva, len &lt;&lt; 1);
+    int_(res, res, len &lt;&lt; 1);
+    memset(res + len, 0, len &lt;&lt; 2);
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;2271.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;2271.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    static IExpr a, b;
+    int i, j, len, tot = 0;
+
+    initwn();
+
+    scanf(&quot;%d %d&quot;, &amp;n, &amp;MOD);
+    for (i = 1; i &lt;= n; i++)
+        scanf(&quot;%d&quot;, &amp;b[i]);
+    b[0] = 1;
+
+    len = 1;
+    while (len &lt;= n)
+        len &lt;&lt;= 1;
+
+    ln(b, b, len);
+
+    linear_sleve(len - 1);
+    for (i = 1; i &lt;= n; i++)
+        b[i] = 1ll * b[i] * i % MOD;
+    for (i = 1; i &lt;= n; i++)
+        for (j = 1; i * j &lt;= n; j++)
+            a[i * j] = (a[i * j] + 1ll * mu[j] * b[i]) % MOD;
+    for (i = 1; i &lt;= n; i++)
+        if (a[i])
+            tot++;
+    printf(&quot;%d\n&quot;, tot);
+    for (i = 1; i &lt;= n; i++)
+        if (a[i])
+            printf(&quot;%d &quot;, i);
+    putchar(&#39;\n&#39;);
+
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

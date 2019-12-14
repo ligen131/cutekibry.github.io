@@ -1,0 +1,443 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>Beautiful fountains rows - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">CF #799F. Beautiful fountains rows</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：3000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="http://codeforces.com/contest/799/problem/F">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/CF 799F Beautiful fountains rows.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/CF 799F Beautiful fountains rows.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/CF 799F Beautiful fountains rows.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>有一个 <latex>$n \times m$</latex> 的 <latex>$01$</latex> 矩阵 <latex>$A$</latex>。对于第 <latex>$i$</latex> 行，只有下标在 <latex>$[l_i, r_i]$</latex> 中的 <latex>$A_{ij}$</latex> 为 <latex>$1$</latex>。</p>
+<p>定义一个区间 <latex>$[l, r]$</latex> 是合法的，当且仅当对于任意 <latex>$1 \leq i \leq n$</latex>，<latex>$\sum_{j = l}^r A_{ij}$</latex> 为 <latex>$0$</latex> 或为奇数，且至少有一行 <latex>$A_{ij}$</latex> 的和不为 <latex>$0$</latex>。该区间的长度为 <latex>$r - l + 1$</latex>。</p>
+<p>求所有合法区间的长度之和。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行，两个整数 <latex>$n, m \: (1 \leq n, m \leq 2 \times 10^5)$</latex>。</p>
+<p>接下来 <latex>$n$</latex> 行，每行两个整数 <latex>$l_i, r_i \: (1 \leq l_i \leq r_i \leq m)$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>只有一行，一个整数，表示答案。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入 1</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">1 5
+2 4
+</code></pre></div>
+<h4>样例输出 1</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">23
+</code></pre></div>
+<h4>样例解释 1</h4>
+<p>合法的区间有：<latex>$(a, b): (1, 2), (1, 4), (1, 5), (2, 2), (2, 4), (2, 5), (3, 3), (4, 4), (4, 5)$</latex>。</p>
+<h4>样例输入 2</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">3 6
+2 4
+3 6
+4 4
+</code></pre></div>
+<h4>样例输出 2</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">19
+</code></pre></div>
+<h4>样例解释 2</h4>
+<p>合法的区间有：<latex>$(a, b): (1, 2), (1, 5), (2, 2), (2, 5), (3, 3), (4, 4), (4, 6), (5, 5), (6, 6)$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>题目翻译：@Tsukimaru Oshawott</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>容易注意到，如果将每一行看成一种数，那么合法的区间中，每种出现的数都一定出现了奇数次。</p>
+<p>对于一类区间限制为「同一种数出现偶数次」的问题，可以考虑对每种数随机赋予一个权值 <latex>$a_i$</latex>。那么，对于任意合法区间，区间内所有数的异或值必定等于 <latex>$0$</latex>；<strong>反之不一定成立</strong>。不过在 <latex>$a_i$</latex> 相当大且近似随机的情况下，我们可以认为这个算法的正确率是可观的。</p>
+<p>本题要求出现奇数次，那只需要用「区间所有数的异或值」异或上「区间出现过的数的异或值」，当它等于 <latex>$0$</latex> 时，我们可以认为它<strong>有极大概率</strong>是合法的；否则它一定不合法。</p>
+<p>设 <latex>$S_i$</latex> 为序列的前缀异或值，<latex>$f(i, j)$</latex> 为区间 <latex>$[i, j]$</latex> 出现过数的异或值，则有</p>
+<latex>$$S_r \oplus S_{l - 1} \oplus f(l, r) = 0$$</latex><p>考虑如何求 <latex>$f(i, j)$</latex>。</p>
+<p><img src="/static/img/CF%20799F.jpg" alt="" style="display: block; margin: 0px auto;"></p>
+<p>直接考虑在查询区间内的四种情况太复杂了，不如考虑不在查询区间内的两种情况。</p>
+<p>设 <latex>$F_i$</latex> 表示右端点小于等于 <latex>$i$</latex> 的线段异或值，<latex>$G_i$</latex> 表示左端点大于等于 <latex>$i$</latex> 的线段异或值，<latex>$allsum$</latex> 表示所有线段的线段异或值，则 <latex>$f(i, j) = allsum \oplus F_{i - 1} \oplus G_{j + 1}$</latex>。</p>
+<p>因此有</p>
+<latex>$$
+\begin{aligned}
+    S_r \oplus S_{l - 1} \oplus f(l, r) &= 0 \\
+    S_r \oplus S_{l - 1} \oplus F_{l - 1} \oplus G_{r + 1} \oplus allsum &= 0 \\
+    S_{l - 1} \oplus F_{l - 1} &= S_r \oplus G_{r + 1} \oplus allsum \\
+\end{aligned}
+$$</latex><p>枚举右端点，用 Hash 表维护 <latex>$S_{l - 1} \oplus F_{i - 1}$</latex>，查询一下即可。</p>
+<p>注意空的区间也被计数了，因此最后还要减去空区间的贡献。</p>
+<p>时间复杂度：<latex>$O(n + m)$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;map&gt;
+
+typedef unsigned long long uint64;
+
+#ifdef ONLINE_JUDGE
+const int MAXN = 200000 + 10;
+#else
+const int MAXN = 1000 + 10;
+#endif
+
+const int HMOD = 10000019;
+
+int n, m;
+int l[MAXN], r[MAXN];
+uint64 a[MAXN], s[MAXN], allsum;
+uint64 f[MAXN], g[MAXN];
+
+uint64 key[MAXN], m0[MAXN], m1[MAXN];
+int pre[MAXN], head[HMOD], nodecnt;
+
+inline int gethash(uint64 k) { return k % HMOD; }
+inline int find(uint64 k, bool create) {
+    int h = gethash(k), p = head[h];
+    while (p and key[p] ^ k)
+        p = pre[p];
+    if (!p and create) {
+        nodecnt++;
+        pre[nodecnt] = head[h];
+        key[nodecnt] = k;
+        head[h] = nodecnt;
+        p = nodecnt;
+    }
+    return p;
+}
+
+inline void writeln(uint64 x) {
+    static char buf[20];
+    int top = 0;
+
+    if (!x) {
+        putchar(&#39;0&#39;);
+        return;
+    }
+    while (x) {
+        top++;
+        buf[top] = (x % 10) | 48;
+        x /= 10;
+    }
+    while (top) {
+        putchar(buf[top]);
+        top--;
+    }
+    putchar(&#39;\n&#39;);
+}
+
+inline uint64 randint() {
+    static uint64 seed;
+    return seed = seed * 2333 + 998244353;
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;f.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;f.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int i, j, p;
+    uint64 ans = 0;
+
+    scanf(&quot;%d %d&quot;, &amp;n, &amp;m);
+    for (i = 1; i &lt;= n; i++) {
+        scanf(&quot;%d %d&quot;, &amp;l[i], &amp;r[i]);
+        a[i] = randint();
+
+        f[r[i]] ^= a[i];
+        g[l[i]] ^= a[i];
+        s[l[i]] ^= a[i];
+        s[r[i] + 1] ^= a[i];
+        allsum ^= a[i];
+    }
+
+    for (i = 1; i &lt;= m; i++)
+        f[i] ^= f[i - 1];
+    for (i = m; i; i--)
+        g[i] ^= g[i + 1];
+    for (i = 3; i &lt;= m; i++)
+        s[i] ^= s[i - 2];
+
+    for (i = 1; i &lt;= m; i++) {
+        p = find(f[i - 1] ^ s[i - 1], true);
+        m0[p]++;
+        m1[p] += i;
+        p = find(s[i] ^ g[i + 1] ^ allsum, false);
+        ans += (i + 1) * m0[p] - m1[p];
+    }
+
+    memset(s, 0, sizeof(s));
+    for (i = 1; i &lt;= n; i++) {
+        s[l[i]]++;
+        s[r[i] + 1]--;
+    }
+    for (i = 1; i &lt;= m; i++)
+        s[i] += s[i - 1];
+
+    for (i = j = 1; i &lt;= m; i++) {
+        while (j &lt;= m and !s[j])
+            j++;
+        if (i &lt; j)
+            ans -= (j - i) * (1llu + j - i) / 2;
+        else
+            j = i + 1;
+    }
+    writeln(ans);
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

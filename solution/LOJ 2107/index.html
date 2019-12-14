@@ -1,0 +1,450 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「JLOI2015」城池攻占 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #2107. 「JLOI2015」城池攻占</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/2107">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 2107 「JLOI2015」城池攻占.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 2107 「JLOI2015」城池攻占.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 2107 「JLOI2015」城池攻占.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>小铭铭最近获得了一副新的桌游，游戏中需要用 <latex>$m$</latex> 个骑士攻占 <latex>$n$</latex> 个城池。</p>
+<p>这 <latex>$n$</latex> 个城池用 <latex>$1$</latex> 到 <latex>$n$</latex> 的整数表示。除 <latex>$1$</latex> 号城池外，城池 <latex>$i$</latex> 会受到另一座城池 <latex>$f_i$</latex> 的管辖，其中 <latex>$f_i &lt;i$</latex>。也就是说，所有城池构成了一棵有根树。这 <latex>$m$</latex> 个骑士用 <latex>$1$</latex> 到 <latex>$m$</latex> 的整数表示，其中第 <latex>$i$</latex> 个骑士的初始战斗力为 <latex>$s_i$</latex>，第一个攻击的城池为 <latex>$c_i$</latex>。</p>
+<p>每个城池有一个防御值 <latex>$h_i$</latex>，如果一个骑士的战斗力大于等于城池的生命值，那么骑士就可以占领这座城池；否则占领失败，骑士将在这座城池牺牲。占领一个城池以后，骑士的战斗力将发生变化，然后继续攻击管辖这座城池的城池，直到占领 <latex>$1$</latex> 号城池，或牺牲为止。</p>
+<p>除 <latex>$1$</latex> 号城池外，每个城池 <latex>$i$</latex> 会给出两个战斗力变化参数 <latex>$a_i, v_i$</latex>。若 <latex>$a_i = 0$</latex>，攻占城池 <latex>$i$</latex> 以后骑士战斗力会增加 <latex>$v_i$</latex>；若 <latex>$a_i =1$</latex>，攻占城池 <latex>$i$</latex> 以后，战斗力会乘以 <latex>$v_i$</latex>。注意每个骑士是单独计算的。也就是说一个骑士攻击一座城池，不管结果如何，均不会影响其他骑士攻击这座城池的结果。</p>
+<p>现在的问题是，对于每个城池，输出有多少个骑士在这里牺牲；对于每个骑士，输出他攻占的城池数量。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行包含两个正整数 <latex>$n, m$</latex>，表示城池的数量和骑士的数量。</p>
+<p>第二行包含 <latex>$n$</latex> 个整数，其中第 <latex>$i$</latex> 个数为 <latex>$h_i$</latex>，表示城池 <latex>$i$</latex> 的防御值。</p>
+<p>第三到第 <latex>$n+1$</latex> 行，每行包含三个整数。其中第 <latex>$i +1$</latex> 行的三个数为 <latex>$f_i, a_i, v_i$</latex>，分别表示管辖这座城池的城池编号和两个战斗力变化参数。</p>
+<p>第 <latex>$n +2$</latex> 到 <latex>$n + m +1$</latex> 行，每行包含两个整数。其中第 <latex>$n + i$</latex> 行的两个数为 <latex>$s_i,c_i$</latex>，分别表示初始战斗力和第一个攻击的城池。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>输出 <latex>$n + m$</latex> 行，每行包含一个非负整数。其中前 <latex>$n$</latex> 行分别表示在城池 <latex>$1$</latex> 到 <latex>$n$</latex> 牺牲的骑士数量，后 <latex>$m$</latex> 行分别表示骑士 <latex>$1$</latex> 到 <latex>$m$</latex> 攻占的城池数量。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">5 5
+50 20 10 10 30
+1 1 2
+2 0 5
+2 0 -10
+1 0 10
+20 2
+10 3
+40 4
+20 4
+35 5
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">2
+2
+0
+0
+0
+1
+1
+3
+1
+1
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于 <latex>$100 \%$</latex> 的数据，<latex>$1 \leq n,m \leq 300000, \  1 \leq f_i&lt;i, \ 1 \leq c_i \leq n, \ -10^{18} \leq h_i,v_i,s_i \leq 10^{18}$</latex>；<latex>$a_i$</latex> 等于 <latex>$0$</latex> 或者 <latex>$1$</latex>；当 <latex>$a_i =1$</latex> 时，<latex>$v_i > 0$</latex>；保证任何时候骑士战斗力值的绝对值不超过 <latex>$10^{18}$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>维护可并最小根堆即可。</p>
+<p>可考虑使用左偏树。</p>
+<p>时间复杂度：<latex>$O(n \log n)$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+
+typedef long long int64;
+
+#ifdef ONLINE_JUDGE
+const int MAXN = 300000 + 10;
+#else
+const int MAXN = 1000;
+#endif
+
+int n, m;
+
+int pre[MAXN], to[MAXN], head[MAXN], wcnt;
+int dep[MAXN];
+int64 qdef[MAXN], qx[MAXN];
+int qopt[MAXN], qans[MAXN];
+
+int st[MAXN], ans[MAXN];
+int rt[MAXN];
+int h[MAXN], lson[MAXN], rson[MAXN];
+int64 addmark[MAXN], mulmark[MAXN];
+int64 val[MAXN];
+
+inline void addedge(int u, int v) {
+    wcnt++;
+    pre[wcnt] = head[u];
+    head[u] = wcnt;
+    to[wcnt] = v;
+}
+inline void addnode(int p, int64 x) {
+    addmark[p] += x;
+    val[p] += x;
+}
+inline void mulnode(int p, int64 x) {
+    addmark[p] *= x;
+    mulmark[p] *= x;
+    val[p] *= x;
+}
+inline void down(int p) {
+    if (mulmark[p] ^ 1) {
+        if (lson[p])
+            mulnode(lson[p], mulmark[p]);
+        if (rson[p])
+            mulnode(rson[p], mulmark[p]);
+        mulmark[p] = 1;
+    }
+    if (addmark[p]) {
+        if (lson[p])
+            addnode(lson[p], addmark[p]);
+        if (rson[p])
+            addnode(rson[p], addmark[p]);
+        addmark[p] = 0;
+    }
+}
+inline void adjust(int p) {
+    if (h[lson[p]] &lt; h[rson[p]])
+        std::swap(lson[p], rson[p]);
+    h[p] = h[rson[p]] + 1;
+}
+void merge(int &amp;p, int l, int r) {
+    if (!l or !r)
+        p = l | r;
+    else {
+        if (val[l] &gt; val[r])
+            std::swap(l, r);
+        p = l;
+        down(p);
+        merge(rson[p], rson[p], r);
+        adjust(p);
+    }
+}
+inline void pop(int &amp;p) {
+    down(p);
+    merge(p, lson[p], rson[p]);
+}
+
+#define v to[i]
+void dfs(int u) {
+    int i;
+
+    for (i = head[u]; i; i = pre[i]) {
+        dep[v] = dep[u] + 1;
+        dfs(v);
+        merge(rt[u], rt[u], rt[v]);
+    }
+
+    while (rt[u] and val[rt[u]] &lt; qdef[u]) {
+        qans[u]++;
+        ans[rt[u]] = dep[st[rt[u]]] - dep[u] + 1;
+        pop(rt[u]);
+    }
+    if (rt[u]) {
+        if (!qopt[u])
+            addnode(rt[u], qx[u]);
+        else
+            mulnode(rt[u], qx[u]);
+    }
+}
+#undef v
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;2107.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;2107.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int i, x;
+
+    scanf(&quot;%d %d&quot;, &amp;n, &amp;m);
+    for (i = 1; i &lt;= n; i++)
+        scanf(&quot;%lld&quot;, &amp;qdef[i]);
+    for (i = 2; i &lt;= n; i++) {
+        scanf(&quot;%d %d %lld&quot;, &amp;x, &amp;qopt[i], &amp;qx[i]);
+        addedge(x, i);
+    }
+    for (i = 1; i &lt;= m; i++) {
+        scanf(&quot;%lld %d&quot;, &amp;val[i], &amp;st[i]);
+        mulmark[i] = 1;
+        merge(rt[st[i]], rt[st[i]], i);
+    }
+
+    dep[1] = 1;
+    dfs(1);
+
+    for (i = 1; i &lt;= n; i++)
+        printf(&quot;%d\n&quot;, qans[i]);
+    for (i = 1; i &lt;= m; i++)
+        printf(&quot;%d\n&quot;, ans[i] ? (ans[i] - 1) : dep[st[i]]);
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

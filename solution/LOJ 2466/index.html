@@ -1,0 +1,407 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「POI2014」卡片 Card - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #2466. 「POI2014」卡片 Card</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/2466">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 2466 「POI2014」卡片 Card.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 2466 「POI2014」卡片 Card.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 2466 「POI2014」卡片 Card.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>桌面上有依次排列的 <latex>$n$</latex> 张卡片，每张卡片有正反两面。共 <latex>$m$</latex> 次操作，每次操作会交换两张卡片，询问交换后是否有可能通过改变卡片的正反来使卡片上的数不降。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行一个整数 <latex>$n$</latex> ，表示卡片的数量。</p>
+<p>接下来 <latex>$n$</latex> 行，每行两个整数 <latex>$x_i,y_i$</latex> ，表示卡片的正反两面。</p>
+<p>接下来 <latex>$m$</latex> 行，第 <latex>$j$</latex> 行有两个整数 <latex>$a_j,b_j$</latex>，表示第 <latex>$j$</latex> 次操作交换第 <latex>$a$</latex> 张和 <latex>$b$</latex> 张卡片。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>输出 <latex>$m$</latex> 行，第 <latex>$j$</latex> 行表示第 <latex>$j$</latex> 次操作后是否能使卡片上的数不降，输出一行字符串 "TAK" 或 "NIE"，分别表示可能、不可能。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h3>样例输入</h3>
+<div class="ui existing segment"><pre><code class="lang-plain">4
+2 5
+3 4
+6 3
+2 7
+2
+3 4
+1 3
+</code></pre></div>
+<h3>样例输出</h3>
+<div class="ui existing segment"><pre><code class="lang-plain">NIE
+TAK
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于 <latex>$30\%$</latex> 的数据，保证每张卡两面的数字相同。</p>
+<p>对于 <latex>$38\%$</latex> 的数据（可能不同），<latex>$n \le 2000$</latex> 。</p>
+<p>对于 <latex>$100\%$</latex> 的数据， <latex>$2 \le n \le 200000 , 0 \le x_i,y_i \le 10^7 ,  1 \le m \le 1000000$</latex> 。</p>
+<p>对于下发的三组样例：</p>
+<ul>
+<li>1ocen：<latex>$n=6,m=6$</latex>，用于测试程序正确性。</li>
+<li>2ocen：<latex>$n=7,m=9$</latex>，保证卡的两面数字相同。</li>
+<li>3ocen：<latex>$n=200000,m=1000000$</latex>，所有偶数编号的操作反转其前一次操作。</li>
+</ul>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>假设 <latex>$x_i \leq y_i$</latex>。</p>
+<p>我们令 <latex>$f(i)$</latex> 为我们选择的第 <latex>$i$</latex> 张卡片的整数，那么有：</p>
+<latex>$$
+f(i) =
+\begin{cases}
+0, &i = 0 \\
+x_i, &i > 0 \cap f(i-1) \leq x_i \\
+y_i, &i > 0 \cap x_i &lt; f(i-1) \leq y_i \\
+\infty, &i > 0 \cap f(i-1) > y_i \\
+\end{cases}
+$$</latex><p>只要判断 <latex>$f(n)$</latex> 是否等于 <latex>$\infty$</latex> 即可。</p>
+<p>使用线段树维护。</p>
+<p>设线段树上节点 <latex>$p$</latex> 代表区间 <latex>$[l, r]$</latex>，则我们要维护 <latex>$sf[p][0], sf[p][1]$</latex> 分别表示当 <latex>$f(l)=x_i, f(l)=y_i$</latex> 时 <latex>$f(r)$</latex> 的值。</p>
+<p>单点修改和总体询问。</p>
+<p>时间复杂度：<latex>$O(m \log n)$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+
+#define lp (p &lt;&lt; 1)
+#define rp (p &lt;&lt; 1 | 1)
+#define mid ((ll[p] + rr[p]) &gt;&gt; 1)
+
+const int MAXN = 200000 + 10;
+// const int MAXN = 1000 + 10;
+const int INF = 0x3f3f3f3f;
+
+int n, m;
+int a[MAXN], b[MAXN];
+int sf[MAXN &lt;&lt; 2][2];
+int ll[MAXN &lt;&lt; 2], rr[MAXN &lt;&lt; 2];
+int pos[MAXN];
+
+inline void up(int p) {
+    if (sf[lp][0] &lt;= a[mid + 1])
+        sf[p][0] = sf[rp][0];
+    else if (sf[lp][0] &lt;= b[mid + 1])
+        sf[p][0] = sf[rp][1];
+    else
+        sf[p][0] = INF;
+
+    if (sf[lp][1] &lt;= a[mid + 1])
+        sf[p][1] = sf[rp][0];
+    else if (sf[lp][1] &lt;= b[mid + 1])
+        sf[p][1] = sf[rp][1];
+    else
+        sf[p][1] = INF;
+}
+void build(int p, int l, int r) {
+    ll[p] = l;
+    rr[p] = r;
+    if (l ^ r) {
+        build(lp, l, mid);
+        build(rp, mid + 1, r);
+        up(p);
+    }
+    else {
+        pos[l] = p;
+        sf[p][0] = a[l];
+        sf[p][1] = b[l];
+    }
+}
+
+inline void update(int p, int x, int y) {
+    a[p] = sf[pos[p]][0] = x;
+    b[p] = sf[pos[p]][1] = y;
+    for (p = pos[p] &gt;&gt; 1; p; p &gt;&gt;= 1)
+        up(p);
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;2466.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;2466.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int i, x, y, a1, b1, a2, b2;
+
+    scanf(&quot;%d&quot;, &amp;n);
+    for (i = 1; i &lt;= n; i++) {
+        scanf(&quot;%d %d&quot;, &amp;a[i], &amp;b[i]);
+        if (a[i] &gt; b[i])
+            std::swap(a[i], b[i]);
+    }
+
+    build(1, 1, n);
+
+    scanf(&quot;%d&quot;, &amp;m);
+    for (i = 1; i &lt;= m; i++) {
+        scanf(&quot;%d %d&quot;, &amp;x, &amp;y);
+        a1 = a[x];
+        b1 = b[x];
+        a2 = a[y];
+        b2 = b[y];
+        update(x, a2, b2);
+        update(y, a1, b1);
+        printf((sf[1][0] ^ INF) ? &quot;TAK\n&quot; : &quot;NIE\n&quot;);
+    }
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

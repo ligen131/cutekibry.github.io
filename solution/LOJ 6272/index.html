@@ -1,0 +1,489 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「BestCoder Round #88」Tree Cutting（改） - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #6272. 「BestCoder Round #88」Tree Cutting（改）</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/6272">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 6272 「BestCoder Round #88」Tree Cutting（改）.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 6272 「BestCoder Round #88」Tree Cutting（改）.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 6272 「BestCoder Round #88」Tree Cutting（改）.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>给一棵 <latex>$n(1 \le n \le 1000)$</latex> 个节点的树，每个点有点权 <latex>$w_i(0 \le w_i &lt; 2 ^ {15})$</latex> 。</p>
+<p>设 <latex>$f_x$</latex> 表示树上有多少个连通块，满足点权异或和为 <latex>$x$</latex> 。</p>
+<p>求 <latex>$f_0, f_1, f_2, ..., f_{2 ^ {15} - 1}$</latex> 对 <latex>$998244353$</latex> 取模。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行一个正整数 <latex>$n$</latex> 。</p>
+<p>第二行 <latex>$n$</latex> 个非负整数 <latex>$w_i$</latex> 。</p>
+<p>接下来 <latex>$n-1$</latex> 行，每行两个正整数 <latex>$x, y$</latex> ，表示树上存在边 <latex>$(x, y)$</latex> 。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>输出一行，共 <latex>$2 ^ {15}$</latex> 个非负整数，依次为 <latex>$f_0, f_1, ..., f_{2 ^ {15} - 1}$</latex> 。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于 <latex>$100\%$</latex> 的数据，<latex>$1 \le n \le 1000, 0 \le w_i &lt;2 ^ {15}$</latex> 。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>用 FWT 维护树形 DP。</p>
+<div class="ui existing segment"><pre><code class="lang-cpp">#define v to[i]
+void dfs(int u, int fa) {
+    int i, j;
+
+    a[u][val[u]] = 1;
+    fwt(a[u]);
+    for (i = head[u]; i; i = pre[i]) {
+        if (fa ^ v) {
+            dfs(v, u);
+            for (j = 0; !(j&gt;&gt; LOG); j++)
+                a[u][j] = (int64)a[u][j] * (a[v][j] + 1) % MOD;
+        }
+    }
+}
+#undef v
+
+...
+
+dfs(1, 0);
+for (i = 1; i &lt;= n; i++)
+    for (j = 0; !(j&gt;&gt; LOG); j++)
+        ans[j] = qmod(ans[j] + a[i][j]);
+ifwt(ans);
+</code></pre></div>
+<p>这样直接做是 <latex>$O(n w_i \log w_i)$</latex> 的，虽然卡常也可能能通过此题，但不是最优的。</p>
+<p>瓶颈出现在对每个节点的 FWT 上。如果我们能把每次 FWT 的复杂度降到 <latex>$O(w_i)$</latex>，那么就可以在 <latex>$O(nw_i + w_i \log w_i)$</latex> 时间内通过此题了。</p>
+<div class="ui existing segment"><pre><code class="lang-cpp">x = a[i + j];
+y = a[i + j + k];
+a[i + j] = x + y;
+a[i + j + k] = x - y;
+</code></pre></div>
+<p>我们 FWT 的时候，实际上进行了一些无用的操作。如果 <latex>$a[i + j] = a[i + j + k] = 0$</latex>，那么这个操作实际上是没有效果的。</p>
+<p><a href="https://loj.ac/user/1635">XHRlyb</a> 上传的 <a href="https://loj.ac/submission/97777">最优解</a> 给出了一个 <latex>$O(w_i)$</latex> 的 FWT 函数：</p>
+<div class="ui existing segment"><pre><code class="lang-cpp">void init(int f[], int w, int l, int r) {
+    if (l + 1 == r) {
+        f[l] = 1;
+        return;
+    }
+    int mid = l + r &gt;&gt; 1;
+    if (w &lt; mid) {
+        init(f, w, l, mid);
+        for (int i = mid, j = l; i &lt; r; i++, j++)
+            f[i] = f[j];
+    }
+    else {
+        init(f, w, mid, r);
+        for (int i = l, j = mid; i &lt; mid; i++, j++)
+            f[i] = f[j], f[j] = sub(0, f[j]);
+    }
+}
+</code></pre></div>
+<p>在这里，<latex>$l, r$</latex> 代表对 <latex>$[l, r]$</latex> 进行一次 FWT 迭代。</p>
+<p>很明显地，如果 <latex>$a[l \ldots mid] = 0$</latex>，那么对这一部分就没有必要进行 FWT 了。根据这一点，就可以写出 <latex>$O(w_i)$</latex> 的 FWT 代码。</p>
+<p>注意：这个代码只能适用于对于 <latex>$A_p=1, A_i=0 \: (i \neq p)$</latex> 序列的 FWT，对于通常的 FWT 仍然需要 <latex>$O(w_i \log w_i)$</latex> 的复杂度进行计算。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;cstdio&gt;
+
+typedef long long int64;
+
+const int MAXN = 1000 + 10;
+const int LOG = 15;
+const int MOD = 998244353;
+const int INVLEN = 998213889;
+
+int a[MAXN][1 &lt;&lt; LOG];
+int pre[MAXN &lt;&lt; 1], to[MAXN &lt;&lt; 1], head[MAXN], wcnt;
+int val[MAXN];
+int ans[1 &lt;&lt; LOG];
+int n;
+
+inline void read(int &amp;x) {
+    char ch;
+
+    do
+        ch = getchar();
+    while (ch &lt; &#39;0&#39; or ch&gt; &#39;9&#39;);
+    x = 0;
+    while (ch&gt;= &#39;0&#39; and ch &lt;= &#39;9&#39;) {
+        x = (x &lt;&lt; 3) + (x &lt;&lt; 1) + (ch &amp; 15);
+        ch = getchar();
+    }
+}
+inline void read(int &amp;a, int &amp;b) {
+    read(a);
+    read(b);
+}
+inline void write(int x) {
+    static char buf[20];
+    int top = 0;
+
+    if (!x) {
+        putchar(&#39;0&#39;);
+        return;
+    }
+    while (x) {
+        top++;
+        buf[top] = (x % 10) | 48;
+        x /= 10;
+    }
+    while (top) {
+        putchar(buf[top]);
+        top--;
+    }
+}
+inline void write_(int x) {
+    write(x);
+    putchar(&#39; &#39;);
+}
+inline int qmod(int x) {
+    while (x &lt; 0)
+        x += MOD;
+    while (x&gt;= MOD)
+        x -= MOD;
+    return x;
+}
+inline void addedge(int u, int v) {
+    wcnt++;
+    pre[wcnt] = head[u];
+    head[u] = wcnt;
+    to[wcnt] = v;
+}
+inline void add2edge(int u, int v) {
+    addedge(u, v);
+    addedge(v, u);
+}
+
+#define mid ((l + r) &gt;&gt; 1)
+inline void init(int *a, int l, int r, int x) {
+    int i, j;
+
+    if (l == r - 1) {
+        a[l] = 1;
+        return;
+    }
+    else if (x &lt; mid) {
+        init(a, l, mid, x);
+        for (i = l, j = mid; j &lt; r; i++, j++)
+            a[j] = a[i];
+    }
+    else {
+        init(a, mid, r, x);
+        for (i = l, j = mid; j &lt; r; i++, j++) {
+            a[i] = a[j];
+            a[j] = qmod(-a[j]);
+        }
+    }
+}
+#undef mid
+inline void fwt(int *a) {
+    int i, j, k, x, y;
+
+    for (k = 1; !(k&gt;&gt; LOG); k &lt;&lt;= 1) {
+        for (i = 0; !(i&gt;&gt; LOG); i += k &lt;&lt; 1) {
+            for (j = 0; j &lt; k; j++) {
+                x = a[i + j];
+                y = a[i + j + k];
+                a[i + j] = qmod(x + y);
+                a[i + j + k] = qmod(x - y);
+            }
+        }
+    }
+}
+inline void ifwt(int *a) {
+    int i;
+
+    fwt(a);
+    for (i = 0; !(i&gt;&gt; LOG); i++)
+        a[i] = (int64)a[i] * INVLEN % MOD;
+}
+
+#define v to[i]
+void dfs(int u, int fa) {
+    int i, j;
+
+    init(a[u], 0, 1 &lt;&lt; LOG, val[u]);
+    for (i = head[u]; i; i = pre[i]) {
+        if (fa ^ v) {
+            dfs(v, u);
+            for (j = 0; !(j&gt;&gt; LOG); j++)
+                a[u][j] = (int64)a[u][j] * (a[v][j] + 1) % MOD;
+        }
+    }
+}
+#undef v
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;6272.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;6272.out&quot;, &quot;w&quot;, stdout);
+#endif
+    int i, j, x, y;
+
+    read(n);
+    for (i = 1; i &lt;= n; i++)
+        read(val[i]);
+    for (i = 1; i &lt; n; i++) {
+        read(x, y);
+        add2edge(x, y);
+    }
+
+    dfs(1, 0);
+    for (i = 1; i &lt;= n; i++)
+        for (j = 0; !(j&gt;&gt; LOG); j++)
+            ans[j] = qmod(ans[j] + a[i][j]);
+    ifwt(ans);
+
+    for (i = 0; !(i&gt;&gt; LOG); i++)
+        write_(ans[i]);
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

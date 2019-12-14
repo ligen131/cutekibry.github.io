@@ -1,0 +1,494 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「NOI2014」魔法森林 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #2245. 「NOI2014」魔法森林</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/2245">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 2245 「NOI2014」魔法森林.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 2245 「NOI2014」魔法森林.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 2245 「NOI2014」魔法森林.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>为了得到书法大家的真传，小 E 同学下定决心去拜访住在魔法森林中的隐士。</p>
+<p>魔法森林可以被看成一个包含 <latex>$N$</latex> 个节点 <latex>$M$</latex> 条边的无向图，节点标号为 <latex>$1,\ldots,N$</latex>，边标号为 <latex>$1,\ldots,M$</latex>。初始时小 E 同学在号节点 <latex>$1$</latex>，隐士则住在 <latex>$N$</latex> 号节点。小 E 需要通过这一片魔法森林，才能够拜访到隐士。</p>
+<p>魔法森林中居住了一些妖怪。每当有人经过一条边的时候，这条边上的妖怪就会对其发起攻击。幸运的是，在 <latex>$1$</latex> 号节点住着两种守护精灵：<latex>$A$</latex> 型守护精灵与 <latex>$B$</latex> 型守护精灵。小 E 可以借助它们的力量，达到自己的目的。</p>
+<p>只要小 E 带上足够多的守护精灵，妖怪们就不会发起攻击了。具体来说，无向图中的每一条边 <latex>$E_i$</latex> 包含两个权值 <latex>$A_i$</latex> 与 <latex>$B_i$</latex>。若身上携带的 A 型守护精灵个数不少于 <latex>$A_i$</latex>，且 <latex>$B$</latex> 型守护精灵个数不少于 <latex>$B_i$</latex>，这条边上的妖怪就不会对通过这条边的人发起攻击。当且仅当通过这片魔法森林的过程中没有任意一条边的妖怪向小 E 发起攻击，他才能成功找到隐士。</p>
+<p>由于携带守护精灵是一件非常麻烦的事，小 E 想要知道，要能够成功拜访到隐士，最少需要携带守护精灵的总个数。守护精灵的总个数为 <latex>$A$</latex> 型守护精灵的个数与 <latex>$B$</latex> 型守护精灵的个数之和。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行包含两个整数 <latex>$N,M$</latex>，表示无向图共有 <latex>$N$</latex> 个节点，<latex>$M$</latex> 条边。</p>
+<p>接下来 <latex>$M$</latex> 行，第 <latex>$i$</latex> 行包含四个正整数 <latex>$X_i,Y_i,A_i,B_i$</latex>，描述第 <latex>$i$</latex> 条无向边。其中 <latex>$X_i$</latex> 与 <latex>$Y_i$</latex> 为该边两个端点的标号，<latex>$A_i$</latex> 与 <latex>$B_i$</latex> 的含义如题所述。</p>
+<p><strong>注意</strong>：数据中可能包含重边与自环。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>输出一行一个整数：如果小 E 可以成功拜访到隐士，输出小 E 最少需要携带的守护精灵的总个数；</p>
+<p>如果无论如何小 E 都无法拜访到隐士，输出 “<code>-1</code>”（不含引号）。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入 1</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">4 5
+1 2 19 1
+2 3 8 12
+2 4 12 15
+1 3 17 8
+3 4 1 17
+</code></pre></div>
+<h4>样例输出 1</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">32
+</code></pre></div>
+<h4>样例解释 1</h4>
+<p>如果小 E 走路径 <latex>$1\rightarrow2\rightarrow4$</latex>，需要携带 <latex>$19+15=34$</latex> 个守护精灵；<br>
+如果小 E 走路径 <latex>$1\rightarrow3\rightarrow4$</latex>，需要携带 <latex>$17+17=34$</latex> 个守护精灵；<br>
+如果小 E 走路径 <latex>$1\rightarrow2\rightarrow3\rightarrow4$</latex>，需要携带 <latex>$19+17=36$</latex> 个守护精灵；<br>
+如果小 E 走路径 <latex>$1\rightarrow3\rightarrow2\rightarrow4$</latex>，需要携带 <latex>$17+15=32$</latex> 个守护精灵。<br>
+综上所述，小 E 最少需要携带 <latex>$32$</latex> 个守护精灵。</p>
+<h4>样例输入 2</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">3 1
+1 2 1 1
+</code></pre></div>
+<h4>样例输出 2</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">-1
+</code></pre></div>
+<h4>样例解释 2</h4>
+<p>小 E 无法从 <latex>$1$</latex> 号节点到达 <latex>$3$</latex> 号节点，故输出 <code>-1</code>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对所有的数据，<latex>$2 \leq n \leq 50000,\ 0 \leq m \leq 100000,\ 1 \leq a_i ,b_i \leq 50000$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p><latex>$a, b$</latex> 两维太复杂了。我们可以考虑对边按照 <latex>$a_i$</latex> 排序，并对于每个 <latex>$i$</latex>，将 <latex>$a_j \leq a_i$</latex> 的所有边加入该图。在这种情况下，最小答案即为 <latex>$a_i$</latex> 加上节点 <latex>$1$</latex> 到 <latex>$n$</latex> 的最小瓶颈路。</p>
+<p>最小瓶颈路即为最小生成树上的路径。</p>
+<p>也就是说，我们需要写一个数据结构，支持动态维护最小生成树。</p>
+<p>显然，最小生成树是一棵树。删边加边的问题，可以考虑用 Link-Cut Tree 解决。</p>
+<p>假定在原来的树上，存在简单路径 <latex>$u \rightarrow p_1 \rightarrow p_2 \rightarrow \ldots \rightarrow p_k \rightarrow v$</latex>。现在我们要加入边 <latex>$u \rightarrow v$</latex>，权值为 <latex>$w$</latex>，如何维护最小生成树。</p>
+<p>可以贪心：找出该路径上权值最大的边，若该边权值大于 <latex>$w$</latex>，则删去该边，并加入边 <latex>$u \rightarrow v$</latex>。</p>
+<p>也就是维护一颗 Link-Cut Tree，支持加边、删边，并需要维护最大边权的编号。</p>
+<p>由于边权问题我们不是很能做，因此我们可以把第 <latex>$i$</latex> 条边 <latex>$u \rightarrow v$</latex> 拆成三个点 <latex>$u, v, i + n$</latex>。转化后是一个点权问题，可以轻松 Link-Cut Tree 维护。</p>
+<p>时间复杂度：<latex>$O(n \log n)$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+
+#ifdef ONLINE_JUDGE
+const int MAXN = 200000 + 10;
+#else
+const int MAXN = 1000 + 10;
+#endif
+
+struct Edge {
+    int u, v, a, b;
+    bool operator&lt;(const Edge e) const { return a &lt; e.a; }
+};
+Edge e[MAXN];
+
+int n, m;
+
+int maxp[MAXN], val[MAXN], from[MAXN], to[MAXN], nodecnt;
+bool mark[MAXN];
+int ch[MAXN][2], fa[MAXN];
+
+#define lc ch[x][0]
+#define rc ch[x][1]
+#define clr fa[0] = ch[0][0] = ch[0][1] = val[0] = maxp[0] = 0
+inline bool isroot(int x) { return ch[fa[x]][0] ^ x and ch[fa[x]][1] ^ x; }
+inline bool identify(int x) { return ch[fa[x]][0] ^ x; }
+inline int getmaxp(int x, int y) { return val[x] &gt; val[y] ? x : y; }
+inline void revnode(int x) {
+    mark[x] = !mark[x];
+    std::swap(lc, rc);
+}
+inline void up(int x) { maxp[x] = getmaxp(x, getmaxp(maxp[lc], maxp[rc])); }
+inline void down(int x) {
+    if (mark[x]) {
+        if (lc)
+            revnode(lc);
+        if (rc)
+            revnode(rc);
+        mark[x] = false;
+    }
+}
+inline void pushdown(int x) {
+    static int s[MAXN];
+    int stop = 0;
+
+    while (!isroot(x)) {
+        stop++;
+        s[stop] = x;
+        x = fa[x];
+    }
+    down(x);
+    while (stop) {
+        down(s[stop]);
+        stop--;
+    }
+}
+inline void rotate(int x) {
+    bool d = identify(x);
+    int y = fa[x], z = ch[x][!d];
+
+    fa[x] = fa[y];
+    if (!isroot(y))
+        ch[fa[y]][identify(y)] = x;
+    fa[y] = x;
+    ch[x][!d] = y;
+    fa[z] = y;
+    ch[y][d] = z;
+    up(y);
+    up(x);
+    clr;
+}
+inline void splay(int x) {
+    pushdown(x);
+    while (!isroot(x)) {
+        if (!isroot(fa[x]) and identify(x) == identify(fa[x]))
+            rotate(fa[x]);
+        rotate(x);
+    }
+}
+inline void access(int x) {
+    int y;
+    for (y = 0; x; y = x, x = fa[x]) {
+        splay(x);
+        rc = y;
+        up(x);
+    }
+}
+inline void makeroot(int x) {
+    access(x);
+    splay(x);
+    revnode(x);
+}
+inline int findroot(int x) {
+    access(x);
+    splay(x);
+    while (down(x), lc)
+        x = lc;
+    return x;
+}
+inline void split(int x, int y) {
+    makeroot(x);
+    access(y);
+    splay(y);
+}
+
+inline int querypath(int x, int y) {
+    split(x, y);
+    return maxp[y];
+}
+inline void link(int x, int y) {
+    makeroot(x);
+    makeroot(y);
+    fa[x] = y;
+}
+inline void cut(int x, int y) {
+    split(x, y);
+    fa[x] = ch[y][0] = 0;
+    up(y);
+}
+#undef lc
+#undef rc
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;2245.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;2245.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int i, u, v, a, b, p;
+    int ans = 0x7fffffff;
+    bool flag;
+
+    scanf(&quot;%d %d&quot;, &amp;n, &amp;m);
+    nodecnt = n;
+    for (i = 1; i &lt;= m; i++)
+        scanf(&quot;%d %d %d %d&quot;, &amp;e[i].u, &amp;e[i].v, &amp;e[i].a, &amp;e[i].b);
+
+    std::sort(e + 1, e + 1 + m);
+
+    for (i = 1; i &lt;= m; i++) {
+        u = e[i].u;
+        v = e[i].v;
+        a = e[i].a;
+        b = e[i].b;
+        flag = true;
+
+        if (findroot(u) == findroot(v)) {
+            p = querypath(u, v);
+            if (val[p] &gt; b) {
+                cut(e[p - n].u, p);
+                cut(e[p - n].v, p);
+            }
+            else
+                flag = false;
+        }
+
+        if (flag) {
+            val[i + n] = b;
+            link(u, i + n);
+            link(v, i + n);
+        }
+
+        if (findroot(1) == findroot(n))
+            ans = std::min(ans, a + val[querypath(1, n)]);
+    }
+    printf(&quot;%d\n&quot;, (ans ^ 0x7fffffff) ? ans : -1);
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

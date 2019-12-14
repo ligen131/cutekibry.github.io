@@ -1,0 +1,464 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>Sasha and Array - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">CF #719E. Sasha and Array</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：5000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="http://codeforces.com/contest/719/problem/E">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/CF 719E Sasha and Array.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/CF 719E Sasha and Array.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/CF 719E Sasha and Array.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>Sasha 有一个序列 <latex>$a_1, a_2, \ldots, a_n$</latex>。你需要进行 <latex>$m$</latex> 个操作，操作有两种类型：</p>
+<ol>
+<li><latex>$\mathtt{1\ l\ r\ x}$</latex>：将从 <latex>$l$</latex> 到 <latex>$r$</latex> 区间内的所有整数增加 <latex>$x$</latex>；</li>
+<li><latex>$\mathtt{2\ l\ r}$</latex>：计算 <latex>$\sum_{i=l}^r f(a_i)$</latex>，<latex>$f(x)$</latex> 表示第 <latex>$x$</latex> 个斐波那契数。因为这个整数可能很大，你只需要计算它对 <latex>$10^9+7$</latex> 取模的值。</li>
+</ol>
+<p>本题中我们这样定义斐波那契数列：<latex>$f(1) = 1$</latex>，<latex>$f(2) = 1$</latex>，对于所有 <latex>$x > 2$</latex> 有 <latex>$f(x) = f(x - 1) + f(x - 2)$</latex>。</p>
+<p>Sasha 是一个才能出众的男孩，所以他只花了五秒就完成了所有操作。你能不能写一个能像 Sasha 那样棒的程序呢？</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行，两个整数 <latex>$n$</latex> 和 <latex>$m$</latex>（<latex>$1 \leq n \leq 100000, 1 \leq m \leq 100000$</latex>），分别表示序列元素的数量以及操作个数。</p>
+<p>下一行，<latex>$n$</latex> 个整数 <latex>$a_1, a_2, \ldots, a_n$</latex>（<latex>$1 \leq a_i \leq 10^9$</latex>）。</p>
+<p>接下来 <latex>$m$</latex> 行，描述操作。每行有三到四个整数 <latex>$tp_i, l_i, r_i$</latex> 和 <latex>$x_i$</latex>（<latex>$1 \leq tp_i \leq 2, 1 \leq l_i \leq r_i \leq n, 1 \leq x_i \leq 10^9$</latex>）。这里 <latex>$tp_i=1$</latex> 代表第一种操作，<latex>$tp_i=2$</latex> 代表第二种操作。</p>
+<p>保证输入至少有一次第二种操作。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于每个询问，输出答案对 <latex>$10^9 + 7$</latex> 取模后的值。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>输入样例</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">5 4
+1 1 2 1 1
+2 1 5
+1 2 4 2
+2 2 4
+2 1 5
+</code></pre></div>
+<h4>输出样例</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">5
+7
+9
+</code></pre></div>
+<h4>样例解释</h4>
+<p>一开始，序列 <latex>$a$</latex> 为 <latex>$1, 1, 2, 1, 1$</latex>。</p>
+<p>第一个询问的答案为 <latex>$f(1) + f(1) + f(2) + f(1) + f(1) = 1 + 1 + 1 + 1 + 1 = 5$</latex>。</p>
+<p>操作 <latex>$\mathtt{1\ 2\ 4\ 2}$</latex> 后序列 <latex>$a$</latex> 变为 <latex>$1, 3, 4, 3, 1$</latex>。</p>
+<p>第二个询问的答案为 <latex>$f(3) + f(4) + f(3) = 2 + 3 + 2 = 7$</latex>。</p>
+<p>第三个询问的答案为 <latex>$f(1) + f(3) + f(4) + f(3) + f(1) = 1 + 2 + 3 + 2 + 1 = 9$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>题目翻译：@Tsukimaru Oshawott</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>用线段树维护矩阵乘法。</p>
+<p>每个区间维护一个向量</p>
+<latex>$$
+\begin{bmatrix}
+\sum f(a_i) \\
+\sum f(a_i - 1) \\
+\end{bmatrix}
+$$</latex><p>修改时区间乘上</p>
+<latex>$$
+\begin{bmatrix}
+1 & 1 \\
+1 & 0 \\
+\end{bmatrix}
+^x
+$$</latex><p>即可。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;cstdio&gt;
+
+#define lp (p &lt;&lt; 1)
+#define rp (p &lt;&lt; 1 | 1)
+#define mid ((l + r) &gt;&gt; 1)
+#define lson lp, l, mid
+#define rson rp, mid + 1, r
+
+typedef long long int64;
+typedef int Matrix[3][3];
+
+#ifdef ONLINE_JUDGE
+const int MAXN = 100000 + 10;
+#else
+const int MAXN = 100;
+#endif
+
+const int MOD = 1000000007;
+
+Matrix seg[MAXN &lt;&lt; 2], mark[MAXN &lt;&lt; 2];
+int n, m;
+
+inline int qmod(int x) { return (x &gt;= MOD) ? (x - MOD) : x; }
+inline void mul(Matrix a, Matrix b) {
+    static Matrix res;
+
+    res[1][1] = ((int64)a[1][1] * b[1][1] + (int64)a[1][2] * b[2][1]) % MOD;
+    res[1][2] = ((int64)a[1][1] * b[1][2] + (int64)a[1][2] * b[2][2]) % MOD;
+    res[2][1] = ((int64)a[2][1] * b[1][1] + (int64)a[2][2] * b[2][1]) % MOD;
+    res[2][2] = ((int64)a[2][1] * b[1][2] + (int64)a[2][2] * b[2][2]) % MOD;
+    a[1][1] = res[1][1];
+    a[1][2] = res[1][2];
+    a[2][1] = res[2][1];
+    a[2][2] = res[2][2];
+}
+inline void add(Matrix a, Matrix b) {
+    a[1][1] = qmod(a[1][1] + b[1][1]);
+    a[1][2] = qmod(a[1][2] + b[1][2]);
+    a[2][1] = qmod(a[2][1] + b[2][1]);
+    a[2][2] = qmod(a[2][2] + b[2][2]);
+}
+inline void fibpow(Matrix res, int p) {
+    static Matrix b;
+
+    res[1][1] = res[2][2] = 1;
+    res[1][2] = res[2][1] = 0;
+    b[1][1] = b[1][2] = b[2][1] = 1;
+    b[2][2] = 0;
+    while (p) {
+        if (p &amp; 1)
+            mul(res, b);
+        mul(b, b);
+        p &gt;&gt;= 1;
+    }
+}
+
+inline void addnode(int p, Matrix x) {
+    mul(seg[p], x);
+    mul(mark[p], x);
+}
+inline void down(int p) {
+    if (mark[p][1][1] ^ 1 or mark[p][1][2] or mark[p][2][1] or mark[p][2][2] ^ 1) {
+        addnode(lp, mark[p]);
+        addnode(rp, mark[p]);
+        mark[p][1][1] = mark[p][2][2] = 1;
+        mark[p][1][2] = mark[p][2][1] = 0;
+    }
+}
+inline void up(int p) {
+    seg[p][1][1] = qmod(seg[lp][1][1] + seg[rp][1][1]);
+    seg[p][1][2] = qmod(seg[lp][1][2] + seg[rp][1][2]);
+    seg[p][2][1] = qmod(seg[lp][2][1] + seg[rp][2][1]);
+    seg[p][2][2] = qmod(seg[lp][2][2] + seg[rp][2][2]);
+}
+void build(int p, int l, int r) {
+    int x;
+
+    mark[p][1][1] = mark[p][2][2] = 1;
+    if (l ^ r) {
+        build(lson);
+        build(rson);
+        up(p);
+    }
+    else {
+        scanf(&quot;%d&quot;, &amp;x);
+        fibpow(seg[p], x - 1);
+        seg[p][1][2] = seg[p][2][1];
+        seg[p][2][1] = seg[p][2][2] = 0;
+    }
+}
+void update(int p, int l, int r, int a, int b, Matrix x) {
+    if (a &lt;= l and r &lt;= b) {
+        addnode(p, x);
+        return;
+    }
+    down(p);
+    if (a &lt;= mid)
+        update(lson, a, b, x);
+    if (b &gt; mid)
+        update(rson, a, b, x);
+    up(p);
+}
+int query(int p, int l, int r, int a, int b) {
+    if (a &lt;= l and r &lt;= b)
+        return seg[p][1][1];
+    down(p);
+    if (a &lt;= mid and b &gt; mid)
+        return qmod(query(lson, a, b) + query(rson, a, b));
+    else if (a &lt;= mid)
+        return query(lson, a, b);
+    else
+        return query(rson, a, b);
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;e.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;e.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    static Matrix mat;
+    int i, opt, l, r, x;
+
+    scanf(&quot;%d %d&quot;, &amp;n, &amp;m);
+    build(1, 1, n);
+    for (i = 1; i &lt;= m; i++) {
+        scanf(&quot;%d %d %d&quot;, &amp;opt, &amp;l, &amp;r);
+        if (opt == 1) {
+            scanf(&quot;%d&quot;, &amp;x);
+            fibpow(mat, x);
+            update(1, 1, n, l, r, mat);
+        }
+        else
+            printf(&quot;%d\n&quot;, query(1, 1, n, l, r));
+    }
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

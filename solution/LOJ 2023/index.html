@@ -1,0 +1,437 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「AHOI / HNOI2017」抛硬币 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #2023. 「AHOI / HNOI2017」抛硬币</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/2023">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 2023 「AHOI / HNOI2017」抛硬币.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 2023 「AHOI / HNOI2017」抛硬币.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 2023 「AHOI / HNOI2017」抛硬币.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>小 A 和小 B 是一对好朋友，他们经常一起愉快的玩耍。最近小 B 沉迷于**师手游，天天刷本，根本无心搞学习。但是已经入坑了几个月，却一次都没有抽到 SSR，让他非常怀疑人生。</p>
+<p>勤勉的小 A 为了劝说小 B 早日脱坑，认真学习，决定以抛硬币的形式让小 B 明白他是一个彻彻底底的非洲人，从而对这个游戏绝望。两个人同时抛 <latex>$b$</latex> 次硬币，如果小 A 的正面朝上的次数大于小 B 正面朝上的次数，则小 A 获胜。</p>
+<p>但事实上，小 A 也曾经沉迷过拉拉游戏，而且他一次 UR 也没有抽到过，所以他对于自己的运气也没有太大把握。所以他决定在小 B 没注意的时候作弊，悄悄地多抛几次硬币，当然，为了不让小 B 怀疑，他不会抛太多次。现在小 A 想问你，在多少种可能的情况下，他能够胜过小 B 呢？由于答案可能太大，所以你只需要输出答案在十进制表示下的最后 <latex>$k$</latex> 位即可。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>有多组数据，对于每组数据输入三个数 <latex>$a, b, k$</latex>，分别代表小 A 抛硬币的次数，小 B 抛硬币的次数，以及最终答案保留多少位整数。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于每组数据，输出一个数，表示最终答案的最后 <latex>$k$</latex> 位为多少，若不足 <latex>$k$</latex> 位以 <latex>$0$</latex> 补全。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">2 1 9
+3 2 1
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">000000004
+6
+</code></pre></div>
+<h4>样例解释</h4>
+<p>对于第一组数据，当小 A 抛 <latex>$2$</latex> 次硬币，小 B 抛 <latex>$1$</latex> 次硬币时，共有 <latex>$4$</latex> 种方案使得小 A 正面朝上的次数比小 B 多。</p>
+<latex>$$
+(01,0), (10,0), (11,0), (11,1)
+$$</latex><p>对于第二组数据，当小 A 抛 <latex>$3$</latex> 次硬币，小 B 抛 <latex>$2$</latex> 次硬币时,共有 <latex>$16$</latex> 种方案使得小 A 正面朝上的次数比小B多。</p>
+<latex>$$
+\begin{aligned}
+(001,00), (010,00), (100,00), (011,00), (101,00), (110,00), (111,00), (011,01)\\
+(101,01), (110,01),(111,01), (011,10), (101,10), (110,10), (111,10), (111,11)
+\end{aligned}
+$$</latex>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于 <latex>$10\%$</latex> 的数据，<latex>$a,b\le 20$</latex>；</p>
+<p>对于 <latex>$30\%$</latex> 的数据，<latex>$a,b\le 100$</latex>；</p>
+<p>对于 <latex>$70\%$</latex> 的数据，<latex>$a,b\le 100000$</latex>，其中有 <latex>$20\%$</latex> 的数据满足 <latex>$a=b$</latex>；</p>
+<p>对于 <latex>$100\%$</latex> 的数据，<latex>$1\le a,b\le {10}^{15}, b\le a\le b+10000, 1\le k\le 9$</latex>，数据组数小于等于 <latex>$10$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>这道题有个很巧妙的做法：把小 A 和小 B 的状态看成一个长度为 <latex>$a+b$</latex> 的 <latex>$01$</latex> 序列，然后考虑按位取反操作计算。</p>
+<p>然而这个做法太难了，以至于我看不懂。</p>
+<p>Candy? 给出了一个很精简的做法：</p>
+<p>首先，我们要知道范德蒙德卷积。</p>
+<latex>$$
+\sum_k \mathrm{C}^{a+k}_n \mathrm{C}^{b-k}_m=\mathrm{C}^{a+b}_{n+m}
+$$</latex><p>这道题即是要求</p>
+<latex>$$
+\sum_{i=0}^a \sum_{j=0}^b [i>j] \mathrm{C}^i_a \cdot \mathrm{C}^j_b
+$$</latex><p>因为 <latex>$i>j$</latex>，我们可以考虑枚举 <latex>$k=i-j$</latex>。</p>
+<latex>$$
+\begin{aligned}
+ &\sum_{i=0}^a \sum_{j=0}^b [i>j] \mathrm{C}^i_a \cdot \mathrm{C}^j_b \\
+=&\sum_{k=1}^a \sum_{j=0}^{a-k} \mathrm{C}^{k+j}_a \cdot \mathrm{C}^j_b \\
+=&\sum_{k=1}^a \sum_j \mathrm{C}^{k+j}_a \cdot \mathrm{C}^{b-j}_b \\
+=&\sum_{k=1}^a \mathrm{C}^{b+k}_{a+b} \\
+=&\sum_{k=b+1}^{a+b} \mathrm{C}^k_{a+b} \\
+\end{aligned}
+$$</latex><p>这样是 <latex>$O(a \log a)$</latex> 的，仍然不够优。</p>
+<p>有一个比较巧妙的方法：因为 <latex>$\sum_{i=0}^n \mathrm{C}^i_n=2^n$</latex>，而 <latex>$\mathrm{C}^i_n=\mathrm{C}^{n-i}_n$</latex>，所以我们只要将 <latex>$2^n$</latex> 除以 <latex>$2$</latex>，就可以得到一半的和。</p>
+<latex>$$
+\begin{aligned}
+ &\sum_{k=b+1}^{a+b} \mathrm{C}^k_{a+b} \\
+=&\sum_{k=b+1}^{\lfloor \frac {(a+b)}2 \rfloor} \mathrm{C}^k_{a+b} + \sum_{k=\lfloor \frac {(a+b)}2 \rfloor+1}^{a+b} \mathrm{C}^k_{a+b} \\
+\end{aligned}
+$$</latex><p>对于前面的部分，暴力计算即可；对于后面的部分，可以用这个方法直接算出。</p>
+<p>注意对 <latex>$a+b$</latex> 的奇偶性讨论一下。</p>
+<p>时间复杂度：<latex>$O((a-b)\log a)$</latex>。</p>
+<h2>相关链接</h2>
+<ul>
+<li><a href="https://www.cnblogs.com/candy99/p/6759346.html">bzoj 4830: [Hnoi2017]抛硬币 [范德蒙德卷积 扩展lucas] - Candy? - 博客园</a></li>
+</ul>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;cstdio&gt;
+
+const int P[] = { 2, 5, 10 };
+const int PK[] = { 512, 1953125, 1000000000 };
+const int PHI[] = { 256, 1562500, 400000000 };
+const int A[] = { 212890625, 787109376 };
+const int POW10[] = { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000 };
+
+typedef long long int64;
+
+int F[2][2000005];
+
+inline void init() {
+    int i;
+
+    F[0][0] = 1;
+    for (i = 1; i &lt; PK[0]; i++)
+        F[0][i] = (i &amp; 1) ? ((int64)F[0][i - 1] * i % PK[0]) : F[0][i - 1];
+    F[1][0] = 1;
+    for (i = 1; i &lt; PK[1]; i++)
+        F[1][i] = (i % 5) ? ((int64)F[1][i - 1] * i % PK[1]) : F[1][i - 1];
+}
+inline int qpow(int b, int64 p, int mod) {
+    int res = 1;
+    while (p) {
+        if (p &amp; 1)
+            res = (int64)res * b % mod;
+        b = (int64)b * b % mod;
+        p &gt;&gt;= 1;
+    }
+    return res;
+}
+inline int f(int64 n, int id) {
+    int res = 1;
+
+    while (n) {
+        res = (int64)res * qpow(F[id][PK[id] - 1], n / PK[id], PK[id]) % PK[id] * F[id][n % PK[id]] % PK[id];
+        n /= P[id];
+    }
+    return res;
+}
+inline int64 g(int64 n, int id) {
+    int64 res = 0;
+
+    while (n) {
+        res += n / P[id];
+        n /= P[id];
+    }
+    return res;
+}
+inline int C(int64 n, int64 m, int id, bool inv) {
+    int x;
+    int64 y;
+
+    y = g(m, id) - g(n, id) - g(m - n, id);
+    if (y &gt;= 11)
+        return 0;
+    x = (int64)f(m, id) * qpow((int64)f(n, id) * f(m - n, id) % PK[id], PHI[id] - 1, PK[id]) % PK[id];
+    if (inv) {
+        if (id == 0)
+            return (int64)x * qpow(P[id], y - 1, PK[id]) % PK[id];
+        else
+            return (int64)x * qpow(P[id], y, PK[id]) % PK[id] * 976563 % PK[id];
+    }
+    else
+        return (int64)x * qpow(P[id], y, PK[id]) % PK[id];
+}
+inline int C(int64 n, int64 m, bool inv = false) {
+    return ((int64)C(n, m, 0, inv) * A[0] + (int64)C(n, m, 1, inv) * A[1]) % PK[2];
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;2023.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;2023.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int64 a, b;
+    int64 i;
+    int k;
+    int res = 0;
+
+    init();
+
+    while (~scanf(&quot;%lld %lld %d&quot;, &amp;a, &amp;b, &amp;k)) {
+        res = qpow(2, a + b - 1, PK[2]);
+        if (~(a + b) &amp; 1)
+            res = (PK[2] + res - C((a + b) / 2, a + b, true)) % PK[2];
+        for (i = b + 1; i &lt;= (a + b) / 2; i++)
+            res = (res + C(i, a + b)) % PK[2];
+        while (k) {
+            putchar((res / POW10[k - 1] % 10) | 48);
+            k--;
+        }
+        putchar(&#39;\n&#39;);
+    }
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,463 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>Shlw loves matrix II - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #6018. Shlw loves matrix II</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/6018">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 6018 Shlw loves matrix II.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 6018 Shlw loves matrix II.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 6018 Shlw loves matrix II.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>给定矩阵 <latex>$M$</latex>，请计算 <latex>$M^n$</latex>，并将其中每一个元素对 <latex>$1000000007$</latex> 取模输出。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行包含两个整数 <latex>$n,k$</latex>，其中 <latex>$n$</latex> 使用二进制表示，可能含有前导零</p>
+<p>余下 <latex>$k$</latex> 行描述了一个 <latex>$k \times k$</latex> 的矩阵 <latex>$M$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p><latex>$k$</latex> 行输出答案矩阵</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>输入样例</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">010 3
+5 9 5
+5 4 0
+8 8 8
+</code></pre></div>
+<h4>输出样例</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">110 121 65
+45 61 25
+144 168 104
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <latex>$k\leq 50,n\leq 2^{10000}$</latex>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p><em>主页面：<a href="/article/「专题」线性递推">「专题」线性递推</a></em></p>
+<p>模板题。</p>
+<p>时间复杂度：<latex>$O(k^4 + k^2 (\log n + \log P))$</latex>，其中 <latex>$P = 1000000007$</latex> 为模数。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+
+const int MAXK = 100 + 10;
+const int MAXN = 10000 + 10;
+const int MOD = 1000000007;
+
+typedef int Matrix[MAXK][MAXK];
+typedef int Expr[MAXK];
+typedef long long int64;
+
+int m;
+char s[MAXN];
+Matrix mat;
+Expr b, res, modexpr;
+
+inline int qmod(int x) { return (x &gt;= MOD) ? (x - MOD) : x; }
+inline int qpow(int64 b, int p, int mod = MOD) {
+    int res = 1;
+
+    while (p) {
+        if (p &amp; 1)
+            res = res * b % mod;
+        b = b * b % mod;
+        p &gt;&gt;= 1;
+    }
+    return res;
+}
+
+void solve(Matrix a) {
+    int i, j, k;
+    int64 inv, p;
+
+    for (i = 1; i &lt;= m + 1; i++) {
+        inv = qpow(a[i][i], MOD - 2);
+        for (j = i + 1; j &lt;= m + 1; j++) {
+            p = qmod(MOD - inv * a[j][i] % MOD);
+            for (k = i; k &lt;= m + 2; k++)
+                a[j][k] = (a[j][k] + p * a[i][k]) % MOD;
+        }
+    }
+
+    for (i = m + 1; i; i--) {
+        a[i][m + 2] = 1ll * a[i][m + 2] * qpow(a[i][i], MOD - 2) % MOD;
+        for (j = i - 1; j; j--)
+            a[j][m + 2] = qmod(MOD + a[j][m + 2] - 1ll * a[j][i] * a[i][m + 2] % MOD);
+    }
+}
+
+int det(Matrix a) {
+    int i, j, k, res = 1;
+    int64 inv, p;
+    Matrix temp;
+
+    memcpy(temp, a, sizeof(Matrix));
+    for (i = 1; i &lt;= m; i++) {
+        if (!temp[i][i]) {
+            j = i + 1;
+            while (j &lt;= m and !temp[j][i])
+                j++;
+            if (j &gt; m)
+                return 0;
+            for (k = i; k &lt;= m; k++)
+                std::swap(temp[i][k], temp[j][k]);
+            res = qmod(MOD - res);
+        }
+
+        res = 1ll * res * temp[i][i] % MOD;
+        inv = qpow(temp[i][i], MOD - 2);
+        for (j = i + 1; j &lt;= m; j++) {
+            p = qmod(MOD - inv * temp[j][i] % MOD);
+            for (k = i; k &lt;= m; k++)
+                temp[j][k] = (temp[j][k] + p * temp[i][k]) % MOD;
+        }
+    }
+    return res;
+}
+
+void mul(Matrix a, Matrix b, Matrix c) {
+    static Matrix res;
+    int i, j, k;
+
+    for (i = 1; i &lt;= m; i++) {
+        for (j = 1; j &lt;= m; j++) {
+            res[i][j] = 0;
+            for (k = 1; k &lt;= m; k++)
+                res[i][j] = (res[i][j] + 1ll * b[i][k] * c[k][j]) % MOD;
+        }
+    }
+    memcpy(a, res, sizeof(Matrix));
+}
+
+void mul(Expr a, Expr b, Expr c, Expr mod = modexpr) {
+    static Expr res;
+    int i, j, x;
+
+    memset(res, 0, sizeof(Expr));
+    for (i = 0; i &lt; m; i++)
+        for (j = 0; j &lt; m; j++)
+            res[i + j] = (res[i + j] + 1ll * b[i] * c[j]) % MOD;
+    for (i = (m - 1) &lt;&lt; 1; i &gt;= m; i--) {
+        if (res[i]) {
+            for (j = 1; j &lt;= m; j++)
+                res[i - j] = (res[i - j] + 1ll * res[i] * mod[m - j]) % MOD;
+            res[i] = 0;
+        }
+    }
+    memcpy(a, res, sizeof(Expr));
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;6018.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;6018.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    static Matrix tempmat, ansmat;
+    int i, j, k;
+
+    scanf(&quot;%s %d&quot;, s + 1, &amp;m);
+    for (i = 1; i &lt;= m; i++)
+        for (j = 1; j &lt;= m; j++)
+            scanf(&quot;%d&quot;, &amp;mat[i][j]);
+
+    for (i = 1; i &lt;= m + 1; i++) {
+        for (j = 1; j &lt;= m; j++)
+            mat[j][j] = qmod(MOD + mat[j][j] - 1);
+        tempmat[i][1] = 1;
+        for (j = 2; j &lt;= m + 1; j++)
+            tempmat[i][j] = 1ll * tempmat[i][j - 1] * i % MOD;
+        tempmat[i][m + 2] = det(mat);
+    }
+    for (i = 1; i &lt;= m; i++)
+        mat[i][i] = qmod(mat[i][i] + m + 1);
+
+    solve(tempmat);
+    for (i = 0; i &lt;= m; i++)
+        modexpr[i] = qmod(MOD - tempmat[i + 1][m + 2]);
+
+    b[1] = 1;
+    res[0] = 1;
+    for (i = strlen(s + 1); i; i--) {
+        if (s[i] &amp; 1)
+            mul(res, res, b);
+        mul(b, b, b);
+    }
+
+    memset(tempmat, 0, sizeof(Matrix));
+    for (i = 1; i &lt;= m; i++)
+        tempmat[i][i] = 1;
+    for (i = 0; i &lt; m; i++) {
+        for (j = 1; j &lt;= m; j++)
+            for (k = 1; k &lt;= m; k++)
+                ansmat[j][k] = (ansmat[j][k] + 1ll * res[i] * tempmat[j][k]) % MOD;
+        mul(tempmat, tempmat, mat);
+    }
+
+    for (i = 1; i &lt;= m; i++) {
+        for (j = 1; j &lt;= m; j++)
+            printf(&quot;%d &quot;, ansmat[i][j]);
+        putchar(&#39;\n&#39;);
+    }
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

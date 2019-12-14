@@ -1,0 +1,426 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>Intersection is not allowed! - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">HDU #5852. Intersection is not allowed!</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：64 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="http://acm.hdu.edu.cn/showproblem.php?pid=5852">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/HDU 5852 Intersection is not allowed!.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/HDU 5852 Intersection is not allowed!.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/HDU 5852 Intersection is not allowed!.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>棋盘上有 <latex>$K$</latex> 个棋子。</p>
+<p>棋盘的大小是 <latex>$N \times N$</latex>。</p>
+<p>一开始，棋子被放在棋盘最上面的格子里。</p>
+<p>棋子在棋盘上的任何一个格子 <latex>$(r, c)$</latex> 可以向右移动一格到 <latex>$(r, c + 1)$</latex> 或向下移动一格到 <latex>$(r + 1, c)$</latex>。</p>
+<p>你的任务是计算将所有棋子移动到最下面给定位置的方案数。</p>
+<p>此外，路径间必须两两不相交。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行，一个整数 <latex>$T$</latex>，表示数据组数。</p>
+<p>每组数据的第一行，两个整数 <latex>$N, K$</latex>，分别表示棋盘大小和棋子个数。</p>
+<p>第二行，<latex>$K$</latex> 个整数 <latex>$1 \leq a_1 &lt; a_2 &lt; \ldots &lt; a_K \leq N$</latex>，表示初始位置。也就是说，棋子一开始被放在 <latex>$(1, a_1), (1, a_2), \ldots, (1, a_K)$</latex>。</p>
+<p>下一行，<latex>$K$</latex> 个整数 <latex>$1 \leq b_1 &lt; b_2 &lt; \ldots &lt; b_K \leq N$</latex>，表示最终位置。也就是说，棋子应当被移动到 <latex>$(N, b_1), (N, b_2), \ldots, (N, b_K)$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>输出连续 <latex>$T$</latex> 行，分别表示方案数对 <latex>$1000000007$</latex> 取模后的值。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">1
+5 2
+1 2
+3 4
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">50
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>题目翻译：@Tsukimaru Oshawott</p>
+<h4>Author</h4>
+<p>金策工业综合大学（DPRK）</p>
+<h4>Source</h4>
+<p><a href="http://acm.hdu.edu.cn/search.php?field=problem&amp;key=2016+Multi-University+Training+Contest+9&amp;source=1&amp;searchmode=source">2016 Multi-University Training Contest 9</a></p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>LGV 定理的模板题。</p>
+<p>从 <latex>$(0, 0)$</latex> 走到 <latex>$(n, m)$</latex> 的方案数为 <latex>$\mathrm{C}^n_{n + m}$</latex>。走到 <latex>$(n, m)$</latex> 需要走 <latex>$n + m$</latex> 步，在这之中需要向右走 <latex>$n$</latex> 步，所以是 <latex>$\mathrm{C}^n_{n + m}$</latex>。</p>
+<p>数据保证了 <latex>$a_i \leq b_i$</latex>（尽管题目中并没有说），所以即使不判断方案是否为 <latex>$0$</latex> 也可以通过本题。</p>
+<p>当然，按照本题要求是应该特判的。</p>
+<p>时间复杂度：<latex>$O(N + TK^3)$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+
+typedef long long int64;
+
+const int MOD = 1000000007;
+
+#ifdef ONLINE_JUDGE
+const int MAXN = 200000 + 10;
+const int MAXK = 100 + 10;
+#else
+const int MAXN = 1000 + 10;
+const int MAXK = 30 + 10;
+#endif
+
+int fac[MAXN], invfac[MAXN];
+int a[MAXK][MAXK];
+int s[MAXK], t[MAXK];
+int n, m;
+
+inline int qpow(int64 b, int p, int mod) {
+    int res = 1;
+    while (p) {
+        if (p &amp; 1)
+            res = res * b % mod;
+        b = b * b % mod;
+        p &gt;&gt;= 1;
+    }
+    return res;
+}
+inline int C(int n, int m) {
+    if (n &gt; m)
+        return 0;
+    else
+        return 1ll * fac[m] * invfac[n] % MOD * invfac[m - n] % MOD;
+}
+
+void init() {
+    int i;
+
+    fac[0] = invfac[0] = 1;
+    for (i = 1; i &lt; MAXN; i++)
+        fac[i] = 1ll * fac[i - 1] * i % MOD;
+
+    invfac[MAXN - 1] = qpow(fac[MAXN - 1], MOD - 2, MOD);
+    for (i = MAXN - 2; i; i--)
+        invfac[i] = invfac[i + 1] * (i + 1ll) % MOD;
+}
+int solve() {
+    int i, j, k;
+    int64 p, inva;
+    bool neg = false;
+    int64 ans = 1;
+
+    for (i = 1; i &lt; m; i++) {
+        k = i;
+        while (k &lt;= m and !a[k][i])
+            k++;
+        if (k &gt; m)
+            return 0;
+        if (i ^ k) {
+            for (j = i; j &lt;= m; j++)
+                std::swap(a[i][j], a[k][j]);
+            neg = !neg;
+        }
+
+        inva = qpow(MOD - a[i][i], MOD - 2, MOD);
+        for (j = i + 1; j &lt;= m; j++) {
+            p = a[j][i] * inva % MOD;
+            for (k = i; k &lt;= m; k++)
+                a[j][k] = (a[j][k] + p * a[i][k]) % MOD;
+        }
+    }
+    for (i = 1; i &lt;= m; i++)
+        ans = ans * a[i][i] % MOD;
+    if (neg and ans)
+        ans = MOD - ans;
+    return ans;
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;5852.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;5852.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int i, j;
+    int T;
+    bool flag;
+
+    init();
+
+    scanf(&quot;%d&quot;, &amp;T);
+    while (T) {
+        scanf(&quot;%d %d&quot;, &amp;n, &amp;m);
+        for (i = 1; i &lt;= m; i++)
+            scanf(&quot;%d&quot;, &amp;s[i]);
+        for (i = 1; i &lt;= m; i++)
+            scanf(&quot;%d&quot;, &amp;t[i]);
+
+        flag = false;
+        for (i = 1; i &lt;= m; i++)
+            for (j = 1; j &lt;= m; j++)
+                if (i ^ j and s[i] &lt; s[j] and t[i] &gt; t[j])
+                    flag = true;
+        if (flag)
+            printf(&quot;0\n&quot;);
+        else {
+            for (i = 1; i &lt;= m; i++)
+                for (j = 1; j &lt;= m; j++)
+                    a[i][j] = C(n - 1, n - 1 + t[j] - s[i]);
+            printf(&quot;%d\n&quot;, solve());
+        }
+        T--;
+    }
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

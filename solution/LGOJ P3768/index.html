@@ -1,0 +1,473 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>简单的数学题 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LGOJ #P3768. 简单的数学题</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：6000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://www.luogu.org/problem/P3768">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LGOJ P3768 简单的数学题.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LGOJ P3768 简单的数学题.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LGOJ P3768 简单的数学题.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>由于出题人懒得写背景了，题目还是简单一点好。</p>
+<p>输入一个整数 <latex>$n$</latex> 和一个整数 <latex>$p$</latex> ，你需要求出 <latex>$(\sum_{i=1}^n\sum_{j=1}^n ij\gcd(i,j)) \bmod p$</latex>，其中 <latex>$\gcd(a,b)$</latex> 表示 <latex>$a$</latex> 与 <latex>$b$</latex> 的最大公约数。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>一行两个整数 <latex>$p,n$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>一行一个整数 <latex>$(\sum_{i=1}^n\sum_{j=1}^n ij\gcd(i,j)) \bmod p$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">998244353 2000
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">883968974
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于 <latex>$20\%$</latex> 的数据，<latex>$n \leq 1000$</latex>。</p>
+<p>对于 <latex>$30\%$</latex> 的数据，<latex>$n \leq 5000$</latex>。</p>
+<p>对于 <latex>$60\%$</latex> 的数据，<latex>$n \leq 10^6$</latex>，时限 1s。</p>
+<p>对于另外 <latex>$20\%$</latex> 的数据，<latex>$n \leq 10^9$</latex>，时限 3s。</p>
+<p>对于最后 <latex>$20\%$</latex> 的数据，<latex>$n \leq 10^10$</latex>，时限 6s。</p>
+<p>对于 <latex>$100\%$</latex> 的数据，<latex>$5 \times 10^8 \leq p \leq 1.1 \times 10^9$</latex> 且 <latex>$p$</latex> 为素数。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>同样，先莫比乌斯变换一下。</p>
+<latex>$$
+f(x)=\sum_{i=1}^n \sum_{j=1}^n ij[\gcd(i, j)=x] \\
+F(x)=\sum_{i=1}^n \sum_{j=1}^n ij[x|\gcd(i, j)] \\
+$$</latex><p>算一下 <latex>$F(x)$</latex> 的公式：</p>
+<latex>$$
+\begin{aligned}
+F(x)
+&=\sum_{i=1}^n \sum_{j=1}^n ij[x|\gcd(i, j)] \\
+&=\sum_{i=1}^{\lfloor \frac nx \rfloor} \sum_{j=1}^{\lfloor \frac nx \rfloor} ixjx \\
+&=x^2 \sum_{i=1}^{\lfloor \frac nx \rfloor} i \sum_{j=1}^{\lfloor \frac nx \rfloor} j \\
+&=x^2 (\sum_{i=1}^{\lfloor \frac nx \rfloor} i)^2 \\
+\end{aligned}
+$$</latex><p>答案就是</p>
+<latex>$$
+\begin{aligned}
+ans
+&=\sum_{i=1}^n i f(i) \\
+&=\sum_{i=1}^n i \sum_{i|d} \mu(\frac di) F(d) \\
+&=\sum_{i=1}^n i \sum_{j=1}^{\lfloor \frac ni \rfloor} \mu(j) F(ij) \\
+\end{aligned}
+$$</latex><p>同样地，按照一般套路，设 <latex>$T=ij$</latex>。</p>
+<latex>$$
+\begin{aligned}
+ans
+&=\sum_{i=1}^n i \sum_{j=1}^{\lfloor \frac ni \rfloor} \mu(j) F(ij) \\
+&=\sum_{T=1}^n \sum_{i|T} i \mu(\frac Ti) F(T) \\
+&=\sum_{T=1}^n F(T) \sum_{i|T} i \mu(\frac Ti) \\
+&=\sum_{T=1}^n F(T) \varphi(T)\\
+&=\sum_{T=1}^n (\sum_{i=1}^{\lfloor \frac nx \rfloor} i)^2 T^2 \varphi(T) \\
+\end{aligned}
+$$</latex><p>数论分块一下，那么我们只需要解决 <latex>$f=id^2 \cdot \varphi$</latex> 的前缀和即可。</p>
+<div class="ui message"><p>若 <latex>$f$</latex> 是完全积性函数，<latex>$g,h$</latex> 是数论函数，则 <latex>$(f\cdot g) \: * \: (f\cdot h)=f\cdot(g \: * \: h)$</latex>。</p>
+</div>
+<p>构造 <latex>$g=id^2 \cdot I$</latex>。</p>
+<latex>$$
+f \: * \: g = h \\
+(id^2 \cdot \varphi) \: * \: (id^2 \cdot I) = h \\
+id^2 \cdot (\varphi \: * \: I) = h \\
+id^3 = h \\
+$$</latex><p>令 <latex>$f=id^2 \cdot \varphi, g=id^2 \cdot I, h=id^3$</latex> 即可。</p>
+<p>时间复杂度：<latex>$O(n^{\frac 23})$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;cstdio&gt;
+
+typedef long long int64;
+
+#ifdef ONLINE_JUDGE
+const int B = 30000000 + 10;
+#else
+const int B = 1;
+// const int B = 1001;
+#endif
+const int HMOD = 19260817;
+const int MAXSIZE = 30000000 + 10;
+
+int MOD, inv2, inv6;
+int64 n;
+
+int prefsum[B];
+
+int pre[MAXSIZE], head[HMOD], cnt;
+int64 key[MAXSIZE];
+int val[MAXSIZE];
+
+inline int64 min(int64 x, int64 y) { return x &lt; y ? x : y; }
+
+inline int gethash(int64 x) { return x % HMOD; }
+inline int find(int64 k) {
+    int h = gethash(k), p;
+    p = head[h];
+    while (p and key[p] ^ k)
+        p = pre[p];
+    return p;
+}
+inline void insert(int64 k, int v) {
+    int h = gethash(k);
+    cnt++;
+    pre[cnt] = head[h];
+    head[h] = cnt;
+    key[cnt] = k;
+    val[cnt] = v;
+}
+
+inline int qpow(int b, int p, int mod) {
+    int res = 1;
+
+    while (p) {
+        if (p &amp; 1)
+            res = (int64)res * b % mod;
+        b = (int64)b * b % mod;
+        p &gt;&gt;= 1;
+    }
+    return res;
+}
+void init() {
+    static int p[B];
+    static bool notp[B];
+    int pn;
+    int i, j;
+
+    pn = 0;
+    prefsum[1] = 1;
+    for (i = 2; i &lt; min(B, n + 1); i++) {
+        if (!notp[i]) {
+            pn++;
+            p[pn] = i;
+            prefsum[i] = i - 1;
+        }
+        for (j = 1; j &lt;= pn and i * p[j] &lt; min(B, n + 1); j++) {
+            notp[i * p[j]] = true;
+            if (i % p[j])
+                prefsum[i * p[j]] = (int64)prefsum[i] * prefsum[p[j]] % MOD;
+            else {
+                prefsum[i * p[j]] = (int64)prefsum[i] * p[j] % MOD;
+                break;
+            }
+        }
+    }
+    for (i = 1; i &lt; min(B, n + 1); i++)
+        prefsum[i] = (prefsum[i - 1] + (int64)prefsum[i] * i % MOD * i) % MOD;
+}
+inline int gsum(int64 n) {
+    n %= MOD;
+    return (int64)n * (n + 1) % MOD * (2ll * n + 1) % MOD * inv6 % MOD;
+}
+inline int hsum(int64 n) {
+    n %= MOD;
+    int res = (int64)n * (n + 1) % MOD * inv2 % MOD;
+    return (int64)res * res % MOD;
+}
+int fsum(int64 n) {
+    int res;
+    int64 i, j;
+    int presum, nowsum;
+
+    if (n &lt; min(B, n + 1))
+        return prefsum[n];
+    else if (find(n))
+        return val[find(n)];
+    res = hsum(n);
+    presum = MOD - 1;
+    for (i = 2; i &lt;= n; i = j + 1) {
+        j = n / (n / i);
+        nowsum = gsum(j);
+        res = (res - ((int64)nowsum + presum) * fsum(n / i) % MOD + MOD) % MOD;
+        presum = MOD - nowsum;
+    }
+    insert(n, res);
+    return res;
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;P3768.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;P3768.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int64 i, j;
+    int presum, nowsum, msum, res = 0;
+
+    scanf(&quot;%d %lld&quot;, &amp;MOD, &amp;n);
+    inv2 = qpow(2, MOD - 2, MOD);
+    inv6 = qpow(6, MOD - 2, MOD);
+    init();
+
+    presum = 0;
+    for (i = 1; i &lt;= n; i = j + 1) {
+        j = n / (n / i);
+        nowsum = fsum(j);
+        msum = hsum(n / i);
+        res = (res + msum * ((int64)nowsum + presum)) % MOD;
+        presum = MOD - nowsum;
+        // printf(&quot;%d %d\n&quot;, j, nowsum);
+    }
+    printf(&quot;%d\n&quot;, res);
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

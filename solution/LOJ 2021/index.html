@@ -1,0 +1,539 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「AHOI / HNOI2017」大佬 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #2021. 「AHOI / HNOI2017」大佬</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：3000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/2021">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 2021 「AHOI / HNOI2017」大佬.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 2021 「AHOI / HNOI2017」大佬.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 2021 「AHOI / HNOI2017」大佬.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>人们总是难免会碰到大佬。他们趾高气昂地谈论凡人不能理解的算法和数据结构，走到任何一个地方，大佬的气场就能让周围的人吓得瑟瑟发抖，不敢言语。你作为一个 OIer，面对这样的事情非常不开心，于是发表了对大佬不敬的言论。 大佬便对你开始了报复，你也不示弱，扬言要打倒大佬。现在给你讲解一下什么是大佬，大佬除了是神犇以外，还有着强大的自信心，自信程度可以被量化为一个正整数 <latex>$C$</latex>，想要打倒一个大佬的唯一方法是摧毁 Ta 的自信心，也就是让大佬的自信值<strong>等于</strong> <latex>$0$</latex>（恰好等于 <latex>$0$</latex>，不能小于 <latex>$0$</latex>）。由于你被大佬盯上了，所以你需要准备好 <latex>$n$</latex> 天来和大佬较量，因为这 <latex>$n$</latex> 天大佬只会嘲讽你动摇你的自信，到了第 <latex>$n+1$</latex> 天，如果大佬发现你还不服，就会直接虐到你服，这样你就丧失斗争的能力了。</p>
+<p>你的自信程度同样也可以被量化，我们用 <latex>$\mathrm{mc}$</latex> 来表示你的自信值<strong>上限</strong>。在第 <latex>$i \ (i\ge 1)$</latex> 天，大佬会对你发动一次嘲讽，使你的自信值减小 <latex>$a_i$</latex>，如果这个时刻你的自信值<strong>小于</strong> <latex>$0$</latex> 了，那么你就丧失斗争能力，也就<strong>失败</strong>了（特别注意你的自信值为 <latex>$0$</latex> 的时候还可以继续和大佬斗争）。 在这一天，大佬对你发动嘲讽之后，如果你的自信值仍大于等于 <latex>$0$</latex>，你<strong>能且仅能</strong>选择如下的行为<strong>之一</strong>：</p>
+<ol>
+<li>还一句嘴，大佬会有点惊讶，导致大佬的自信值 <latex>$C$</latex> 减小 <latex>$1$</latex>。</li>
+<li>做一天的水题，使得自己的当前自信值增加 <latex>$w_i$</latex>，并将新自信值和自信值上限 <latex>$\mathrm{mc}$</latex> 比较，若新自信值大于 <latex>$\mathrm{mc}$</latex>，则新自信值更新为 <latex>$\mathrm{mc}$</latex>。例如，<latex>$\mathrm{mc} = 50$</latex>，当前自信值为 <latex>$40$</latex>，若 <latex>$w_i = 5$</latex>，则新自信值为 <latex>$45$</latex>，若 <latex>$w_i = 11$</latex>，则新自信值为 <latex>$50$</latex>。</li>
+<li>让自己的等级值 <latex>$L$</latex> 加 <latex>$1$</latex>。</li>
+<li>让自己的讽刺能力 <latex>$F$</latex> 乘以自己当前等级 <latex>$L$</latex>，使讽刺能力 <latex>$F$</latex> 更新为 <latex>$F\cdot L$</latex>。</li>
+<li>怼大佬，让大佬的自信值 <latex>$C$</latex> 减小 <latex>$F$</latex>。并在怼完大佬之后，你自己的等级 <latex>$L$</latex> 自动降为 <latex>$0$</latex>，讽刺能力 <latex>$F$</latex> 降为 <latex>$1$</latex>。由于怼大佬比较掉人品，所以这个操作只能做<strong>不超过两次</strong>。</li>
+</ol>
+<p><strong>特别注意</strong>的是，在任何时候，你<strong>不能</strong>让大佬的自信值<strong>为负</strong>，因为自信值为负，对大佬来说意味着屈辱，而大佬但凡遇到屈辱就会进化为更厉害的大佬直接虐飞你。在第 <latex>$1$</latex> 天，在你被攻击之前，你的自信是满的（初始自信值等于自信值上限 <latex>$\mathrm{mc}$</latex>），你的讽刺能力 <latex>$F$</latex> 是 <latex>$1$</latex>，等级是 <latex>$0$</latex>。</p>
+<p>现在由于你得罪了大佬，你需要准备和大佬正面杠，你知道世界上一共有 <latex>$m$</latex> 个大佬，他们的嘲讽时间都是 <latex>$n$</latex> 天，而且第 <latex>$i$</latex> 天的嘲讽值都是 <latex>$a_i$</latex>。不管和哪个大佬较量，你在第 <latex>$i$</latex> 天做水题的自信回涨都是 <latex>$w_i$</latex>。这 <latex>$m$</latex> 个大佬中<strong>只会有一个</strong>来和你较量（<latex>$n$</latex> 天里都是这个大佬和你较量），但是作为你，你需要知道对于任意一个大佬，你是否能摧毁他的自信，也就是让他的自信值恰好等于 <latex>$0$</latex>。和某一个大佬较量时，其他大佬不会插手。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>第一行三个正整数 <latex>$n,m,\mathrm{mc}$</latex>。分别表示有 <latex>$n$</latex> 天和 <latex>$m$</latex> 个大佬，你的自信上限为 <latex>$\mathrm{mc}$</latex>。</p>
+<p>接下来一行是用空格隔开的 <latex>$n$</latex> 个数，其中第 <latex>$i(1\le i\le n)$</latex> 个表示 <latex>$a_i$</latex>。</p>
+<p>接下来一行是用空格隔开的 <latex>$n$</latex> 个数，其中第 <latex>$i(1\le i\le n)$</latex> 个表示 <latex>$w_i$</latex>。</p>
+<p>接下来 <latex>$m$</latex> 行，每行一个正整数，其中第 <latex>$k(1\le k\le m)$</latex> 行的正整数 <latex>$C_k$</latex> 表示第 <latex>$k$</latex> 个大佬的初始自信值。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>共 <latex>$m$</latex> 行，如果能战胜第 <latex>$k$</latex> 个大佬（让他的自信值恰好等于 0），那么第 <latex>$k$</latex> 行输出 <latex>$1$</latex>，否则输出 <latex>$0$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">30 20 30
+15 5 24 14 13 4 14 21 3 16 7 4 7 8 13 19 16 5 6 13 21 12 7 9 4 15 20 4 13 12
+22 21 15 16 17 1 21 19 11 8 3 28 7 10 19 3 27 17 28 3 26 4 22 28 15 5 26 9 5 26
+30
+10
+18
+29
+18
+29
+3
+12
+28
+11
+28
+6
+1
+6
+27
+27
+18
+11
+26
+1
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">0
+1
+1
+0
+1
+0
+1
+1
+0
+0
+0
+1
+1
+1
+1
+1
+1
+0
+0
+1
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于 <latex>$20\%$</latex> 的数据，<latex>$1\le n\le 10$</latex>；</p>
+<p>另有 <latex>$20\%$</latex> 数据，<latex>$1\le C_i,n,\mathrm{mc}\le 30$</latex>；</p>
+<p>对于 <latex>$100\%$</latex> 的数据，<latex>$1\le n, \mathrm{mc}\le 100, 1\le m\le 20; 1\le a_i, w_i\le\mathrm{mc}, 1\le C_i\le 10^8$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>明显发现，本题非常复杂。如果直接无脑 DP，复杂度上天。</p>
+<p>可以发现的是，大佬的嘲讽和我们做了什么并没有太大的关系——更严谨地说，我们只要知道我们能有多少天是空闲时间即可。因为大佬的嘲讽会对我们造成伤害，我们可能需要做水题来提高自信心；但贪心地想，我们又要让空闲的时间尽可能多。这个可以用背包 DP 解决。</p>
+<p>现在就变成了一个问题：有 <latex>$n'$</latex> 天，每天可以做下面的任何一个动作，要求让大佬的自信心 <latex>$C = 0$</latex>。</p>
+<ol>
+<li>令 <latex>$C$</latex> 减小 <latex>$1$</latex>。</li>
+<li>令 <latex>$L$</latex> 增加 <latex>$1$</latex>。</li>
+<li>令 <latex>$F$</latex> 乘以 <latex>$L$</latex>。</li>
+<li>令 <latex>$C$</latex> 减小 <latex>$F$</latex>。在这之后，<latex>$L = 0, F = 1$</latex>。这个操作只能做<strong>不超过两次</strong>。</li>
+</ol>
+<p>注意到 <latex>$n' \leq n \leq 100$</latex>，因此 <latex>$F$</latex> 不可能含有超过 <latex>$100$</latex> 的质因子。我们可以大概估计，至少超过 <latex>$100$</latex> 的质数是不可能出现的；实际上，<latex>$F$</latex> 的取值是很少的。</p>
+<p>如果我们直接设 <latex>$f[i][j]$</latex> 为达到令 <latex>$L = i, F = j$</latex> 的最小天数，直接暴力搜索，是通不过极限数据的（但是本题数据随机，可以通过）。</p>
+<p>注意到我们并不很关心 <latex>$L$</latex> 的大小，我们只需要知道 <latex>$F$</latex> 的值即可；但如果直接搜索，我们不得不保留 <latex>$L$</latex>。</p>
+<p>怎么办呢？</p>
+<p>换个方法。考虑搜索 <latex>$F$</latex> 的值，然后判断凑到这样的 <latex>$F$</latex> 最少需要多少天。搜索 <latex>$F$</latex> 的过程，直接枚举质因数即可。</p>
+<p>这样的 <latex>$F$</latex> 大约有 <latex>$850000$</latex> 个。</p>
+<p>怎么判断 <latex>$F$</latex> 至少需要多少天？直接质因数分解？但很快我们会举出反例：对于 <latex>$F = 2^{4} \times d$</latex>，我们并不确定要在 <latex>$L = 2$</latex> 时乘上 <latex>$4$</latex> 次，还是在 <latex>$L = 4$</latex> 时乘上 <latex>$2$</latex> 次。因为受到 <latex>$d$</latex> 的影响，我们无法简单地判断。</p>
+<p>这时有个非常暴力的方法。枚举我们最后要达到的 <latex>$L$</latex>，然后贪心一下即可。怎么贪心？如果 <latex>$2^2 \leq L$</latex>，我们肯定会选择在 <latex>$L = 4$</latex> 时乘上 <latex>$2$</latex> 次；否则我们只能选择在 <latex>$L = 2$</latex> 时乘上 <latex>$4$</latex> 次。正确性显然。</p>
+<p>极限数据下，预处理需要约 1.5s 的时间。</p>
+<p>在这之后，我们得到了可能的所有 <latex>$F$</latex> 和对应的最少天数。至于判断，使用双指针法即可。如果对双指针的部分不是很了解，可以参见网上其他的题解。</p>
+<p>时间复杂度：<latex>$O(\text{能过})$</latex>。</p>
+<p>附上极限数据：</p>
+<h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">100 20 100
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100
+100000000
+99999999
+99999998
+99999997
+99999996
+99999995
+99999994
+99999993
+99999992
+99999991
+99999990
+99999989
+99999988
+99999987
+99999986
+99999985
+99999984
+99999983
+99999982
+19260817
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+
+typedef long long int64;
+
+#ifdef ONLINE_JUDGE
+const int MAXN = 100;
+const int MAXC = 100000000;
+const int MAXSIZE = 900000;
+#else
+const int MAXN = 50;
+const int MAXC = 100;
+const int MAXSIZE = 1000;
+#endif
+
+const int P[] = { -1, 2,  3,  5,  7,  11, 13, 17, 19, 23, 29, 31, 37,
+                  41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97 };
+const int PN = 25;
+
+struct Node {
+    int x, times;
+    bool operator&lt;(const Node b) const { return x &lt; b.x; }
+};
+Node f[MAXSIZE];
+int fn;
+
+int n, m, mc, days;
+int a[MAXN + 10], w[MAXN + 10];
+int dp[MAXN + 10][MAXN + 10];
+
+int mint(int x) {
+    int l;
+    int i, y, ans = days + 1, cnt, maxp;
+
+    if (x == 1)
+        return 1;
+
+    i = PN;
+    while (x % P[i])
+        i--;
+    maxp = P[i];
+
+    for (l = maxp; l &lt; ans; l++) {
+        y = x;
+        cnt = l + 1;
+        for (i = l; i &gt;= 2 and y ^ 1; i--) {
+            while (!(y % i)) {
+                y /= i;
+                cnt++;
+            }
+        }
+        ans = std::min(ans, cnt);
+    }
+    return ans;
+}
+void dfs(int pos, int prod) {
+    if (!pos) {
+        int times = mint(prod);
+        if (times &gt; days)
+            return;
+        fn++;
+        f[fn].x = prod;
+        f[fn].times = times;
+
+        return;
+    }
+    if (prod &lt;= MAXC / P[pos])
+        dfs(pos, prod * P[pos]);
+    dfs(pos - 1, prod);
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;2021.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;2021.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    // memset(dp, 0x80, sizeof(dp));
+
+    int i, j, l, r, c;
+    bool isok;
+
+    scanf(&quot;%d %d %d&quot;, &amp;n, &amp;m, &amp;mc);
+    for (i = 1; i &lt;= n; i++)
+        scanf(&quot;%d&quot;, &amp;a[i]);
+    for (i = 1; i &lt;= n; i++)
+        scanf(&quot;%d&quot;, &amp;w[i]);
+
+    dp[0][mc] = 0;
+    for (i = 0; i &lt; n; i++) {
+        for (j = a[i + 1]; j &lt;= mc; j++) {
+            c = j - a[i + 1];
+            dp[i + 1][c] = std::max(dp[i + 1][c], dp[i][j] + 1);
+            c = std::min(c + w[i + 1], mc);
+            dp[i + 1][c] = std::max(dp[i + 1][c], dp[i][j]);
+        }
+    }
+
+    days = 0;
+    for (i = 1; i &lt;= n; i++)
+        for (j = 0; j &lt;= mc; j++)
+            days = std::max(days, dp[i][j]);
+
+    fn = 1;
+    f[1].x = 0;
+    f[1].times = 0;
+    dfs(PN, 1);
+    std::sort(f + 1, f + 1 + fn);
+
+    for (i = 1; i &lt;= m; i++) {
+        isok = false;
+
+        scanf(&quot;%d&quot;, &amp;c);
+        r = fn;
+        for (l = 1; l &lt;= r and !isok; l++) {
+            while (l &lt;= r and f[l].x + f[r].x &gt; c)
+                r--;
+            for (j = r; j &gt;= l and f[l].x + f[j].x &gt;= c - days; j--)
+                isok |= f[l].times + f[j].times + c - f[l].x - f[j].x &lt;= days;
+        }
+        printf(&quot;%d\n&quot;, isok);
+    }
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>

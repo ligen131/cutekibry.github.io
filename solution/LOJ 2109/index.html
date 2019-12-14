@@ -1,0 +1,420 @@
+<!doctype HTML>
+<html lang="zh-CN" style="position: fixed; width: 100%; overflow: hidden; ">
+
+<head>
+  <meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=1200">
+
+<title>「JLOI2015」骗我呢 - 题解 - Tsuki's blog</title>
+
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon" />
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/fira-mono.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/lato.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/open-sans.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/google-fonts/exo-2.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/syzoj-public-cdn@1.0.1/cdnjs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y"
+  crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+  crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+  crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+      ]
+    });
+  });
+</script>
+
+<link href="/static/css/hljs.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+<script src="/static/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<style type="text/css">
+  /* Chart.js */
+  @-webkit-keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  @keyframes chartjs-render-animation {
+    from {
+      opacity: 0.99
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+
+  .chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+  }
+</style>
+</head>
+
+<body style="position: relative; margin-top: 49px; height: calc(100% - 49px); overflow-y: overlay;">
+  <div class="ui fixed borderless menu" style="position: fixed; height: 49px; ">
+  <div class="ui container">
+    <a class="header item" href="/"><span style="font-family: Raleway; font-size: 1.5em; ">Tsuki's blog</span></a>
+    <a class="item" href="/"><i class="home icon"></i>首页</a>
+    <a class="item active" href="/solutions"><i class="list icon"></i>题解</a>
+    <a class="item" href="/articles"><i class="pencil icon"></i>文章</a>
+    <a class="item" href="/about"><i class="help circle icon"></i>关于</a>
+    <div class="right menu item">
+      <div class="ui toggle checkbox" id="dark_theme">
+        <link rel="stylesheet" href="" type="text/css" id="dark_theme_style">
+        <link rel="stylesheet" href="" type="text/css" id="dark_hljs_style">
+        <script>
+          if (localStorage.getItem('dark_theme') === '1') {
+            document.write('<input type="checkbox" checked>');
+            document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';
+            document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+          } else {
+            document.write('<input type="checkbox">');
+          }
+        </script>
+        <script>
+          $(function () {
+            $('#dark_theme').checkbox('setting', 'onChange', function () {
+              let checked = $('#dark_theme').checkbox('is checked');
+              localStorage.setItem('dark_theme', checked ? '1' : '0');
+              if (checked) {
+                document.getElementById('dark_theme_style').href = '/static/css/dark-theme.css';              
+                document.getElementById('dark_hljs_style').href = '/static/css/dark-hljs.css';
+              } else {
+                document.getElementById('dark_theme_style').href = '';
+                document.getElementById('dark_hljs_style').href = '';
+              }
+            });
+          });
+        </script>
+        <label>更换暗色主题</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style="margin-top: 28px; ">
+    <div class="ui main container">
+      
+  <div class="ui center aligned grid">
+    
+    <div class="row">
+      <h1 class="ui header">LOJ #2109. 「JLOI2015」骗我呢</h1>
+    </div>
+
+    
+    <div class="row" style="margin-top: -15px">
+          <span class="ui label">内存限制：256 MiB</span>
+          <span class="ui label">时间限制：1000 ms</span>
+          <span class="ui label">标准输入输出</span>
+        </div>
+
+      <div class="row" style="margin-top: -23px">
+          <span class="ui label">题目类型：传统</span>
+        
+          <span class="ui label">评测方式：文本比较</span>
+        
+      </div>
+
+    <div class="row" style="margin-top: -23px">
+      
+        <span class="ui label">上传者：未知</span>
+      
+    </div>
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui buttons">
+          <a class="small ui primary button" href="https://loj.ac/problem/2109">原题链接</a>
+          <a class="small ui positive button" href="https://raw.githubusercontent.com/cutekibry/cutekibry.github.io-Source/master/content/solutions/LOJ 2109 「JLOI2015」骗我呢.md">查看源代码</a>
+          <a class="small ui orange button" href="https://github.com/cutekibry/cutekibry.github.io-Source/commits/master/content/solutions/LOJ 2109 「JLOI2015」骗我呢.md">修改历史</a>
+          <a class="small ui yellow button" href="https://github.com/cutekibry/cutekibry.github.io-Source/blame/master/content/solutions/LOJ 2109 「JLOI2015」骗我呢.md">版本对比</a>
+          ::after
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题目描述</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>说起来，毕业之后 B 君也就见过 R 君两面而已。</p>
+<p>R 君有一个 <latex>$n \times m$</latex> 的数组 <latex>$\{x_{i,j} \}$</latex> (<latex>$1 \leq i \leq n, 1 \leq j \leq m$</latex>)。对于 <latex>$1 \leq i \leq n; 1 \leq j \leq m$</latex>，满足 <latex>$0 \leq x_{i, j} \leq m$</latex>。求可能的数组 <latex>$\{x_{i,j}\}$</latex> 的解数。</p>
+<p>B 君觉得限制太宽松，还要求对于 <latex>$1 \leq i \leq n; 1 \leq j&lt;m$</latex>，满足 <latex>$x_{i,j} &lt;x_{i,j+1}$</latex>，对于 <latex>$1 &lt;i \leq n, 1 \leq j&lt;m$</latex>，满足 <latex>$x_{i,j} &lt;x_{i-1,j+1}$</latex>。</p>
+<p>B 君认为 R 君可以直接 pwn 掉这个题。</p>
+<p>R 君说：「黑的实在逼真 =.=，你起码把解数模 <latex>$1000000007$</latex> 吧。」</p>
+<p>B 君觉得 R 君说的有道理，于是想让你求解数模 <latex>$1000000007$</latex> 的结果。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输入格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>一行两个整数表示 <latex>$n, m$</latex>，含义如题目中所述。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">输出格式</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>一行一个数表示同时满足 B 君和 R 君的条件的 <latex>$\{x_{i,j}\}$</latex> 的解数，模 <latex>$1000000007$</latex> 的结果。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">样例</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <h4>样例输入</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">3 3
+</code></pre></div>
+<h4>样例输出</h4>
+<div class="ui existing segment"><pre><code class="lang-plain">40
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">数据范围与提示</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>对于 <latex>$100 \%$</latex> 的数据，<latex>$1 \leq m, n \leq 10^6$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">题解</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <p>注意到 <latex>$0 \leq x_{i, 1} &lt; x_{i, 2} &lt; \ldots &lt; x_{i, m} \leq m$</latex>，这一个有趣的限制告诉我们：我们一定可以把该序列表示为类似于 <latex>$0, 1, \ldots, k - 1, k + 1, k + 2, \ldots, m - 1, m$</latex> 的形式。</p>
+<p>我们用 <latex>$A_k$</latex> 表示序列 <latex>$0, 1, \ldots, k - 1, k + 1, k + 2, \ldots, m - 1, m$</latex>，这里 <latex>$k \in [0, m]$</latex>。显然，<latex>$A_{k, i} = i - 1 \: (i \leq k), A_{k, i} = i \: (i > k)$</latex>。</p>
+<p>对于序列 <latex>$A_i, A_j$</latex>，若 <latex>$A_j$</latex> 可以接在 <latex>$A_i$</latex> 的下面，就有 <latex>$A_{j, k} &lt; A_{i, k + 1}$</latex>。可以证明，只有当 <latex>$j + 1 \geq i$</latex> 时，<latex>$A_j$</latex> 可以接在 <latex>$A_i$</latex> 下面。</p>
+<p>那么就可以 DP 了。设 <latex>$f[i][j]$</latex> 表示前 <latex>$i$</latex> 行组成的序列，第 <latex>$i$</latex> 行的序列为 <latex>$A_j$</latex>，那么可得 <latex>$f[i][j] = \sum_{k = 0}^{j + 1} f[i - 1][k] = f[i][j - 1] + f[i - 1][j + 1]$</latex>。边界条件是 <latex>$f[1][0 \ldots m] = 1$</latex>。</p>
+<p>直接 DP 是 <latex>$O(n^2)$</latex> 的。让我们考虑怎么优化。</p>
+<p>我们注意到，我们可以把它看成一个棋盘上的游走问题。也就是说，从 <latex>$(1, 1)$</latex> 开始，每次可以向右或向左下方向走，求到达 <latex>$(n, m)$</latex> 的方案数。</p>
+<div class="ui existing segment"><pre><code class="lang-plain">o --- o --- o
+     /     /
+    /     / 
+   /     /
+  /     /
+o --- o --- o
+     /     /
+    /     / 
+   /     /
+  /     /
+o --- o --- o
+</code></pre></div>
+<p>斜着走太奇怪了。我们可以把第 <latex>$i$</latex> 行向右移动 <latex>$(i - 1)$</latex> 个单位长度，就把斜着走变成了竖着走。</p>
+<div class="ui existing segment"><pre><code class="lang-plain">o --- o --- o
+      |     |
+      |     |
+      |     |
+      |     |
+      o --- o --- o
+            |     |
+            |     |
+            |     |
+            |     |
+            o --- o --- o
+</code></pre></div>
+<p>为了方便，我们上下翻转，得</p>
+<div class="ui existing segment"><pre><code class="lang-plain">            o --- o --- o
+            |     |
+            |     |
+            |     |
+            |     |
+      o --- o --- o
+      |     |
+      |     |
+      |     |
+      |     |
+o --- o --- o
+</code></pre></div>
+<p>可以把它放在坐标系下考虑。建立点 <latex>$S(0, 0), T(n + m + 1, n)$</latex>，直线 <latex>$y_1 = x + 1, y_2 = x - m - 2$</latex>，那么问题就转化为了：从 <latex>$S$</latex> 出发，每次只能向右或向上走，只能在格点上，求在不碰到 <latex>$y_1, y_2$</latex> 的前提下到达 <latex>$T$</latex> 的方案数。</p>
+<p><img src="/static/img/LOJ%202109-1.png" alt="" style="display: block; margin: 0px auto;"></p>
+<p>根据容斥原理，总方案数等于「没有限制走到点 <latex>$T$</latex> 的方案数」-「只穿过 <latex>$y_1$</latex> 走到点 <latex>$T$</latex> 的方案数」-「只穿过 <latex>$y_2$</latex> 走到点 <latex>$T$</latex> 的方案数」-「穿过 <latex>$y_1$</latex> 和 <latex>$y_2$</latex> 走到点 <latex>$T$</latex> 的方案数」。</p>
+<p>但这样太复杂了，后面那个东西基本算不出来。换个方法。</p>
+<p>根据容斥原理，总方案数等于「没有限制走到点 <latex>$T$</latex> 的方案数」-「第一次穿过 <latex>$y_1$</latex> 走到点 <latex>$T$</latex> 的方案数」-「第一次穿过 <latex>$y_2$</latex> 走到点 <latex>$T$</latex> 的方案数」。</p>
+<p>没有限制走到点 <latex>$(x, y)$</latex> 的方案数为 <latex>$\mathrm{C}^x_{x + y}$</latex>。因此，没有限制走到点 <latex>$T$</latex> 的方案数为 <latex>$\mathrm{C}^n_{2n + m + 1}$</latex>。</p>
+<p>第一次穿过 <latex>$y_1$</latex> 的方案数，我们可以将 <latex>$T$</latex> 对于 <latex>$y_1$</latex> 对称得到点 <latex>$T'$</latex>，则方案数等于「没有限制到达 <latex>$T'$</latex> 的方案数」-「第一次穿过 <latex>$y_2$</latex> 到达 <latex>$T'$</latex> 的方案数」。<latex>$y_2$</latex> 同理。</p>
+<p>可以发现，这两个问题是递归的。</p>
+<p>设 <latex>$f(x, y)$</latex> 表示第一次穿过 <latex>$y_1$</latex> 到达 <latex>$y_1$</latex> 上方的点 <latex>$(x, y)$</latex> 的方案数，<latex>$g(x, y)$</latex> 表示第一次穿过 <latex>$y_2$</latex> 到达 <latex>$y_2$</latex> 下方的点 <latex>$(x, y)$</latex> 的方案数，那么有</p>
+<latex>$$
+\begin{aligned}
+  f(x, y) &= \mathrm{C}^x_{x + y} - g(y + m + 2, x - m - 2) \\
+  g(x, y) &= \mathrm{C}^x_{x + y} - f(y - 1, x + 1) \\ 
+\end{aligned}
+$$</latex><p>边界是 <latex>$f(x, y) = g(x, y) = 0 \: (\min\{x, y\} &lt; 0)$</latex>。</p>
+<p>可以证明，这样的复杂度不会超过 <latex>$O(n)$</latex>。预处理阶乘后递归计算即可。</p>
+<p>时间复杂度：<latex>$O(n)$</latex>。</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+      <div class="row">
+          <div class="column">
+            <h4 class="ui top attached block header">代码</h4>
+            <div class="ui bottom attached segment font-content">
+              <div style="position: relative; overflow: hidden;">
+                <div class="ui existing segment"><pre><code class="lang-cpp">#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+
+typedef long long int64;
+
+const int MAXN = 4000000 + 10;
+const int MOD = 1000000007;
+
+int fac[MAXN], invfac[MAXN];
+int n, m;
+
+inline int qmod(int x) { return (x &gt;= MOD) ? (x - MOD) : x; }
+inline int qpow(int64 b, int p, int mod) {
+    int res = 1;
+
+    while (p) {
+        if (p &amp; 1)
+            res = res * b % mod;
+        b = b * b % mod;
+        p &gt;&gt;= 1;
+    }
+    return res;
+}
+inline int C(int n, int m) { return 1ll * fac[m] * invfac[n] % MOD * invfac[m - n] % MOD; }
+inline int f(int, int);
+inline int g(int, int);
+inline int f(int x, int y) {
+    if (x &lt; 0 or y &lt; 0)
+        return 0;
+    else
+        return qmod(C(x, x + y) - g(y + m + 2, x - m - 2) + MOD);
+}
+inline int g(int x, int y) {
+    if (x &lt; 0 or y &lt; 0)
+        return 0;
+    else
+        return qmod(C(x, x + y) - f(y - 1, x + 1) + MOD);
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+    freopen(&quot;2109.in&quot;, &quot;r&quot;, stdin);
+    freopen(&quot;2109.out&quot;, &quot;w&quot;, stdout);
+#endif
+
+    int i, ans;
+    int tx, ty;
+
+    scanf(&quot;%d %d&quot;, &amp;n, &amp;m);
+    fac[0] = invfac[0] = 1;
+    for (i = 1; i &lt; MAXN; i++)
+        fac[i] = 1ll * fac[i - 1] * i % MOD;
+    invfac[MAXN - 1] = qpow(fac[MAXN - 1], MOD - 2, MOD);
+    for (i = MAXN - 2; i; i--)
+        invfac[i] = invfac[i + 1] * (i + 1ll) % MOD;
+
+    tx = n + m + 1;
+    ty = n;
+    ans = C(tx, tx + ty);
+    ans = qmod(ans - f(ty - 1, tx + 1) + MOD);
+    ans = qmod(ans - g(ty + m + 2, tx - m - 2) + MOD);
+    printf(&quot;%d\n&quot;, ans);
+    return 0;
+}
+</code></pre></div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+  
+  <div style="height: 120px"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'ag8HLEJ5i9Pu4EbbfVEejxYY-gzGzoHsz',
+    appKey: 'TjVP6wlGquVVCLQjHql57cs4',
+    notify: false,
+    verify: false,
+    avatar: 'mm',
+    placeholder: 'Enter text'
+  });
+</script>
+
+    </div>
+    <div class="ui vertical footer segment" style="margin-top: 15px; ">
+  <div class="ui center aligned container">
+    <span style="color: #999;">
+      Theme Based on <a href="https://loj.ac" target="_blank">LibreOJ</a>. <br />
+      Last build: 2019-12-14 23:23:11.
+    </span>
+  </div>
+</div>
+  </div>
+</body>
+
+</html>
